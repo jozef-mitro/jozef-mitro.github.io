@@ -291,14 +291,6 @@ a:hover {
     filter: brightness(var(--hover-brightness));
 }
 
-a.undecorated {
-    text-decoration: none;
-}
-
-a.pointer {
-    cursor: pointer;
-}
-
 a b,
 a em,
 a i,

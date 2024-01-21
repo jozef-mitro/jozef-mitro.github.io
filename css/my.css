@@ -1,0 +1,17 @@
+:root {
+    --color-accent: #1ab07e15;
+    --color-bg: #F7F7F2;
+    --color-bg-secondary: #E7E7E2;
+    --color-link: #1ab07e;
+    --color-secondary: #B01A4C;
+    --color-secondary-accent: #B01A4C0b;
+    --color-shadow: #D7D7D2;
+    --color-table: #1ab07e;
+    --color-text: #000;
+    --color-text-secondary: #999;
+}
+
+#x {
+    text-decoration: none;
+    cursor: pointer;
+}
