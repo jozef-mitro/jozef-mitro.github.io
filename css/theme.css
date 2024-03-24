@@ -11,7 +11,10 @@
     --color-text-secondary: #999;
 }
 
-#x {
-    text-decoration: none;
-    cursor: pointer;
+nav {
+    margin-bottom: 0;
+}
+
+hr {
+    margin: 0;
 }

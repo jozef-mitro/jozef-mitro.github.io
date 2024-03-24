@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>RPG Tools</title>
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/mvp.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <script src="js/rpg.js"></script>
+    <script src="js/names.js"></script>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <h1>RPG Tools</h1>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="rpg.html">RPG Tools</a></li>
+            </ul>
+        </nav>
+    </header>
+    <hr>
+    <main>
+        <form>
+            <h2>OSE Character Generator</h2>
+            <label for="numCharacters">Number:</label>
+            <input type="number" id="numCharacters" value="4" min="1" max="20">
+            <button onclick="generateCharacters(event)">Generate Characters</button>
+            <pre><samp id="characters"></samp></pre>
+        </form>
+        <form>
+            <h2>Name Generator</h2>
+            <label for="nameType">Type:</label>
+            <select id="nameType">
+                <option>Masculine</option>
+                <option>Feminine</option>
+                <option>Either</option>
+            </select>
+            <label for="numNames">Number:</label>
+            <input type="number" id="numNames" value="10" min="1" max="20">
+            <button onclick="generateNames(event)">Generate Names</button>
+            <pre><samp id="names"></samp></pre>
+        </form>
+    </main>
+</body>
+
+</html>
