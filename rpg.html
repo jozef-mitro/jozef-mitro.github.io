@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/mvp.css">
     <link rel="stylesheet" href="css/theme.css">
     <script src="js/rpg.js"></script>
+    <script src="js/ose_classes.js"></script>
     <script src="js/names.js"></script>
 </head>
 
@@ -25,8 +26,22 @@
     <main>
         <form>
             <h2>OSE Character Generator</h2>
-            <label for="numCharacters">Number:</label>
+            <label for="numCharacters">Number of Characters:</label>
             <input type="number" id="numCharacters" value="4" min="1" max="20">
+            <label for="minScoreTotal">Minimum Total Score:</label>
+            <input type="number" id="minScoreTotal" value="50" min="18" max="108">
+            <!-- Checkbox -->
+            <label>Allowed Sources:</label>
+            <span>
+                <input type="checkbox" id="sourceClassicFantasy" checked>
+                Classic Fantasy
+                <input type="checkbox" id="sourceAdvancedFantasy" checked>
+                Advanced Fantasy
+                <input type="checkbox" id="sourceCarcassCrawler" checked>
+                Carcass Crawler
+                <input type="checkbox" id="sourceTheNecromancer" checked>
+                The Necromancer
+            </span>
             <button onclick="generateCharacters(event)">Generate Characters</button>
             <pre><samp id="characters"></samp></pre>
         </form>
