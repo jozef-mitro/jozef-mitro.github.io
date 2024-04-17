@@ -342,7 +342,7 @@ let OseClasses = [
         primeRequisite: function(scores) {
             if (scores.dex >= 16 && scores.wis >= 16) {
                 return 10;
-            } else if (scores.dex >= 13 || scores.wis >= 13) {
+            } else if (scores.dex >= 13 && scores.wis >= 13) {
                 return 5;
             } else {
                 return 0;
