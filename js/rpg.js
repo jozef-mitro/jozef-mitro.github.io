@@ -26,8 +26,8 @@ function generateCharacters(event) {
     for (let i = 0; i < numCharacters; i++) {
         let character = {};
         character.gender = Math.random() < 0.5 ? "Masculine" : "Feminine";
-        character.pronouns = character.gender === "Masculine" ? "He/Him" : "She/Her";
         character.name = getSingleName(character.gender);
+        character.pronouns = character.gender === "Masculine" ? "He/Him" : "She/Her";
         let scoreTotal = 0;
 
         while (scoreTotal < minScoreTotal) {
@@ -53,20 +53,45 @@ function generateCharacters(event) {
         }
 
         character.class = getCharacterClass(character.scores, allowedSources);
+        character.level = 1;
+        character.currentXp = 0;
+        character.nextXp = character.class.expTable[character.level];
+        // TNL as percentage of progress to next level.
+        character.tnl = Math.round(character.currentXp / character.nextXp * 100);
         character.expBonus = character.class.expBonus;
+        // Alignment is randomly chosen from Lawful, Neutral, and Chaotic.
+        character.alignment = ["Lawful", "Neutral", "Chaotic"][Math.floor(Math.random() * 3)];
+        // Roll hit points for the first level. Reroll 1s and 2s.
+        character.maxHp = Math.max(3, Math.floor(Math.random() * character.class.hitDie) + 1) + character.modifiers.con;
 
+        // Roll hit points for the rest of the levels. Don't reroll 1s and 2s.
+        for (let j = 2; j <= character.level; j++) {
+            character.maxHp += Math.floor(Math.random() * character.class.hitDie) + 1 + character.modifiers.con;
+        }
+
+        character.currentHp = character.maxHp;
         characters.push(character);
     }
 
     let charactersElement = document.getElementById("characters");
     charactersElement.innerHTML = "";
+    charactersElement.innerHTML += `Name\tPronouns\tClass\tLevel\tCurrent XP\tNext XP\tTNL\tXP Bonus\tAlignment\tSTR\tINT\tWIS\tDEX\tCON\tCHA\tDeath\tWand\tParalysis\tBreath\tSpell\tCurrent HP\tMax HP\tAC\tAB\tMovement\tBackground\tLanguages\tNotes<br>`;
     characters.forEach(character => {
-        charactersElement.innerHTML += `${character.name} [${character.pronouns}]<br>`;
-        charactersElement.innerHTML += `Scores: STR ${character.scores.str} (${character.modifiers.str}), INT ${character.scores.int} (${character.modifiers.int}), WIS ${character.scores.wis} (${character.modifiers.wis}), DEX ${character.scores.dex} (${character.modifiers.dex}), CON ${character.scores.con} (${character.modifiers.con}), CHA ${character.scores.cha} (${character.modifiers.cha})<br>`
-        // Scores as a tab separated list.
-        charactersElement.innerHTML += `${Object.values(character.scores).join("\t")}<br>`;
-        charactersElement.innerHTML += `Class: ${character.class.name} (${character.class.source})<br>`;
-        charactersElement.innerHTML += `Experience Bonus: ${character.expBonus}%<br><br>`;
+        charactersElement.innerHTML += `${character.name}\t${character.pronouns}\t${character.class.name}\t${character.level}\t`;
+        charactersElement.innerHTML += `${character.currentXp}\t${character.nextXp}\t${character.tnl}\t${character.expBonus}\t${character.alignment}\t`;
+        // Score (Score Modifier)
+        charactersElement.innerHTML += `${character.scores.str} (${character.modifiers.str})\t`;
+        charactersElement.innerHTML += `${character.scores.int} (${character.modifiers.int})\t`;
+        charactersElement.innerHTML += `${character.scores.wis} (${character.modifiers.wis})\t`;
+        charactersElement.innerHTML += `${character.scores.dex} (${character.modifiers.dex})\t`;
+        charactersElement.innerHTML += `${character.scores.con} (${character.modifiers.con})\t`;
+        charactersElement.innerHTML += `${character.scores.cha} (${character.modifiers.cha})\t`;
+        // Saving Throws
+        charactersElement.innerHTML += `${character.class.savingThrows.death[level]}\t`;
+        charactersElement.innerHTML += `${character.class.savingThrows.wand[level]}\t`;
+        charactersElement.innerHTML += `${character.class.savingThrows.paralysis[level]}\t`;
+        charactersElement.innerHTML += `${character.class.savingThrows.breath[level]}\t`;
+        charactersElement.innerHTML += `${character.class.savingThrows.spell[level]}\t`;
     });
 }
 
