@@ -3,20 +3,17 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Jozef Mitro</title>
+    <title>RPG Tools</title>
     <link rel="icon" href="img/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/mvp.css">
     <link rel="stylesheet" href="css/theme.css">
-    <link rel="stylesheet" href="css/index.css">
+    <script src="js/foxhole.js"></script>
 </head>
 
 <body>
     <header>
         <nav>
-            <h1>
-                What did you e<a id="x"
-                    onclick="document.querySelector('body').remove(); console.log('No, really. What did you expect?')">x</a>pect?
-            </h1>
+            <h1>Foxhole Todoer</h1>
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="rpg.html">RPG Tools</a></li>
@@ -24,4 +21,11 @@
             </ul>
         </nav>
     </header>
+    <hr>
+    <main>
+        <input id="fileInput" type="file" accept=".tsv">
+        <div id="fileContent"></div>
+    </main>
 </body>
+
+</html>
