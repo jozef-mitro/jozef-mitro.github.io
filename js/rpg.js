@@ -55,9 +55,9 @@ function generateCharacters(event) {
         character.class = getCharacterClass(character.scores, allowedSources);
         character.level = 1;
         character.currentXp = 0;
-        character.nextXp = character.class.expTable[character.level];
+        character.nextXp = 0; // character.class.expTable[character.level];
         // TNL as percentage of progress to next level.
-        character.tnl = Math.round(character.currentXp / character.nextXp * 100);
+        character.tnl = 100; // Math.round(character.currentXp / character.nextXp * 100);
         character.expBonus = character.class.expBonus;
         // Alignment is randomly chosen from Lawful, Neutral, and Chaotic.
         character.alignment = ["Lawful", "Neutral", "Chaotic"][Math.floor(Math.random() * 3)];
@@ -74,6 +74,10 @@ function generateCharacters(event) {
     }
 
     let charactersElement = document.getElementById("characters");
+    // Give the charactersElement a left to right scrolling bar.
+    charactersElement.style.overflowX = "auto";
+    charactersElement.style.whiteSpace = "nowrap";
+
     charactersElement.innerHTML = "";
     charactersElement.innerHTML += `Name\tPronouns\tClass\tLevel\tCurrent XP\tNext XP\tTNL\tXP Bonus\tAlignment\tSTR\tINT\tWIS\tDEX\tCON\tCHA\tDeath\tWand\tParalysis\tBreath\tSpell\tCurrent HP\tMax HP\tAC\tAB\tMovement\tBackground\tLanguages\tNotes<br>`;
     characters.forEach(character => {
@@ -87,11 +91,12 @@ function generateCharacters(event) {
         charactersElement.innerHTML += `${character.scores.con} (${character.modifiers.con})\t`;
         charactersElement.innerHTML += `${character.scores.cha} (${character.modifiers.cha})\t`;
         // Saving Throws
-        charactersElement.innerHTML += `${character.class.savingThrows.death[level]}\t`;
-        charactersElement.innerHTML += `${character.class.savingThrows.wand[level]}\t`;
-        charactersElement.innerHTML += `${character.class.savingThrows.paralysis[level]}\t`;
-        charactersElement.innerHTML += `${character.class.savingThrows.breath[level]}\t`;
-        charactersElement.innerHTML += `${character.class.savingThrows.spell[level]}\t`;
+        // charactersElement.innerHTML += `${character.class.savingThrows.death[level]}\t`;
+        // charactersElement.innerHTML += `${character.class.savingThrows.wand[level]}\t`;
+        // charactersElement.innerHTML += `${character.class.savingThrows.paralysis[level]}\t`;
+        // charactersElement.innerHTML += `${character.class.savingThrows.breath[level]}\t`;
+        // charactersElement.innerHTML += `${character.class.savingThrows.spell[level]}\t`;
+        charactersElement.innerHTML += `<br>`;
     });
 }
 
