@@ -73,31 +73,59 @@ function generateCharacters(event) {
         characters.push(character);
     }
 
-    let charactersElement = document.getElementById("characters");
-    // Give the charactersElement a left to right scrolling bar.
-    charactersElement.style.overflowX = "auto";
-    charactersElement.style.whiteSpace = "nowrap";
+    const charactersElement = document.getElementById("characters");
+    const headers = [
+        "Name", "Pronouns", "Class", "Level", "Current XP", "Next XP", "TNL", "XP Bonus", "Alignment",
+        "STR", "INT", "WIS", "DEX", "CON", "CHA", "Death", "Wand", "Paralysis", "Breath", "Spell",
+        "Current HP", "Max HP", "AC", "AB", "Movement", "Background", "Languages", "Notes"
+    ];
+    const placeholder = "-";
 
-    charactersElement.innerHTML = "";
-    charactersElement.innerHTML += `Name\tPronouns\tClass\tLevel\tCurrent XP\tNext XP\tTNL\tXP Bonus\tAlignment\tSTR\tINT\tWIS\tDEX\tCON\tCHA\tDeath\tWand\tParalysis\tBreath\tSpell\tCurrent HP\tMax HP\tAC\tAB\tMovement\tBackground\tLanguages\tNotes<br>`;
-    characters.forEach(character => {
-        charactersElement.innerHTML += `${character.name}\t${character.pronouns}\t${character.class.name}\t${character.level}\t`;
-        charactersElement.innerHTML += `${character.currentXp}\t${character.nextXp}\t${character.tnl}\t${character.expBonus}\t${character.alignment}\t`;
-        // Score (Score Modifier)
-        charactersElement.innerHTML += `${character.scores.str} (${character.modifiers.str})\t`;
-        charactersElement.innerHTML += `${character.scores.int} (${character.modifiers.int})\t`;
-        charactersElement.innerHTML += `${character.scores.wis} (${character.modifiers.wis})\t`;
-        charactersElement.innerHTML += `${character.scores.dex} (${character.modifiers.dex})\t`;
-        charactersElement.innerHTML += `${character.scores.con} (${character.modifiers.con})\t`;
-        charactersElement.innerHTML += `${character.scores.cha} (${character.modifiers.cha})\t`;
-        // Saving Throws
-        // charactersElement.innerHTML += `${character.class.savingThrows.death[level]}\t`;
-        // charactersElement.innerHTML += `${character.class.savingThrows.wand[level]}\t`;
-        // charactersElement.innerHTML += `${character.class.savingThrows.paralysis[level]}\t`;
-        // charactersElement.innerHTML += `${character.class.savingThrows.breath[level]}\t`;
-        // charactersElement.innerHTML += `${character.class.savingThrows.spell[level]}\t`;
-        charactersElement.innerHTML += `<br>`;
-    });
+    const rows = characters.map(character => {
+        const cells = [
+            character.name,
+            character.pronouns,
+            character.class.name,
+            character.level,
+            character.currentXp,
+            character.nextXp,
+            character.tnl,
+            character.expBonus,
+            character.alignment,
+            `${character.scores.str} (${character.modifiers.str})`,
+            `${character.scores.int} (${character.modifiers.int})`,
+            `${character.scores.wis} (${character.modifiers.wis})`,
+            `${character.scores.dex} (${character.modifiers.dex})`,
+            `${character.scores.con} (${character.modifiers.con})`,
+            `${character.scores.cha} (${character.modifiers.cha})`,
+            placeholder,
+            placeholder,
+            placeholder,
+            placeholder,
+            placeholder,
+            character.currentHp,
+            character.maxHp,
+            placeholder,
+            placeholder,
+            placeholder,
+            placeholder,
+            placeholder,
+            placeholder
+        ];
+
+        return `<tr>${cells.map(value => `<td>${value}</td>`).join("")}</tr>`;
+    }).join("");
+
+    charactersElement.innerHTML = `
+        <table class="stat-table">
+            <thead>
+                <tr>${headers.map(header => `<th>${header}</th>`).join("")}</tr>
+            </thead>
+            <tbody>
+                ${rows}
+            </tbody>
+        </table>
+    `;
 }
 
 function roll3d6() {

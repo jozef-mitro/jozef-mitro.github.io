@@ -18,3 +18,32 @@ nav {
 hr {
     margin: 0;
 }
+
+form {
+    margin: 1.5rem 0;
+}
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.stat-table {
+    border-collapse: collapse;
+    white-space: nowrap;
+    min-width: 100%;
+}
+
+.stat-table th,
+.stat-table td {
+    border: none;
+    text-align: left;
+    vertical-align: top;
+}
+
+.stat-table th {
+    font-weight: 700;
+    text-transform: uppercase;
+    padding-bottom: 0.5rem;
+}
