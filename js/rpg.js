@@ -62,11 +62,14 @@ function generateCharacters(event) {
         // Alignment is randomly chosen from Lawful, Neutral, and Chaotic.
         character.alignment = ["Lawful", "Neutral", "Chaotic"][Math.floor(Math.random() * 3)];
         // Roll hit points for the first level. Reroll 1s and 2s.
-        character.maxHp = Math.max(3, Math.floor(Math.random() * character.class.hitDie) + 1) + character.modifiers.con;
+        let conModifierNumber = parseInt(character.modifiers.con);
+        let hitDieSize = character.class.hitDie;
+        character.maxHp = Math.max(3, Math.floor(Math.random() * hitDieSize) + 1) + conModifierNumber;
+        console.debug(`Rolled HP for ${character.name}: ${character.maxHp} (Con modifier: ${conModifierNumber})`);
 
         // Roll hit points for the rest of the levels. Don't reroll 1s and 2s.
         for (let j = 2; j <= character.level; j++) {
-            character.maxHp += Math.floor(Math.random() * character.class.hitDie) + 1 + character.modifiers.con;
+            character.maxHp += Math.floor(Math.random() * hitDieSize) + 1 + conModifierNumber;
         }
 
         character.currentHp = character.maxHp;
@@ -152,7 +155,7 @@ function getModifier(score) {
     } else if (score === 18) {
         return "+3";
     } else {
-        console.log("Invalid score");
+        console.error("Invalid score: " + score);
 
         return 0;
     }
@@ -173,13 +176,6 @@ function getCharacterClass(scores, allowedSources) {
     // Calculate the experience bonus for each valid class.
     validClasses.forEach(characterClass => {
         characterClass.expBonus = getExpBonus(characterClass, scores);
-    });
-
-    // Console log the scores.
-    console.log(scores);
-    // Console log all valid classes and their experience bonuses.
-    validClasses.forEach(characterClass => {
-        console.log(`${characterClass.name}: ${characterClass.expBonus}`);
     });
 
     // Leave only the classes with the highest experience bonus.
