@@ -1,5 +1,4 @@
 import { getAllNames, getSingleName } from "./names.js";
-import { OseClass, getExpBonus } from "./ose_classes.js";
 import { getOseClasses } from "./ose_classes_data.js";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -105,7 +104,7 @@ function generateCharacters(event) {
     const placeholder = "-";
 
     const rows = characters.map(character => {
-        const saves = OseClass.parseSaves(character.class.saves);
+        const saves = character.class.parseSaves();
         const deathSave = saves[0] ?? placeholder;
         const wandSave = saves[1] ?? placeholder;
         const paralysisSave = saves[2] ?? placeholder;
@@ -256,7 +255,7 @@ function getCharacterClass(scores, allowedSources) {
 
     // Leave only the classes that the character qualifies for.
     let validClasses = availableClasses.filter(characterClass => {
-        let requirements = OseClass.parseRequirements(characterClass.requirements);
+        let requirements = characterClass.parseRequirements();
 
         if (requirements.length === 0) {
             return true;
@@ -267,7 +266,7 @@ function getCharacterClass(scores, allowedSources) {
 
     // Calculate the experience bonus for each valid class.
     validClasses.forEach(characterClass => {
-        characterClass.expBonus = getExpBonus(characterClass, scores);
+        characterClass.expBonus = characterClass.getExpBonus(scores);
     });
 
     // Leave only the classes with the highest experience bonus.
