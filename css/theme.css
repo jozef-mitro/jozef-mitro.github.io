@@ -9,6 +9,7 @@
     --color-table: #1ab07e;
     --color-text: #000;
     --color-text-secondary: #999;
+    --width-card-wide: 100%;
 }
 
 nav {
@@ -21,6 +22,10 @@ hr {
 
 form {
     margin: 1.5rem 0;
+}
+
+main {
+    padding: 1rem;
 }
 
 .table-wrapper {
