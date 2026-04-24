@@ -1,146 +1,150 @@
-#!/usr/bin/env node
-
 const fs = require("fs");
-const path = require("path");
 
-const CONSTRUCTOR_PATTERN = /new\s+OseClass\(\s*"([^"]*)"\s*,\s*"([^"]*)"\s*,\s*"([^"]*)"\s*,\s*"([^"]*)"\s*,\s*(-?\d+)\s*\)/g;
-
-function usage() {
-    console.log("Usage:");
-    console.log("  node tools/ose-classes-csv.js export <inputJsFile> <outputCsvFile>");
-    console.log("  node tools/ose-classes-csv.js import <inputCsvFile> <outputJsFile>");
-    console.log("");
-    console.log("CSV format: name;primeRequisite;requirements;source;hitDie");
+function splitCsvLine(line, delimiter = ";") {
+	return line.split(delimiter).map(part => part.trim());
 }
 
-function parseClassesFromJs(jsText) {
-    let classes = [];
-    let match;
-
-    while ((match = CONSTRUCTOR_PATTERN.exec(jsText)) !== null) {
-        classes.push({
-            name: match[1],
-            primeRequisite: match[2],
-            requirements: match[3],
-            source: match[4],
-            hitDie: Number(match[5])
-        });
-    }
-
-    return classes;
+function escapeJsString(value) {
+	return String(value).replace(/\\/g, "\\\\").replace(/"/g, "\\\"");
 }
 
-function toCsvLine(classData) {
-    return [
-        classData.name,
-        classData.primeRequisite,
-        classData.requirements,
-        classData.source,
-        String(classData.hitDie)
-    ].join(";");
+function unescapeJsString(value) {
+	return value.replace(/\\"/g, "\"").replace(/\\\\/g, "\\");
 }
 
-function parseCsvLine(line, lineNumber) {
-    let parts = line.split(";").map(part => part.trim());
+function validateSaves(saves, rowNumber) {
+	if (typeof saves !== "string" || saves.length === 0) {
+		throw new Error(`Invalid saves at row ${rowNumber}: saves field is empty or missing.`);
+	}
 
-    if (parts.length !== 5) {
-        throw new Error(`Invalid CSV at line ${lineNumber}: expected 5 fields, got ${parts.length}`);
-    }
+	const saveValues = saves.split(",").map(v => v.trim());
 
-    let hitDie = Number(parts[4]);
+	if (saveValues.length !== 5) {
+		throw new Error(`Invalid saves at row ${rowNumber}: expected 5 save values, got ${saveValues.length}. Saves: ${saves}`);
+	}
 
-    if (!Number.isFinite(hitDie)) {
-        throw new Error(`Invalid CSV at line ${lineNumber}: hitDie must be a number`);
-    }
+	for (let i = 0; i < saveValues.length; i++) {
+		const num = Number(saveValues[i]);
 
-    return {
-        name: parts[0],
-        primeRequisite: parts[1],
-        requirements: parts[2],
-        source: parts[3],
-        hitDie
-    };
+		if (Number.isNaN(num) || !Number.isInteger(num)) {
+			throw new Error(`Invalid saves at row ${rowNumber}: save value at index ${i} is not an integer: "${saveValues[i]}". Saves: ${saves}`);
+		}
+	}
 }
 
-function escapeForJs(value) {
-    return value.replace(/\\/g, "\\\\").replace(/"/g, "\\\"");
+function importCsvToJs(inputCsvPath, outputJsPath) {
+	const csv = fs.readFileSync(inputCsvPath, "utf8");
+	const lines = csv
+		.split(/\r?\n/)
+		.map(line => line.trim())
+		.filter(line => line.length > 0);
+
+	if (lines.length === 0) {
+		throw new Error("CSV file is empty.");
+	}
+
+	const header = splitCsvLine(lines[0]);
+
+	if (header.length < 6 || header[0] !== "name" || header[5] !== "saves") {
+		throw new Error("Invalid CSV header. Expected: name;primeRequisite;requirements;source;hitDie;saves");
+	}
+
+	const rows = lines.slice(1).map((line, index) => {
+		const rowNumber = index + 2;
+		const parts = splitCsvLine(line);
+
+		if (parts.length !== 6) {
+			throw new Error(`Invalid CSV row ${rowNumber}. Expected 6 fields but got ${parts.length}.`);
+		}
+
+		const [name, primeRequisite, requirements, source, hitDieRaw, saves] = parts;
+		const hitDie = Number(hitDieRaw);
+
+		if (Number.isNaN(hitDie)) {
+			throw new Error(`Invalid hitDie at row ${rowNumber}: ${hitDieRaw}`);
+		}
+
+		validateSaves(saves, rowNumber);
+
+		return `    new OseClass("${escapeJsString(name)}", "${escapeJsString(primeRequisite)}", "${escapeJsString(requirements)}", "${escapeJsString(source)}", ${hitDie}, "${escapeJsString(saves)}")`;
+	});
+
+	const jsOutput = `let OseClasses = [\n${rows.join(",\n")}\n];\n`;
+
+	fs.writeFileSync(outputJsPath, jsOutput, "utf8");
 }
 
-function toJsLine(classData) {
-    return `new OseClass("${escapeForJs(classData.name)}", "${escapeForJs(classData.primeRequisite)}", "${escapeForJs(classData.requirements)}", "${escapeForJs(classData.source)}", ${classData.hitDie})`;
+function parseJsOseClassArguments(content) {
+	const constructorRegex = /new\s+OseClass\(\s*"((?:\\.|[^"])*)"\s*,\s*"((?:\\.|[^"])*)"\s*,\s*"((?:\\.|[^"])*)"\s*,\s*"((?:\\.|[^"])*)"\s*,\s*(\d+)\s*(?:,\s*"((?:\\.|[^"])*)"\s*)?\)/g;
+	const classes = [];
+	let match = constructorRegex.exec(content);
+
+	while (match !== null) {
+		classes.push({
+			name: unescapeJsString(match[1]),
+			primeRequisite: unescapeJsString(match[2]),
+			requirements: unescapeJsString(match[3]),
+			source: unescapeJsString(match[4]),
+			hitDie: Number(match[5]),
+			saves: unescapeJsString(match[6] || "")
+		});
+
+		match = constructorRegex.exec(content);
+	}
+
+	return classes;
 }
 
-function exportCsv(inputJsFile, outputCsvFile) {
-    let jsText = fs.readFileSync(inputJsFile, "utf8");
-    let classes = parseClassesFromJs(jsText);
+function exportJsToCsv(inputJsPath, outputCsvPath) {
+	const jsContent = fs.readFileSync(inputJsPath, "utf8");
+	const classes = parseJsOseClassArguments(jsContent);
 
-    if (classes.length === 0) {
-        throw new Error("No OseClass constructor calls found in input JS file.");
-    }
+	if (classes.length === 0) {
+		throw new Error("No OseClass entries found in JS file.");
+	}
 
-    let header = "name;primeRequisite;requirements;source;hitDie";
-    let csv = [header, ...classes.map(toCsvLine)].join("\n") + "\n";
+	const header = "name;primeRequisite;requirements;source;hitDie;saves";
+	const lines = classes.map(c => [
+		c.name,
+		c.primeRequisite,
+		c.requirements,
+		c.source,
+		c.hitDie,
+		c.saves
+	].join(";"));
 
-    fs.writeFileSync(outputCsvFile, csv, "utf8");
-    console.log(`Exported ${classes.length} classes to ${outputCsvFile}`);
+	fs.writeFileSync(outputCsvPath, `${header}\n${lines.join("\n")}\n`, "utf8");
 }
 
-function importCsv(inputCsvFile, outputJsFile) {
-    let csvText = fs.readFileSync(inputCsvFile, "utf8");
-    let lines = csvText.split(/\r?\n/).map(line => line.trim());
-    let nonEmptyLines = lines.filter(line => line.length > 0);
-
-    if (nonEmptyLines.length === 0) {
-        throw new Error("CSV file is empty.");
-    }
-
-    let dataLines = nonEmptyLines;
-
-    if (nonEmptyLines[0].toLowerCase() === "name;primerequisite;requirements;source;hitdie") {
-        dataLines = nonEmptyLines.slice(1);
-    }
-
-    let classes = dataLines.map((line, index) => parseCsvLine(line, index + 1));
-
-    let body = [
-        "let OseClasses = [",
-        ...classes.map(classData => `    ${toJsLine(classData)},`),
-        "];",
-        ""
-    ].join("\n");
-
-    fs.writeFileSync(outputJsFile, body, "utf8");
-    console.log(`Imported ${classes.length} classes to ${outputJsFile}`);
+function printUsage() {
+	console.log("Usage:");
+	console.log("  node tools/ose-classes-csv.js import <input.csv> <output.js>");
+	console.log("  node tools/ose-classes-csv.js export <input.js> <output.csv>");
 }
 
 function main() {
-    let [, , command, inputFile, outputFile] = process.argv;
+	const [, , command, inputPath, outputPath] = process.argv;
 
-    if (!command || !inputFile || !outputFile) {
-        usage();
-        process.exit(1);
-    }
+	if (!command || !inputPath || !outputPath) {
+		printUsage();
 
-    let resolvedInput = path.resolve(process.cwd(), inputFile);
-    let resolvedOutput = path.resolve(process.cwd(), outputFile);
+		process.exit(1);
+	}
 
-    if (command === "export") {
-        exportCsv(resolvedInput, resolvedOutput);
-        return;
-    }
+	if (command === "import") {
+		importCsvToJs(inputPath, outputPath);
 
-    if (command === "import") {
-        importCsv(resolvedInput, resolvedOutput);
-        return;
-    }
+		return;
+	}
 
-    usage();
-    process.exit(1);
+	if (command === "export") {
+		exportJsToCsv(inputPath, outputPath);
+
+		return;
+	}
+
+	printUsage();
+	process.exit(1);
 }
 
-try {
-    main();
-} catch (error) {
-    console.error(error.message);
-    process.exit(1);
-}
+main();

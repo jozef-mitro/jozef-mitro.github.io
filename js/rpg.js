@@ -85,6 +85,13 @@ function generateCharacters(event) {
     const placeholder = "-";
 
     const rows = characters.map(character => {
+        const saves = OseClass.parseSaves(character.class.saves);
+        const deathSave = saves[0] ?? placeholder;
+        const wandSave = saves[1] ?? placeholder;
+        const paralysisSave = saves[2] ?? placeholder;
+        const breathSave = saves[3] ?? placeholder;
+        const spellSave = saves[4] ?? placeholder;
+
         const cells = [
             character.name,
             character.pronouns,
@@ -101,11 +108,11 @@ function generateCharacters(event) {
             `${character.scores.dex} (${character.modifiers.dex})`,
             `${character.scores.con} (${character.modifiers.con})`,
             `${character.scores.cha} (${character.modifiers.cha})`,
-            placeholder,
-            placeholder,
-            placeholder,
-            placeholder,
-            placeholder,
+            deathSave,
+            wandSave,
+            paralysisSave,
+            breathSave,
+            spellSave,
             character.currentHp,
             character.maxHp,
             placeholder,

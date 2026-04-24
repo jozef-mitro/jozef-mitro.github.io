@@ -1,10 +1,11 @@
 class OseClass {
-    constructor (name, primeRequisite, requirements, source, hitDie) {
+    constructor (name, primeRequisite, requirements, source, hitDie, saves) {
         this.name = name;
         this.primeRequisite = primeRequisite;
         this.requirements = typeof requirements === "string" ? requirements : "";
         this.source = source;
         this.hitDie = hitDie;
+        this.saves = typeof saves === "string" ? saves : "";
     }
 
     static parseRequirements(requirements) {
@@ -15,19 +16,31 @@ class OseClass {
         return requirements.split(",").map(requirement => requirement.trim()).filter(requirement => requirement.length > 0);
     }
 
-    // CSV format: name;primeRequisite;requirementsCsv;source;hitDie
+    static parseSaves(saves) {
+        if (typeof saves !== "string") {
+            return [];
+        }
+
+        return saves
+            .split(",")
+            .map(save => save.trim())
+            .filter(save => save.length > 0)
+            .map(save => Number(save));
+    }
+
+    // CSV format: name;primeRequisite;requirementsCsv;source;hitDie;savesCsv
     static fromCsvLine(csvLine, delimiter = ";") {
         let parts = csvLine.split(delimiter).map(part => part.trim());
 
-        if (parts.length !== 5) {
-            throw new Error("Invalid OseClass CSV line. Expected 5 fields.");
+        if (parts.length !== 6) {
+            throw new Error("Invalid OseClass CSV line. Expected 6 fields.");
         }
 
-        return new OseClass(parts[0], parts[1], parts[2], parts[3], Number(parts[4]));
+        return new OseClass(parts[0], parts[1], parts[2], parts[3], Number(parts[4]), parts[5]);
     }
 
     toCsvLine(delimiter = ";") {
-        return [this.name, this.primeRequisite, this.requirements, this.source, this.hitDie].join(delimiter);
+        return [this.name, this.primeRequisite, this.requirements, this.source, this.hitDie, this.saves].join(delimiter);
     }
 }
 
