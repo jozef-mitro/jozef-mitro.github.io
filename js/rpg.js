@@ -168,7 +168,7 @@ async function copyCharactersTable() {
         return;
     }
 
-    const tableText = Array.from(table.rows, row => Array.from(
+    const tableText = Array.from(table.tBodies[0]?.rows ?? [], row => Array.from(
         row.cells,
         cell => cell.textContent.replaceAll(/\s+/g, " ").trim()
     ).join("\t")).join("\n");
