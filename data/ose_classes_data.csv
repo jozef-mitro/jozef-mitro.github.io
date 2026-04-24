@@ -1,0 +1,46 @@
+name;primeRequisite;requirements;source;hitDie
+Cleric;10@wis16,5@wis13,0@wis9,-10@wis6,-20;;Classic Fantasy;6
+Dwarf;10@str16,5@str13,0@str9,-10@str6,-20;con;Classic Fantasy;8
+Elf;10@int16+str13,5@int13+str13,0;int;Classic Fantasy;6
+Fighter;10@str16,5@str13,0@str9,-10@str6,-20;;Classic Fantasy;8
+Halfling;10@dex13+str13,5@dex13|str13,0;con,dex;Classic Fantasy;6
+Magic-User;10@int16,5@int13,0@int9,-10@int6,-20;;Classic Fantasy;4
+Thief;10@dex16,5@dex13,0@dex9,-10@dex6,-20;;Classic Fantasy;4
+Acrobat;10@dex16,5@dex13,0@dex9,-10@dex6,-20;;Advanced Fantasy;4
+Assassin;10@dex16,5@dex13,0@dex9,-10@dex6,-20;;Advanced Fantasy;4
+Barbarian;10@con16+str16,5@con13|str13,0;dex;Advanced Fantasy;8
+Bard;10@cha16,5@cha13,0@cha9,-10@cha6,-20;dex,int;Advanced Fantasy;6
+Drow;10@wis16+str13,5@wis13+str13,0;int;Advanced Fantasy;6
+Druid;10@wis16,5@wis13,0@wis9,-10@wis6,-20;;Advanced Fantasy;6
+Duergar;10@str16,5@str13,0@str9,-10@str6,-20;con,int;Advanced Fantasy;6
+Gnome;10@int16+dex13,5@int13+dex13,0;con;Advanced Fantasy;4
+Half-Elf;10@int16+str13|int13+str16,5@int13+str13,0;cha,con;Advanced Fantasy;6
+Half-Orc;10@str16+dex16,5@str13+dex13,0;;Advanced Fantasy;6
+Illusionist;10@int16,5@int13,0@int9,-10@int6,-20;dex;Advanced Fantasy;4
+Knight;10@str16,5@str13,0@str9,-10@str6,-20;con,dex;Advanced Fantasy;8
+Paladin;10@str16+wis16,5@str13|wis13,0;cha;Advanced Fantasy;8
+Ranger;10@str16,5@str13,0@str9,-10@str6,-20;con,wis;Advanced Fantasy;8
+Svirfneblin;10@str16,5@str13,0@str9,-10@str6,-20;con;Advanced Fantasy;6
+Arcane Bard;10@cha16+dex13|cha13+dex16,5@cha13+dex13,0;int;Carcass Crawler 0 and 4;6
+Beast Master;10@str16+wis16,5@str13|wis13,0;;Carcass Crawler 0 and 3;6
+Changeling;10@cha16+dex16,5@cha13|dex13,0;int;Carcass Crawler 0 and 4;6
+Chaos Knight;10@str16+wis16,5@str13|wis13,0;cha;Carcass Crawler 0;8
+Mage;10@int16+wis13,5@int13+wis13,0;;Carcass Crawler 0 and 1;6
+Mutoid;10@dex16,5@dex13,0@dex9,-10@dex6,-20;;Carcass Crawler 0 and 3;6
+Mycelian;10@str16,5@str13,0@str9,-10@str6,-20;con;Carcass Crawler 0 and 3;8
+Warden;10@str16,5@str13,0@str9,-10@str6,-20;con,wis;Carcass Crawler 0;8
+Acolyte;10@wis16,5@wis13,0@wis9,-10@wis6,-20;;Carcass Crawler 1;6
+Gargantua;10@str16+con13,5@str13+con13,0;con,str;Carcass Crawler 1;10
+Goblin;10@dex16+str16,5@dex13|str13,0;dex;Carcass Crawler 1;6
+Hephaestan;10@int16+wis13,5@int13|wis13,0;cha,con;Carcass Crawler 1;6
+Kineticist;10@dex16+wis16,5@dex13+wis13,0;;Carcass Crawler 1;6
+Phase Elf;10@int16+str13,5@int13+str13,0;int;Carcass Crawler 2;6
+Wood Elf;10@dex16+wis13,5@dex13+wis13,0;dex,int;Carcass Crawler 2;6
+Dragonborn;10@str16,5@str13,0@str9,-10@str6,-20;con,int;Carcass Crawler 3;8
+Tiefling;10@cha16+dex16,5@cha13|dex13,0;int;Carcass Crawler 3;6
+Halfling Hearthsinger;10@cha13+con13,5@cha13|con13,0;cha,con,dex;Carcass Crawler 4;6
+Halfling Reeve;10@con13+wis13,5@con13|wis13,0;con,dex,wis;Carcass Crawler 4;6
+Ratling;10@dex16,5@dex13,0@dex9,-10@dex6,-20;con;Carcass Crawler 4;6
+Dwarf Brewmaster;10@str16+con16,5@str13|con13,0;con;Carcass Crawler 5;8
+Dwarf Runesmith;10@str16+int13,5@str13+int13,0;con,int;Carcass Crawler 5;8
+Necromancer;10@int16,5@int13,0@int9,-10@int6,-20;wis;The Necromancer;4

@@ -1,5 +1,4 @@
 let OseClasses = [
-    // Classic Fantasy
     new OseClass("Cleric", "10@wis16,5@wis13,0@wis9,-10@wis6,-20", "", "Classic Fantasy", 6),
     new OseClass("Dwarf", "10@str16,5@str13,0@str9,-10@str6,-20", "con", "Classic Fantasy", 8),
     new OseClass("Elf", "10@int16+str13,5@int13+str13,0", "int", "Classic Fantasy", 6),
@@ -7,7 +6,6 @@ let OseClasses = [
     new OseClass("Halfling", "10@dex13+str13,5@dex13|str13,0", "con,dex", "Classic Fantasy", 6),
     new OseClass("Magic-User", "10@int16,5@int13,0@int9,-10@int6,-20", "", "Classic Fantasy", 4),
     new OseClass("Thief", "10@dex16,5@dex13,0@dex9,-10@dex6,-20", "", "Classic Fantasy", 4),
-    // Advanced Fantasy
     new OseClass("Acrobat", "10@dex16,5@dex13,0@dex9,-10@dex6,-20", "", "Advanced Fantasy", 4),
     new OseClass("Assassin", "10@dex16,5@dex13,0@dex9,-10@dex6,-20", "", "Advanced Fantasy", 4),
     new OseClass("Barbarian", "10@con16+str16,5@con13|str13,0", "dex", "Advanced Fantasy", 8),
@@ -23,10 +21,9 @@ let OseClasses = [
     new OseClass("Paladin", "10@str16+wis16,5@str13|wis13,0", "cha", "Advanced Fantasy", 8),
     new OseClass("Ranger", "10@str16,5@str13,0@str9,-10@str6,-20", "con,wis", "Advanced Fantasy", 8),
     new OseClass("Svirfneblin", "10@str16,5@str13,0@str9,-10@str6,-20", "con", "Advanced Fantasy", 6),
-    // Carcass Crawler
-    new OseClass("Arcane Bard", "10@cha16+dex13|cha13+dex16,5@cha13+dex13,0", "int", "Carcass Crawler 0", 6),
+    new OseClass("Arcane Bard", "10@cha16+dex13|cha13+dex16,5@cha13+dex13,0", "int", "Carcass Crawler 0 and 4", 6),
     new OseClass("Beast Master", "10@str16+wis16,5@str13|wis13,0", "", "Carcass Crawler 0 and 3", 6),
-    new OseClass("Changeling", "10@cha16+dex16,5@cha13|dex13,0", "int", "Carcass Crawler 0", 6),
+    new OseClass("Changeling", "10@cha16+dex16,5@cha13|dex13,0", "int", "Carcass Crawler 0 and 4", 6),
     new OseClass("Chaos Knight", "10@str16+wis16,5@str13|wis13,0", "cha", "Carcass Crawler 0", 8),
     new OseClass("Mage", "10@int16+wis13,5@int13+wis13,0", "", "Carcass Crawler 0 and 1", 6),
     new OseClass("Mutoid", "10@dex16,5@dex13,0@dex9,-10@dex6,-20", "", "Carcass Crawler 0 and 3", 6),
@@ -41,6 +38,10 @@ let OseClasses = [
     new OseClass("Wood Elf", "10@dex16+wis13,5@dex13+wis13,0", "dex,int", "Carcass Crawler 2", 6),
     new OseClass("Dragonborn", "10@str16,5@str13,0@str9,-10@str6,-20", "con,int", "Carcass Crawler 3", 8),
     new OseClass("Tiefling", "10@cha16+dex16,5@cha13|dex13,0", "int", "Carcass Crawler 3", 6),
-    // Other
-    new OseClass("Necromancer", "10@int16,5@int13,0@int9,-10@int6,-20", "wis", "The Necromancer", 4)
-]
+    new OseClass("Halfling Hearthsinger", "10@cha13+con13,5@cha13|con13,0", "cha,con,dex", "Carcass Crawler 4", 6),
+    new OseClass("Halfling Reeve", "10@con13+wis13,5@con13|wis13,0", "con,dex,wis", "Carcass Crawler 4", 6),
+    new OseClass("Ratling", "10@dex16,5@dex13,0@dex9,-10@dex6,-20", "con", "Carcass Crawler 4", 6),
+    new OseClass("Dwarf Brewmaster", "10@str16+con16,5@str13|con13,0", "con", "Carcass Crawler 5", 8),
+    new OseClass("Dwarf Runesmith", "10@str16+int13,5@str13+int13,0", "con,int", "Carcass Crawler 5", 8),
+    new OseClass("Necromancer", "10@int16,5@int13,0@int9,-10@int6,-20", "wis", "The Necromancer", 4),
+];
