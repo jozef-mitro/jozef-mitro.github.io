@@ -1,5 +1,6 @@
 import { getAllNames, getSingleName } from "./names.js";
 import { getOseClasses } from "./ose_classes_data.js";
+import { rollBackground } from "./backgrounds.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     const characterForm = document.getElementById("characterGeneratorForm");
@@ -92,6 +93,7 @@ function generateCharacters(event) {
         }
 
         character.currentHp = character.maxHp;
+        character.background = rollBackground();
         characters.push(character);
     }
 
@@ -135,7 +137,7 @@ function generateCharacters(event) {
             placeholder,
             placeholder,
             placeholder,
-            placeholder,
+            character.background,
             placeholder,
             placeholder
         ];
