@@ -104,12 +104,11 @@ function generateCharacters(event) {
     const placeholder = "-";
 
     const rows = characters.map(character => {
-        const saves = character.class.parseSaves();
-        const deathSave = saves[0] ?? placeholder;
-        const wandSave = saves[1] ?? placeholder;
-        const paralysisSave = saves[2] ?? placeholder;
-        const breathSave = saves[3] ?? placeholder;
-        const spellSave = saves[4] ?? placeholder;
+        const deathSave = character.class.saves.death ?? placeholder;
+        const wandSave = character.class.saves.wand ?? placeholder;
+        const paralysisSave = character.class.saves.paralysis ?? placeholder;
+        const breathSave = character.class.saves.breath ?? placeholder;
+        const spellSave = character.class.saves.spell ?? placeholder;
 
         const cells = [
             character.name,

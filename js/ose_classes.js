@@ -5,7 +5,7 @@ export class OseClass {
         this.requirements = typeof requirements === "string" ? requirements : "";
         this.source = source;
         this.hitDie = hitDie;
-        this.saves = typeof saves === "string" ? saves : "";
+        this.saves = this.#parseSaves(saves);
     }
 
     parseRequirements() {
@@ -16,16 +16,30 @@ export class OseClass {
         return this.requirements.split(",").map(requirement => requirement.trim()).filter(requirement => requirement.length > 0);
     }
 
-    parseSaves() {
-        if (typeof this.saves !== "string") {
-            return [];
+    #parseSaves(rawSaves) {
+        if (typeof rawSaves !== "string") {
+            return {
+                death: null,
+                wand: null,
+                paralysis: null,
+                breath: null,
+                spell: null
+            };
         }
 
-        return this.saves
+        let parsedSaves = rawSaves
             .split(",")
             .map(save => save.trim())
             .filter(save => save.length > 0)
             .map(save => Number(save));
+
+        return {
+            death: Number.isFinite(parsedSaves[0]) ? parsedSaves[0] : null,
+            wand: Number.isFinite(parsedSaves[1]) ? parsedSaves[1] : null,
+            paralysis: Number.isFinite(parsedSaves[2]) ? parsedSaves[2] : null,
+            breath: Number.isFinite(parsedSaves[3]) ? parsedSaves[3] : null,
+            spell: Number.isFinite(parsedSaves[4]) ? parsedSaves[4] : null
+        };
     }
 
     getExpBonus(scores) {
