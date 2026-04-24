@@ -10,231 +10,118 @@ class OseClass {
 
 let OseClasses = [
     // Classic Fantasy
-    new OseClass("Cleric", "wis", [], "Classic Fantasy", 6),
-    new OseClass("Dwarf", "str", ["con"], "Classic Fantasy", 8),
-    new OseClass("Elf", function (scores) {
-        if (scores.int >= 16 && scores.str >= 13) {
-            return 10;
-        } else if (scores.int >= 13 && scores.str >= 13) {
-            return 5;
-        } else {
-            return 0;
-        }
-    }, ["int"], "Classic Fantasy", 6),
-    new OseClass("Fighter", "str", [], "Classic Fantasy", 8),
-    new OseClass("Halfling", function(scores) {
-        if (scores.dex >= 13 && scores.str >= 13) {
-            return 10;
-        } else if (scores.dex >= 13 || scores.str >= 13) {
-            return 5;
-        } else {
-            return 0;
-        }
-    }, ["con", "dex"], "Classic Fantasy", 6),
-    new OseClass("Magic-User", "int", [], "Classic Fantasy", 4),
-    new OseClass("Thief", "dex", [], "Classic Fantasy", 4),
+    new OseClass("Cleric", "10@wis16,5@wis13,0@wis9,-10@wis6,-20", [], "Classic Fantasy", 6),
+    new OseClass("Dwarf", "10@str16,5@str13,0@str9,-10@str6,-20", ["con"], "Classic Fantasy", 8),
+    new OseClass("Elf", "10@int16+str13,5@int13+str13,0", ["int"], "Classic Fantasy", 6),
+    new OseClass("Fighter", "10@str16,5@str13,0@str9,-10@str6,-20", [], "Classic Fantasy", 8),
+    new OseClass("Halfling", "10@dex13+str13,5@dex13|str13,0", ["con", "dex"], "Classic Fantasy", 6),
+    new OseClass("Magic-User", "10@int16,5@int13,0@int9,-10@int6,-20", [], "Classic Fantasy", 4),
+    new OseClass("Thief", "10@dex16,5@dex13,0@dex9,-10@dex6,-20", [], "Classic Fantasy", 4),
     // Advanced Fantasy
-    new OseClass("Acrobat", "dex", [], "Advanced Fantasy", 4),
-    new OseClass("Assassin", "dex", [], "Advanced Fantasy", 4),
-    new OseClass("Barbarian", function(scores) {
-        if (scores.con >= 16 && scores.str >= 16) {
-            return 10;
-        } else if (scores.con >= 13 || scores.str >= 13) {
-            return 5;
-        } else {
-            return 0;
-        }
-    }, ["dex"], "Advanced Fantasy", 8),
-    new OseClass("Bard", "cha", ["dex", "int"], "Advanced Fantasy", 6),
-    new OseClass("Drow", function(scores) {
-        if (scores.wis >= 16 && scores.str >= 13) {
-            return 10;
-        } else if (scores.wis >= 13 && scores.str >= 13) {
-            return 5;
-        } else {
-            return 0;
-        }
-    }, ["int"], "Advanced Fantasy", 6),
-    new OseClass("Druid", "wis", [], "Advanced Fantasy", 6),
-    new OseClass("Duergar", "str", ["con", "int"], "Advanced Fantasy", 6),
-    new OseClass("Gnome", function(scores) {
-        if (scores.int >= 16 && scores.dex >= 13) {
-            return 10;
-        } else if (scores.int >= 13 && scores.dex >= 13) {
-            return 5;
-        } else {
-            return 0;
-        }
-    }, ["con"], "Advanced Fantasy", 4),
-    new OseClass("Half-Elf", function(scores) {
-        if ((scores.int >= 16 && scores.str >= 13) || (scores.str >= 16 && scores.int >= 13)) {
-            return 10;
-        } else if (scores.int >= 13 && scores.str >= 13) {
-            return 5;
-        } else {
-            return 0;
-        }
-    }, ["cha", "con"], "Advanced Fantasy", 6),
-    new OseClass("Half-Orc", function(scores) {
-        if (scores.str >= 16 && scores.dex >= 16) {
-            return 10;
-        } else if (scores.str >= 13 && scores.dex >= 13) {
-            return 5;
-        } else {
-            return 0;
-        }
-    }, [], "Advanced Fantasy", 6),
-    new OseClass("Illusionist", "int", ["dex"], "Advanced Fantasy", 4),
-    new OseClass("Knight", "str", ["con", "dex"], "Advanced Fantasy", 8),
-    new OseClass("Paladin", function(scores) {
-        if (scores.str >= 16 && scores.wis >= 16) {
-            return 10;
-        } else if (scores.str >= 13 || scores.wis >= 13) {
-            return 5;
-        } else {
-            return 0;
-        }
-    }, ["cha"], "Advanced Fantasy", 8),
-    new OseClass("Ranger", "str", ["con", "wis"], "Advanced Fantasy", 8),
-    new OseClass("Svirfneblin", "str", ["con"], "Advanced Fantasy", 6),
+    new OseClass("Acrobat", "10@dex16,5@dex13,0@dex9,-10@dex6,-20", [], "Advanced Fantasy", 4),
+    new OseClass("Assassin", "10@dex16,5@dex13,0@dex9,-10@dex6,-20", [], "Advanced Fantasy", 4),
+    new OseClass("Barbarian", "10@con16+str16,5@con13|str13,0", ["dex"], "Advanced Fantasy", 8),
+    new OseClass("Bard", "10@cha16,5@cha13,0@cha9,-10@cha6,-20", ["dex", "int"], "Advanced Fantasy", 6),
+    new OseClass("Drow", "10@wis16+str13,5@wis13+str13,0", ["int"], "Advanced Fantasy", 6),
+    new OseClass("Druid", "10@wis16,5@wis13,0@wis9,-10@wis6,-20", [], "Advanced Fantasy", 6),
+    new OseClass("Duergar", "10@str16,5@str13,0@str9,-10@str6,-20", ["con", "int"], "Advanced Fantasy", 6),
+    new OseClass("Gnome", "10@int16+dex13,5@int13+dex13,0", ["con"], "Advanced Fantasy", 4),
+    new OseClass("Half-Elf", "10@int16+str13|int13+str16,5@int13+str13,0", ["cha", "con"], "Advanced Fantasy", 6),
+    new OseClass("Half-Orc", "10@str16+dex16,5@str13+dex13,0", [], "Advanced Fantasy", 6),
+    new OseClass("Illusionist", "10@int16,5@int13,0@int9,-10@int6,-20", ["dex"], "Advanced Fantasy", 4),
+    new OseClass("Knight", "10@str16,5@str13,0@str9,-10@str6,-20", ["con", "dex"], "Advanced Fantasy", 8),
+    new OseClass("Paladin", "10@str16+wis16,5@str13|wis13,0", ["cha"], "Advanced Fantasy", 8),
+    new OseClass("Ranger", "10@str16,5@str13,0@str9,-10@str6,-20", ["con", "wis"], "Advanced Fantasy", 8),
+    new OseClass("Svirfneblin", "10@str16,5@str13,0@str9,-10@str6,-20", ["con"], "Advanced Fantasy", 6),
     // Carcass Crawler
-    new OseClass("Arcane Bard", function(scores) {
-        if ((scores.cha >= 16 && scores.dex >= 13) || (scores.dex >= 16 && scores.cha >= 13)) {
-            return 10;
-        } else if (scores.cha >= 13 && scores.dex >= 13) {
-            return 5;
-        } else {
-            return 0;
-        }
-    }, ["int"], "Carcass Crawler 0", 6),
-    new OseClass("Beast Master", function(scores) {
-        if (scores.str >= 16 && scores.wis >= 16) {
-            return 10;
-        } else if (scores.str >= 13 || scores.wis >= 13) {
-            return 5;
-        } else {
-            return 0;
-        }
-    }, [], "Carcass Crawler 0 and 3", 6),
-    new OseClass("Changeling", function(scores) {
-        if (scores.cha >= 16 && scores.dex >= 16) {
-            return 10;
-        } else if (scores.cha >= 13 || scores.dex >= 13) {
-            return 5;
-        } else {
-            return 0;
-        }
-    }, ["int"], "Carcass Crawler 0", 6),
-    new OseClass("Chaos Knight", function(scores) {
-        if (scores.str >= 16 && scores.wis >= 16) {
-            return 10;
-        } else if (scores.str >= 13 || scores.wis >= 13) {
-            return 5;
-        } else {
-            return 0;
-        }
-    }, ["cha"], "Carcass Crawler 0", 8),
-    new OseClass("Mage", function(scores) {
-        if (scores.int >= 16 && scores.wis >= 13) {
-            return 10;
-        } else if (scores.int >= 13 && scores.wis >= 13) {
-            return 5;
-        } else {
-            return 0;
-        }
-    }, [], "Carcass Crawler 0 and 1", 6),
-    new OseClass("Mutoid", "dex", [], "Carcass Crawler 0 and 3", 6),
-    new OseClass("Mycelian", "str", ["con"], "Carcass Crawler 0 and 3", 8),
-    new OseClass("Warden", "str", ["con", "wis"], "Carcass Crawler 0", 8),
-    new OseClass("Acolyte", "wis", [], "Carcass Crawler 1", 6),
-    new OseClass("Gargantua", function(scores) {
-        if (scores.str >= 16 && scores.con >= 13) {
-            return 10;
-        } else if (scores.con >= 13 && scores.str >= 13) {
-            return 5;
-        } else {
-            return 0;
-        }
-    }, ["con", "str"], "Carcass Crawler 1", 10),
-    new OseClass("Goblin", function(scores) {
-        if (scores.dex >= 16 && scores.str >= 16) {
-            return 10;
-        } else if (scores.dex >= 13 || scores.str >= 13) {
-            return 5;
-        } else {
-            return 0;
-        }
-    }, ["dex"], "Carcass Crawler 1", 6),
-    new OseClass("Hephaestan", function(scores) {
-        if (scores.int >= 16 && scores.wis >= 13) {
-            return 10;
-        } else if (scores.int >= 13 || scores.wis >= 13) {
-            return 5;
-        } else {
-            return 0;
-        }
-    }, ["cha", "con"], "Carcass Crawler 1", 6),
-    new OseClass("Kineticist", function(scores) {
-        if (scores.dex >= 16 && scores.wis >= 16) {
-            return 10;
-        } else if (scores.dex >= 13 && scores.wis >= 13) {
-            return 5;
-        } else {
-            return 0;
-        }
-    }, [], "Carcass Crawler 1", 6),
-    new OseClass("Phase Elf", function(scores) {
-        if (scores.int >= 16 && scores.str >= 13) {
-            return 10;
-        } else if (scores.int >= 13 && scores.str >= 13) {
-            return 5;
-        } else {
-            return 0;
-        }
-    }, ["int"], "Carcass Crawler 2", 6),
-    new OseClass("Wood Elf", function(scores) {
-        if (scores.dex >= 16 && scores.wis >= 13) {
-            return 10;
-        } else if (scores.dex >= 13 && scores.wis >= 13) {
-            return 5;
-        } else {
-            return 0;
-        }
-    }, ["dex", "int"], "Carcass Crawler 2", 6),
-    new OseClass("Dragonborn", "str", ["con", "int"], "Carcass Crawler 3", 8),
-    new OseClass("Tiefling", function(scores) {
-        if (scores.cha >= 16 && scores.dex >= 16) {
-            return 10;
-        } else if (scores.cha >= 13 || scores.dex >= 13) {
-            return 5;
-        } else {
-            return 0;
-        }
-    }, ["int"], "Carcass Crawler 3", 6),
+    new OseClass("Arcane Bard", "10@cha16+dex13|cha13+dex16,5@cha13+dex13,0", ["int"], "Carcass Crawler 0", 6),
+    new OseClass("Beast Master", "10@str16+wis16,5@str13|wis13,0", [], "Carcass Crawler 0 and 3", 6),
+    new OseClass("Changeling", "10@cha16+dex16,5@cha13|dex13,0", ["int"], "Carcass Crawler 0", 6),
+    new OseClass("Chaos Knight", "10@str16+wis16,5@str13|wis13,0", ["cha"], "Carcass Crawler 0", 8),
+    new OseClass("Mage", "10@int16+wis13,5@int13+wis13,0", [], "Carcass Crawler 0 and 1", 6),
+    new OseClass("Mutoid", "10@dex16,5@dex13,0@dex9,-10@dex6,-20", [], "Carcass Crawler 0 and 3", 6),
+    new OseClass("Mycelian", "10@str16,5@str13,0@str9,-10@str6,-20", ["con"], "Carcass Crawler 0 and 3", 8),
+    new OseClass("Warden", "10@str16,5@str13,0@str9,-10@str6,-20", ["con", "wis"], "Carcass Crawler 0", 8),
+    new OseClass("Acolyte", "10@wis16,5@wis13,0@wis9,-10@wis6,-20", [], "Carcass Crawler 1", 6),
+    new OseClass("Gargantua", "10@str16+con13,5@str13+con13,0", ["con", "str"], "Carcass Crawler 1", 10),
+    new OseClass("Goblin", "10@dex16+str16,5@dex13|str13,0", ["dex"], "Carcass Crawler 1", 6),
+    new OseClass("Hephaestan", "10@int16+wis13,5@int13|wis13,0", ["cha", "con"], "Carcass Crawler 1", 6),
+    new OseClass("Kineticist", "10@dex16+wis16,5@dex13+wis13,0", [], "Carcass Crawler 1", 6),
+    new OseClass("Phase Elf", "10@int16+str13,5@int13+str13,0", ["int"], "Carcass Crawler 2", 6),
+    new OseClass("Wood Elf", "10@dex16+wis13,5@dex13+wis13,0", ["dex", "int"], "Carcass Crawler 2", 6),
+    new OseClass("Dragonborn", "10@str16,5@str13,0@str9,-10@str6,-20", ["con", "int"], "Carcass Crawler 3", 8),
+    new OseClass("Tiefling", "10@cha16+dex16,5@cha13|dex13,0", ["int"], "Carcass Crawler 3", 6),
     // Other
-    new OseClass("Necromancer", "int", ["wis"], "The Necromancer", 4)
+    new OseClass("Necromancer", "10@int16,5@int13,0@int9,-10@int6,-20", ["wis"], "The Necromancer", 4)
 ]
 
 function getOseClasses(allowedSources) {
     return OseClasses.filter(c => allowedSources.some(source => c.source.startsWith(source)));
 }
 
-function getExpBonus(classData, scores) {
-    if (typeof classData.primeRequisite === "string") {
-        let primeRequisite = classData.primeRequisite;
+// Prime Requisite DSL Syntax:
+// Format: bonus@condition,bonus@condition,...,defaultBonus
+// - Bonuses are numbers (10, 5, 0, -10, -20, etc.)
+// - Conditions match scores using ability+threshold format (e.g., wis13, str16)
+// - Multiple conditions are combined with operators:
+//   + (AND): all must pass (e.g., int16+dex13 requires int>=16 AND dex>=13)
+//   | (OR):  at least one must pass (e.g., str13|dex13 requires str>=13 OR dex>=13)
+// - Rules are evaluated in order; first match wins
+// - The final segment without @ is the default fallback bonus
+// Examples:
+//   "10@wis16,5@wis13,0@wis9,-10@wis6,-20" - standard single-stat progression
+//   "10@int16+dex13,5@int13+dex13,0" - dual-stat with AND condition
+//   "10@str16|dex16,5@str13|dex13,0" - dual-stat with OR condition
 
-        if (scores[primeRequisite] >= 16) {
-            return 10;
-        } else if (scores[primeRequisite] >= 13) {
-            return 5;
-        } else if (scores[primeRequisite] >= 9) {
-            return 0;
-        } else if (scores[primeRequisite] >= 6) {
-            return -10;
-        } else {
-            return -20;
+function meetsPrimeRequisiteClause(scores, clause) {
+    let checks = clause.split("+").map(check => check.trim()).filter(check => check.length > 0);
+
+    return checks.every(check => {
+        let match = check.match(/^([a-z]+)(\d+)$/);
+
+        if (match === null) {
+            return false;
         }
-    } else if (typeof classData.primeRequisite === "function") {
-        return classData.primeRequisite(scores);
+
+        let ability = match[1];
+        let minimum = Number(match[2]);
+
+        return scores[ability] >= minimum;
+    });
+}
+
+function meetsPrimeRequisiteCondition(scores, condition) {
+    let clauses = condition.split("|").map(clause => clause.trim()).filter(clause => clause.length > 0);
+
+    if (clauses.length === 0) {
+        return false;
     }
+
+    return clauses.some(clause => meetsPrimeRequisiteClause(scores, clause));
+}
+
+function getRuleBasedExpBonus(primeRequisiteSpec, scores) {
+    let rules = primeRequisiteSpec.split(",").map(rule => rule.trim()).filter(rule => rule.length > 0);
+
+    for (let i = 0; i < rules.length; i++) {
+        let rule = rules[i];
+        let atIndex = rule.indexOf("@");
+
+        if (atIndex === -1) {
+            return Number(rule);
+        }
+
+        let bonus = Number(rule.slice(0, atIndex));
+        let condition = rule.slice(atIndex + 1);
+
+        if (meetsPrimeRequisiteCondition(scores, condition)) {
+            return bonus;
+        }
+    }
+
+    return 0;
+}
+
+function getExpBonus(classData, scores) {
+    return getRuleBasedExpBonus(classData.primeRequisite, scores);
 }
