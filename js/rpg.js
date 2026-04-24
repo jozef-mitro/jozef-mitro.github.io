@@ -5,9 +5,14 @@ import { getOseClasses } from "./ose_classes_data.js";
 document.addEventListener("DOMContentLoaded", () => {
     const characterForm = document.getElementById("characterGeneratorForm");
     const nameForm = document.getElementById("nameGeneratorForm");
+    const copyCharactersButton = document.getElementById("copyCharacters");
 
     if (characterForm !== null) {
         characterForm.addEventListener("submit", generateCharacters);
+    }
+
+    if (copyCharactersButton !== null) {
+        copyCharactersButton.addEventListener("click", copyCharactersTable);
     }
 
     if (nameForm !== null) {
@@ -153,6 +158,70 @@ function generateCharacters(event) {
             </tbody>
         </table>
     `;
+
+    setCopyCharactersEnabled(characters.length > 0);
+    setCopyCharactersStatus("");
+}
+
+async function copyCharactersTable() {
+    const table = document.querySelector("#characters table");
+
+    if (table === null) {
+        setCopyCharactersStatus("Generate characters first.");
+        return;
+    }
+
+    const tableText = Array.from(table.rows, row => Array.from(
+        row.cells,
+        cell => cell.textContent.replaceAll(/\s+/g, " ").trim()
+    ).join("\t")).join("\n");
+
+    try {
+        await writeClipboardText(tableText);
+        setCopyCharactersStatus("Character table copied.");
+    } catch (error) {
+        console.error("Failed to copy character table.", error);
+        setCopyCharactersStatus("Clipboard copy failed.");
+    }
+}
+
+async function writeClipboardText(text) {
+    if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        return;
+    }
+
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.setAttribute("readonly", "");
+    textArea.style.position = "fixed";
+    textArea.style.opacity = "0";
+    document.body.appendChild(textArea);
+    textArea.select();
+
+    try {
+        if (!document.execCommand("copy")) {
+            throw new Error("document.execCommand('copy') returned false.");
+        }
+    } finally {
+        document.body.removeChild(textArea);
+    }
+}
+
+function setCopyCharactersEnabled(isEnabled) {
+    const copyCharactersButton = document.getElementById("copyCharacters");
+
+    if (copyCharactersButton !== null) {
+        copyCharactersButton.disabled = !isEnabled;
+    }
+}
+
+function setCopyCharactersStatus(message) {
+    const copyCharactersStatus = document.getElementById("copyCharactersStatus");
+
+    if (copyCharactersStatus !== null) {
+        copyCharactersStatus.textContent = message;
+    }
 }
 
 function roll3d6() {

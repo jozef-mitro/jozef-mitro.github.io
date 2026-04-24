@@ -41,7 +41,11 @@
                 The Necromancer
             </span>
             <br>
-            <button type="submit">Generate Characters</button>
+            <div class="button-row">
+                <button type="submit">Generate Characters</button>
+                <button type="button" id="copyCharacters" disabled>Save to Clipboard</button>
+            </div>
+            <output id="copyCharactersStatus" class="inline-status" aria-live="polite"></output>
             <div class="table-wrapper">
                 <div id="characters"></div>
             </div>
