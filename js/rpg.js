@@ -78,8 +78,6 @@ function generateCharacters(event) {
         character.level = 1;
         character.currentXp = 0;
         character.nextXp = 0; // character.class.expTable[character.level];
-        // TNL as percentage of progress to next level.
-        character.tnl = 100; // Math.round(character.currentXp / character.nextXp * 100);
         character.expBonus = character.class.expBonus;
         // Alignment is randomly chosen from Lawful, Neutral, and Chaotic.
         character.alignment = ["Lawful", "Neutral", "Chaotic"][Math.floor(Math.random() * 3)];
@@ -100,7 +98,7 @@ function generateCharacters(event) {
 
     const charactersElement = document.getElementById("characters");
     const headers = [
-        "Name", "Pronouns", "Class", "Level", "Current XP", "Next XP", "TNL", "XP Bonus", "Alignment",
+        "Name", "Pronouns", "Class", "Level", "Current XP", "Next XP", "XP Bonus", "Alignment",
         "STR", "INT", "WIS", "DEX", "CON", "CHA", "Death", "Wand", "Paralysis", "Breath", "Spell",
         "Current HP", "Max HP", "AC", "AB", "Movement", "Background", "Languages", "Notes"
     ];
@@ -121,7 +119,6 @@ function generateCharacters(event) {
             character.level,
             character.currentXp,
             character.nextXp,
-            character.tnl,
             character.expBonus,
             character.alignment,
             `${character.scores.str} (${character.modifiers.str})`,
