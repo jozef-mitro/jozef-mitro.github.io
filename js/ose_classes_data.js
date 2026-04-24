@@ -1,4 +1,6 @@
-let OseClasses = [
+import { OseClass } from "./ose_classes.js";
+
+export const OseClasses = [
     new OseClass("Cleric", "10@wis16,5@wis13,0@wis9,-10@wis6,-20", "", "Classic Fantasy", 6, "11,12,14,16,15"),
     new OseClass("Dwarf", "10@str16,5@str13,0@str9,-10@str6,-20", "con", "Classic Fantasy", 8, "8,9,10,13,12"),
     new OseClass("Elf", "10@int16+str13,5@int13+str13,0", "int", "Classic Fantasy", 6, "12,13,13,15,15"),
@@ -45,3 +47,7 @@ let OseClasses = [
     new OseClass("Dwarf Runesmith", "10@str16+int13,5@str13+int13,0", "con,int", "Carcass Crawler 5", 8, "8,9,10,13,12"),
     new OseClass("Necromancer", "10@int16,5@int13,0@int9,-10@int6,-20", "wis", "The Necromancer", 4, "13,14,13,16,15")
 ];
+
+export function getOseClasses(allowedSources) {
+    return OseClasses.filter(c => allowedSources.some(source => c.source.startsWith(source)));
+}

@@ -7,10 +7,7 @@
     <link rel="icon" href="img/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/mvp.css">
     <link rel="stylesheet" href="css/theme.css">
-    <script src="js/rpg.js"></script>
-    <script src="js/ose_classes.js"></script>
-    <script src="js/ose_classes_data.js"></script>
-    <script src="js/names.js"></script>
+    <script type="module" src="js/rpg.js"></script>
 </head>
 
 <body>
@@ -25,7 +22,7 @@
     </header>
     <hr>
     <main>
-        <form>
+        <form id="characterGeneratorForm">
             <h2>OSE Character Generator</h2>
             <label for="numCharacters">Number of Characters:</label>
             <input type="number" id="numCharacters" value="4" min="1" max="20">
@@ -44,12 +41,12 @@
                 The Necromancer
             </span>
             <br>
-            <button onclick="generateCharacters(event)">Generate Characters</button>
+            <button type="submit">Generate Characters</button>
             <div class="table-wrapper">
                 <div id="characters"></div>
             </div>
         </form>
-        <form>
+        <form id="nameGeneratorForm">
             <h2>Name Generator</h2>
             <label for="nameType">Type:</label>
             <select id="nameType">
@@ -59,7 +56,7 @@
             </select>
             <label for="numNames">Number:</label>
             <input type="number" id="numNames" value="10" min="1" max="20">
-            <button onclick="generateNames(event)">Generate Names</button>
+            <button type="submit">Generate Names</button>
             <pre><samp id="names"></samp></pre>
         </form>
     </main>

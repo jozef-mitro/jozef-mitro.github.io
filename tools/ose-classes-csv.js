@@ -69,7 +69,7 @@ function importCsvToJs(inputCsvPath, outputJsPath) {
 		return `    new OseClass("${escapeJsString(name)}", "${escapeJsString(primeRequisite)}", "${escapeJsString(requirements)}", "${escapeJsString(source)}", ${hitDie}, "${escapeJsString(saves)}")`;
 	});
 
-	const jsOutput = `let OseClasses = [\n${rows.join(",\n")}\n];\n`;
+	const jsOutput = `import { OseClass } from "./ose_classes.js";\n\nexport const OseClasses = [\n${rows.join(",\n")}\n];\n\nexport function getOseClasses(allowedSources) {\n    return OseClasses.filter(c => allowedSources.some(source => c.source.startsWith(source)));\n}\n`;
 
 	fs.writeFileSync(outputJsPath, jsOutput, "utf8");
 }
@@ -120,6 +120,7 @@ function printUsage() {
 	console.log("Usage:");
 	console.log("  node tools/ose-classes-csv.js import <input.csv> <output.js>");
 	console.log("  node tools/ose-classes-csv.js export <input.js> <output.csv>");
+	console.log("  (When importing to js/ose_classes_data.js, import path is set to ./ose_classes.js)");
 }
 
 function main() {

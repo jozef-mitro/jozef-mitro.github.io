@@ -1,3 +1,20 @@
+import { getAllNames, getSingleName } from "./names.js";
+import { OseClass, getExpBonus } from "./ose_classes.js";
+import { getOseClasses } from "./ose_classes_data.js";
+
+document.addEventListener("DOMContentLoaded", () => {
+    const characterForm = document.getElementById("characterGeneratorForm");
+    const nameForm = document.getElementById("nameGeneratorForm");
+
+    if (characterForm !== null) {
+        characterForm.addEventListener("submit", generateCharacters);
+    }
+
+    if (nameForm !== null) {
+        nameForm.addEventListener("submit", generateNames);
+    }
+});
+
 function generateCharacters(event) {
     event.preventDefault();
 

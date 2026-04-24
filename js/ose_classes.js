@@ -1,4 +1,4 @@
-class OseClass {
+export class OseClass {
     constructor (name, primeRequisite, requirements, source, hitDie, saves) {
         this.name = name;
         this.primeRequisite = primeRequisite;
@@ -42,10 +42,6 @@ class OseClass {
     toCsvLine(delimiter = ";") {
         return [this.name, this.primeRequisite, this.requirements, this.source, this.hitDie, this.saves].join(delimiter);
     }
-}
-
-function getOseClasses(allowedSources) {
-    return OseClasses.filter(c => allowedSources.some(source => c.source.startsWith(source)));
 }
 
 // Prime Requisite DSL Syntax:
@@ -111,6 +107,6 @@ function getRuleBasedExpBonus(primeRequisiteSpec, scores) {
     return 0;
 }
 
-function getExpBonus(classData, scores) {
+export function getExpBonus(classData, scores) {
     return getRuleBasedExpBonus(classData.primeRequisite, scores);
 }
