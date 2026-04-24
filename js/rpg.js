@@ -166,11 +166,13 @@ function getCharacterClass(scores, allowedSources) {
 
     // Leave only the classes that the character qualifies for.
     let validClasses = availableClasses.filter(characterClass => {
-        if (characterClass.requirements.length === 0) {
+        let requirements = OseClass.parseRequirements(characterClass.requirements);
+
+        if (requirements.length === 0) {
             return true;
         }
 
-        return characterClass.requirements.every(score => scores[score] >= 9);
+        return requirements.every(score => scores[score] >= 9);
     });
 
     // Calculate the experience bonus for each valid class.
