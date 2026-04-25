@@ -64,23 +64,31 @@ function importCsvToJs(inputCsvPath, outputJsPath) {
 	}
 
 	const header = splitCsvLine(lines[0]);
-	const hasXpColumn = header.length >= 7 && header[6] === "xp";
-	const hasLanguagesColumn = header.length >= 8 && header[7] === "languages";
 
-	if (header.length < 6 || header[0] !== "name" || header[5] !== "saves") {
-		throw new Error("Invalid CSV header. Expected: name;primeRequisite;requirements;source;hitDie;saves(;xp;languages)");
+	if (
+		header.length !== 8 ||
+		header[0] !== "name" ||
+		header[1] !== "primeRequisite" ||
+		header[2] !== "requirements" ||
+		header[3] !== "source" ||
+		header[4] !== "hitDie" ||
+		header[5] !== "saves" ||
+		header[6] !== "xp" ||
+		header[7] !== "languages"
+	) {
+		throw new Error("Invalid CSV header. Expected: name;primeRequisite;requirements;source;hitDie;saves;xp;languages");
 	}
 
 	const rows = lines.slice(1).map((line, index) => {
 		const rowNumber = index + 2;
 		const parts = splitCsvLine(line);
-		const expectedFieldCount = hasLanguagesColumn ? 8 : (hasXpColumn ? 7 : 6);
+		const expectedFieldCount = 8;
 
 		if (parts.length !== expectedFieldCount) {
 			throw new Error(`Invalid CSV row ${rowNumber}. Expected ${expectedFieldCount} fields but got ${parts.length}.`);
 		}
 
-		const [name, primeRequisite, requirements, source, hitDieRaw, saves, xp = "", languages = ""] = parts;
+		const [name, primeRequisite, requirements, source, hitDieRaw, saves, xp, languages] = parts;
 		const hitDie = Number(hitDieRaw);
 
 		if (Number.isNaN(hitDie)) {
@@ -88,20 +96,9 @@ function importCsvToJs(inputCsvPath, outputJsPath) {
 		}
 
 		validateSaves(saves, rowNumber);
+		validateXpTable(xp, rowNumber);
 
-		if (hasXpColumn) {
-			validateXpTable(xp, rowNumber);
-		}
-
-		if (hasLanguagesColumn) {
-			return `    new OseClass("${escapeJsString(name)}", "${escapeJsString(primeRequisite)}", "${escapeJsString(requirements)}", "${escapeJsString(source)}", ${hitDie}, "${escapeJsString(saves)}", "${escapeJsString(xp)}", "${escapeJsString(languages)}")`;
-		}
-
-		if (hasXpColumn) {
-			return `    new OseClass("${escapeJsString(name)}", "${escapeJsString(primeRequisite)}", "${escapeJsString(requirements)}", "${escapeJsString(source)}", ${hitDie}, "${escapeJsString(saves)}", "${escapeJsString(xp)}")`;
-		}
-
-		return `    new OseClass("${escapeJsString(name)}", "${escapeJsString(primeRequisite)}", "${escapeJsString(requirements)}", "${escapeJsString(source)}", ${hitDie}, "${escapeJsString(saves)}")`;
+		return `    new OseClass("${escapeJsString(name)}", "${escapeJsString(primeRequisite)}", "${escapeJsString(requirements)}", "${escapeJsString(source)}", ${hitDie}, "${escapeJsString(saves)}", "${escapeJsString(xp)}", "${escapeJsString(languages)}")`;
 	});
 
 	const jsOutput = `import { OseClass } from "./ose_classes.js";\n\nexport const OseClasses = [\n${rows.join(",\n")}\n];\n\nexport function getOseClasses(allowedSources) {\n    return OseClasses.filter(c => allowedSources.some(source => c.source.startsWith(source)));\n}\n`;
@@ -159,7 +156,7 @@ function printUsage() {
 	console.log("Usage:");
 	console.log("  node tools/ose-classes-csv.js import <input.csv> <output.js>");
 	console.log("  node tools/ose-classes-csv.js export <input.js> <output.csv>");
-	console.log("  (When importing to js/ose_classes_data.js, import path is set to ./ose_classes.js)");
+	console.log("  (CSV must contain: name;primeRequisite;requirements;source;hitDie;saves;xp;languages)");
 }
 
 function main() {
