@@ -139,6 +139,17 @@ function generateCharacters(event) {
 
         character.currentHp = character.maxHp;
         character.background = rollBackground();
+        character.languages = ["Common", character.alignment];
+
+        if (character.class.languages && character.class.languages.length > 0) {
+            character.languages.push(...character.class.languages);
+        }
+
+        const additionalLanguages = pickAdditionalLanguages(character.modifiers.int, character.class.languages || []);
+        if (additionalLanguages.length > 0) {
+            character.languages.push(...additionalLanguages);
+        }
+
         characters.push(character);
     }
 
@@ -157,18 +168,7 @@ function generateCharacters(event) {
         const breathSave = character.class.saves.breath ?? placeholder;
         const spellSave = character.class.saves.spell ?? placeholder;
 
-        const languagesList = ["Common", character.alignment];
-        
-        if (character.class.languages && character.class.languages.length > 0) {
-            languagesList.push(...character.class.languages);
-        }
-
-        const additionalLanguages = pickAdditionalLanguages(character.modifiers.int, character.class.languages || []);
-        if (additionalLanguages.length > 0) {
-            languagesList.push(...additionalLanguages);
-        }
-
-        const languages = languagesList.join(", ");
+        const languages = (character.languages || []).join(", ");
 
         const cells = [
             character.name,
