@@ -90,7 +90,6 @@ function generateCharacters(event) {
         let conModifierNumber = parseInt(character.modifiers.con);
         let hitDieSize = character.class.hitDie;
         character.maxHp = Math.max(3, Math.floor(Math.random() * hitDieSize) + 1) + conModifierNumber;
-        console.debug(`Rolled HP for ${character.name}: ${character.maxHp} (Con modifier: ${conModifierNumber})`);
 
         // Roll hit points for the rest of the levels. Don't reroll 1s and 2s.
         for (let j = 2; j <= character.level; j++) {
@@ -104,7 +103,7 @@ function generateCharacters(event) {
 
     const charactersElement = document.getElementById("characters");
     const headers = [
-        "Name", "Pronouns", "Class", "Level", "Current XP", "Next XP", "XP Bonus", "Alignment",
+        "Name", "Pronouns", "Class", "Alignment", "Level", "Current XP", "Next XP", "XP Bonus",
         "STR", "INT", "WIS", "DEX", "CON", "CHA", "Death", "Wand", "Paralysis", "Breath", "Spell",
         "Current HP", "Max HP", "AC", "AB", "Movement", "Background", "Languages", "Notes"
     ];
@@ -121,11 +120,11 @@ function generateCharacters(event) {
             character.name,
             character.pronouns,
             character.class.name,
+            character.alignment,
             character.level,
             character.currentXp,
             character.nextXp,
             character.expBonus + "%",
-            character.alignment,
             `${character.scores.str} (${character.modifiers.str})`,
             `${character.scores.int} (${character.modifiers.int})`,
             `${character.scores.wis} (${character.modifiers.wis})`,
