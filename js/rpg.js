@@ -124,7 +124,7 @@ function generateCharacters(event) {
             character.level,
             character.currentXp,
             character.nextXp,
-            character.expBonus,
+            character.expBonus + "%",
             character.alignment,
             `${character.scores.str} (${character.modifiers.str})`,
             `${character.scores.int} (${character.modifiers.int})`,
