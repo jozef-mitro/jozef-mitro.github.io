@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const characterForm = document.getElementById("characterGeneratorForm");
     const nameForm = document.getElementById("nameGeneratorForm");
     const copyCharactersButton = document.getElementById("copyCharacters");
+    const copyNamesButton = document.getElementById("copyNames");
 
     if (characterForm !== null) {
         characterForm.addEventListener("submit", generateCharacters);
@@ -17,6 +18,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (nameForm !== null) {
         nameForm.addEventListener("submit", generateNames);
+    }
+
+    if (copyNamesButton !== null) {
+        copyNamesButton.addEventListener("click", copyNamesTable);
     }
 });
 
@@ -301,4 +306,44 @@ function generateNames(event) {
             </tbody>
         </table>
     `;
+
+    setCopyNamesEnabled(pickedNames.length > 0);
+    setCopyNamesStatus("");
+}
+
+async function copyNamesTable() {
+    const table = document.querySelector("#names table");
+
+    if (table === null) {
+        setCopyNamesStatus("Generate names first.");
+        return;
+    }
+
+    const tableText = Array.from(table.tBodies[0]?.rows ?? [], row =>
+        row.cells[0].textContent.trim()
+    ).join("\n");
+
+    try {
+        await writeClipboardText(tableText);
+        setCopyNamesStatus("Names copied.");
+    } catch (error) {
+        console.error("Failed to copy names.", error);
+        setCopyNamesStatus("Clipboard copy failed.");
+    }
+}
+
+function setCopyNamesEnabled(isEnabled) {
+    const copyNamesButton = document.getElementById("copyNames");
+
+    if (copyNamesButton !== null) {
+        copyNamesButton.disabled = !isEnabled;
+    }
+}
+
+function setCopyNamesStatus(message) {
+    const copyNamesStatus = document.getElementById("copyNamesStatus");
+
+    if (copyNamesStatus !== null) {
+        copyNamesStatus.textContent = message;
+    }
 }
