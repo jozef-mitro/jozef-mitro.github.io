@@ -65,21 +65,22 @@ function importCsvToJs(inputCsvPath, outputJsPath) {
 
 	const header = splitCsvLine(lines[0]);
 	const hasXpColumn = header.length >= 7 && header[6] === "xp";
+	const hasLanguagesColumn = header.length >= 8 && header[7] === "languages";
 
 	if (header.length < 6 || header[0] !== "name" || header[5] !== "saves") {
-		throw new Error("Invalid CSV header. Expected: name;primeRequisite;requirements;source;hitDie;saves(;xp)");
+		throw new Error("Invalid CSV header. Expected: name;primeRequisite;requirements;source;hitDie;saves(;xp;languages)");
 	}
 
 	const rows = lines.slice(1).map((line, index) => {
 		const rowNumber = index + 2;
 		const parts = splitCsvLine(line);
-		const expectedFieldCount = hasXpColumn ? 7 : 6;
+		const expectedFieldCount = hasLanguagesColumn ? 8 : (hasXpColumn ? 7 : 6);
 
 		if (parts.length !== expectedFieldCount) {
 			throw new Error(`Invalid CSV row ${rowNumber}. Expected ${expectedFieldCount} fields but got ${parts.length}.`);
 		}
 
-		const [name, primeRequisite, requirements, source, hitDieRaw, saves, xp = ""] = parts;
+		const [name, primeRequisite, requirements, source, hitDieRaw, saves, xp = "", languages = ""] = parts;
 		const hitDie = Number(hitDieRaw);
 
 		if (Number.isNaN(hitDie)) {
@@ -90,6 +91,10 @@ function importCsvToJs(inputCsvPath, outputJsPath) {
 
 		if (hasXpColumn) {
 			validateXpTable(xp, rowNumber);
+		}
+
+		if (hasLanguagesColumn) {
+			return `    new OseClass("${escapeJsString(name)}", "${escapeJsString(primeRequisite)}", "${escapeJsString(requirements)}", "${escapeJsString(source)}", ${hitDie}, "${escapeJsString(saves)}", "${escapeJsString(xp)}", "${escapeJsString(languages)}")`;
 		}
 
 		if (hasXpColumn) {
@@ -105,7 +110,7 @@ function importCsvToJs(inputCsvPath, outputJsPath) {
 }
 
 function parseJsOseClassArguments(content) {
-	const constructorRegex = /new\s+OseClass\(\s*"((?:\\.|[^"])*)"\s*,\s*"((?:\\.|[^"])*)"\s*,\s*"((?:\\.|[^"])*)"\s*,\s*"((?:\\.|[^"])*)"\s*,\s*(\d+)\s*,\s*"((?:\\.|[^"])*)"\s*(?:,\s*"((?:\\.|[^"])*)"\s*)?\)/g;
+	const constructorRegex = /new\s+OseClass\(\s*"((?:\\.|[^"])*)"\s*,\s*"((?:\\.|[^"])*)"\s*,\s*"((?:\\.|[^"])*)"\s*,\s*"((?:\\.|[^"])*)"\s*,\s*(\d+)\s*,\s*"((?:\\.|[^"])*)"\s*(?:,\s*"((?:\\.|[^"])*)"\s*)?(?:,\s*"((?:\\.|[^"])*)"\s*)?\)/g;
 	const classes = [];
 	let match = constructorRegex.exec(content);
 
@@ -117,7 +122,8 @@ function parseJsOseClassArguments(content) {
 			source: unescapeJsString(match[4]),
 			hitDie: Number(match[5]),
 			saves: unescapeJsString(match[6] || ""),
-			xp: unescapeJsString(match[7] || "")
+			xp: unescapeJsString(match[7] || ""),
+			languages: unescapeJsString(match[8] || "")
 		});
 
 		match = constructorRegex.exec(content);
@@ -134,7 +140,7 @@ function exportJsToCsv(inputJsPath, outputCsvPath) {
 		throw new Error("No OseClass entries found in JS file.");
 	}
 
-	const header = "name;primeRequisite;requirements;source;hitDie;saves;xp";
+	const header = "name;primeRequisite;requirements;source;hitDie;saves;xp;languages";
 	const lines = classes.map(c => [
 		c.name,
 		c.primeRequisite,
@@ -142,7 +148,8 @@ function exportJsToCsv(inputJsPath, outputCsvPath) {
 		c.source,
 		c.hitDie,
 		c.saves,
-		c.xp
+		c.xp,
+		c.languages
 	].join(";"));
 
 	fs.writeFileSync(outputCsvPath, `${header}\n${lines.join("\n")}\n`, "utf8");

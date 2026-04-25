@@ -3,6 +3,37 @@ import { getOseClasses } from "./ose_classes_data.js";
 import { rollBackground } from "./backgrounds.js";
 import { writeClipboardText } from "./utils.js";
 
+const ADDITIONAL_LANGUAGES = [
+    "Arachnid",
+    "Deepcommon",
+    "Bugbear",
+    "Doppelgänger",
+    "Dragon",
+    "Druidic",
+    "Dryad",
+    "Dwarvish",
+    "Elvish",
+    "Fossorial",
+    "Gargoyle",
+    "Gnoll",
+    "Gnomish",
+    "Goblin",
+    "Halfling",
+    "Harpy",
+    "Hephaestan",
+    "Hobgoblin",
+    "Kobold",
+    "Lizard man",
+    "Lupine",
+    "Medusa",
+    "Minotaur",
+    "Murine",
+    "Ogre",
+    "Orcish",
+    "Pixie",
+    "Terran"
+];
+
 document.addEventListener("DOMContentLoaded", () => {
     const characterForm = document.getElementById("characterGeneratorForm");
     const copyCharactersButton = document.getElementById("copyCharacters");
@@ -15,6 +46,25 @@ document.addEventListener("DOMContentLoaded", () => {
         copyCharactersButton.addEventListener("click", copyCharactersTable);
     }
 });
+
+function pickAdditionalLanguages(intModifier, classLanguages = []) {
+    const numAdditional = Math.max(0, parseInt(intModifier));
+    
+    if (numAdditional === 0) {
+        return [];
+    }
+
+    const picked = [];
+    const available = ADDITIONAL_LANGUAGES.filter(lang => !classLanguages.includes(lang));
+
+    for (let i = 0; i < numAdditional && available.length > 0; i++) {
+        const index = Math.floor(Math.random() * available.length);
+        picked.push(available[index]);
+        available.splice(index, 1);
+    }
+
+    return picked;
+}
 
 function generateCharacters(event) {
     event.preventDefault();
@@ -107,6 +157,19 @@ function generateCharacters(event) {
         const breathSave = character.class.saves.breath ?? placeholder;
         const spellSave = character.class.saves.spell ?? placeholder;
 
+        const languagesList = ["Common", character.alignment];
+        
+        if (character.class.languages && character.class.languages.length > 0) {
+            languagesList.push(...character.class.languages);
+        }
+
+        const additionalLanguages = pickAdditionalLanguages(character.modifiers.int, character.class.languages || []);
+        if (additionalLanguages.length > 0) {
+            languagesList.push(...additionalLanguages);
+        }
+
+        const languages = languagesList.join(", ");
+
         const cells = [
             character.name,
             character.pronouns,
@@ -133,7 +196,7 @@ function generateCharacters(event) {
             placeholder,
             placeholder,
             character.background,
-            placeholder,
+            languages,
             placeholder
         ];
 
