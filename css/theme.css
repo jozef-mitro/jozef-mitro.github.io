@@ -65,3 +65,9 @@ main {
     text-transform: uppercase;
     padding-bottom: 0.5rem;
 }
+
+#names .stat-table {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}

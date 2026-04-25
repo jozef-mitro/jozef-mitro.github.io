@@ -293,5 +293,12 @@ function generateNames(event) {
     }
 
     let namesElement = document.getElementById("names");
-    namesElement.innerHTML = pickedNames.join("<br>");
+    const rows = pickedNames.map(name => `<tr><td>${name}</td></tr>`).join("");
+    namesElement.innerHTML = `
+        <table class="stat-table">
+            <tbody>
+                ${rows}
+            </tbody>
+        </table>
+    `;
 }
