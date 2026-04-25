@@ -154,12 +154,35 @@ function generateCharacters(event) {
     }
 
     const charactersElement = document.getElementById("characters");
-    const headers = [
-        "Name", "Pronouns", "Class", "Alignment", "Level", "Current XP", "Next XP", "XP Bonus",
-        "STR", "INT", "WIS", "DEX", "CON", "CHA", "Death", "Wand", "Paralysis", "Breath", "Spell",
-        "Current HP", "Max HP", "AC", "AB", "Movement", "Background", "Languages", "Notes"
-    ];
     const placeholder = "-";
+
+    const superHeaders = `
+        <tr>
+            <th rowspan="2">Name</th>
+            <th rowspan="2">Pronouns</th>
+            <th rowspan="2">Class</th>
+            <th rowspan="2">Alignment</th>
+            <th colspan="4">Experience</th>
+            <th colspan="6">Ability Scores</th>
+            <th colspan="5">Saving Throws</th>
+            <th colspan="2">Hit Points</th>
+            <th rowspan="2">AC</th>
+            <th colspan="2">Melee</th>
+            <th colspan="4">Ranged</th>
+            <th rowspan="2">Mov</th>
+            <th rowspan="2">Background</th>
+            <th rowspan="2">Languages</th>
+            <th rowspan="2">Notes</th>
+        </tr>`;
+    const subHeaders = `
+        <tr>
+            <th>Level</th><th>Current XP</th><th>Next Lvl XP</th><th>XP Bonus</th>
+            <th>STR</th><th>INT</th><th>WIS</th><th>DEX</th><th>CON</th><th>CHA</th>
+            <th>D</th><th>W</th><th>P</th><th>B</th><th>S</th>
+            <th>Current</th><th>Max</th>
+            <th>AB</th><th>DMG</th>
+            <th>AB</th><th>DMG</th><th>Range</th><th>Ammo</th>
+        </tr>`;
 
     const rows = characters.map(character => {
         const deathSave = character.class.saves.death ?? placeholder;
@@ -195,6 +218,11 @@ function generateCharacters(event) {
             placeholder,
             placeholder,
             placeholder,
+            placeholder,
+            placeholder,
+            placeholder,
+            placeholder,
+            placeholder,
             character.background,
             languages,
             placeholder
@@ -206,7 +234,8 @@ function generateCharacters(event) {
     charactersElement.innerHTML = `
         <table class="stat-table">
             <thead>
-                <tr>${headers.map(header => `<th>${header}</th>`).join("")}</tr>
+                ${superHeaders}
+                ${subHeaders}
             </thead>
             <tbody>
                 ${rows}

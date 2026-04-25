@@ -56,14 +56,30 @@ main {
 .stat-table th,
 .stat-table td {
     border: none;
-    text-align: left;
-    vertical-align: top;
+    text-align: center;
+    vertical-align: middle;
 }
 
 .stat-table th {
     font-weight: 700;
     text-transform: uppercase;
     padding-bottom: 0.5rem;
+    border-right: 1px solid rgba(215, 215, 210, 0.5);
+}
+
+.stat-table th:last-child {
+    border-right: none;
+}
+
+.stat-table thead tr:first-child th {
+    border-bottom: 1px solid rgba(215, 215, 210, 0.6);
+}
+
+.stat-table thead tr:last-child th {
+    border-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-right: 1px solid rgba(215, 215, 210, 0.5);
 }
 
 #names .stat-table {
