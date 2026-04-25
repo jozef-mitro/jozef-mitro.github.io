@@ -1,12 +1,11 @@
-import { getAllNames, getSingleName } from "./names.js";
+import { getSingleName } from "./names.js";
 import { getOseClasses } from "./ose_classes_data.js";
 import { rollBackground } from "./backgrounds.js";
+import { writeClipboardText } from "./utils.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     const characterForm = document.getElementById("characterGeneratorForm");
-    const nameForm = document.getElementById("nameGeneratorForm");
     const copyCharactersButton = document.getElementById("copyCharacters");
-    const copyNamesButton = document.getElementById("copyNames");
 
     if (characterForm !== null) {
         characterForm.addEventListener("submit", generateCharacters);
@@ -14,14 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (copyCharactersButton !== null) {
         copyCharactersButton.addEventListener("click", copyCharactersTable);
-    }
-
-    if (nameForm !== null) {
-        nameForm.addEventListener("submit", generateNames);
-    }
-
-    if (copyNamesButton !== null) {
-        copyNamesButton.addEventListener("click", copyNamesTable);
     }
 });
 
@@ -186,29 +177,6 @@ async function copyCharactersTable() {
     }
 }
 
-async function writeClipboardText(text) {
-    if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(text);
-        return;
-    }
-
-    const textArea = document.createElement("textarea");
-    textArea.value = text;
-    textArea.setAttribute("readonly", "");
-    textArea.style.position = "fixed";
-    textArea.style.opacity = "0";
-    document.body.appendChild(textArea);
-    textArea.select();
-
-    try {
-        if (!document.execCommand("copy")) {
-            throw new Error("document.execCommand('copy') returned false.");
-        }
-    } finally {
-        document.body.removeChild(textArea);
-    }
-}
-
 function setCopyCharactersEnabled(isEnabled) {
     const copyCharactersButton = document.getElementById("copyCharacters");
 
@@ -280,69 +248,4 @@ function getCharacterClass(scores, allowedSources) {
 
     // If there are multiple classes with the same highest experience bonus, pick one at random.    
     return validClasses[Math.floor(Math.random() * validClasses.length)];
-}
-
-function generateNames(event) {
-    event.preventDefault();
-    
-    let numNames = document.getElementById("numNames").value;
-    let nameType = document.getElementById("nameType").value;
-    let possibleNames = getAllNames(nameType);
-    let pickedNames = [];
-
-    for (let i = 0; i < numNames; i++) {
-        let index = Math.floor(Math.random() * possibleNames.length);
-        pickedNames.push(possibleNames[index]);
-        possibleNames.splice(index, 1);
-    }
-
-    let namesElement = document.getElementById("names");
-    const rows = pickedNames.map(name => `<tr><td>${name}</td></tr>`).join("");
-    namesElement.innerHTML = `
-        <table class="stat-table">
-            <tbody>
-                ${rows}
-            </tbody>
-        </table>
-    `;
-
-    setCopyNamesEnabled(pickedNames.length > 0);
-    setCopyNamesStatus("");
-}
-
-async function copyNamesTable() {
-    const table = document.querySelector("#names table");
-
-    if (table === null) {
-        setCopyNamesStatus("Generate names first.");
-        return;
-    }
-
-    const tableText = Array.from(table.tBodies[0]?.rows ?? [], row =>
-        row.cells[0].textContent.trim()
-    ).join("\n");
-
-    try {
-        await writeClipboardText(tableText);
-        setCopyNamesStatus("Names copied.");
-    } catch (error) {
-        console.error("Failed to copy names.", error);
-        setCopyNamesStatus("Clipboard copy failed.");
-    }
-}
-
-function setCopyNamesEnabled(isEnabled) {
-    const copyNamesButton = document.getElementById("copyNames");
-
-    if (copyNamesButton !== null) {
-        copyNamesButton.disabled = !isEnabled;
-    }
-}
-
-function setCopyNamesStatus(message) {
-    const copyNamesStatus = document.getElementById("copyNamesStatus");
-
-    if (copyNamesStatus !== null) {
-        copyNamesStatus.textContent = message;
-    }
 }
