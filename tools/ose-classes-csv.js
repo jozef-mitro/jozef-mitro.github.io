@@ -32,6 +32,26 @@ function validateSaves(saves, rowNumber) {
 	}
 }
 
+function validateXpTable(xpTable, rowNumber) {
+	if (typeof xpTable !== "string" || xpTable.length === 0) {
+		throw new Error(`Invalid xp at row ${rowNumber}: xp field is empty or missing.`);
+	}
+
+	const xpValues = xpTable.split(",").map(v => v.trim()).filter(v => v.length > 0);
+
+	if (xpValues.length === 0) {
+		throw new Error(`Invalid xp at row ${rowNumber}: expected at least one xp value. XP: ${xpTable}`);
+	}
+
+	for (let i = 0; i < xpValues.length; i++) {
+		const num = Number(xpValues[i]);
+
+		if (!Number.isFinite(num)) {
+			throw new Error(`Invalid xp at row ${rowNumber}: xp value at index ${i} is not a number: "${xpValues[i]}". XP: ${xpTable}`);
+		}
+	}
+}
+
 function importCsvToJs(inputCsvPath, outputJsPath) {
 	const csv = fs.readFileSync(inputCsvPath, "utf8");
 	const lines = csv
@@ -44,20 +64,22 @@ function importCsvToJs(inputCsvPath, outputJsPath) {
 	}
 
 	const header = splitCsvLine(lines[0]);
+	const hasXpColumn = header.length >= 7 && header[6] === "xp";
 
 	if (header.length < 6 || header[0] !== "name" || header[5] !== "saves") {
-		throw new Error("Invalid CSV header. Expected: name;primeRequisite;requirements;source;hitDie;saves");
+		throw new Error("Invalid CSV header. Expected: name;primeRequisite;requirements;source;hitDie;saves(;xp)");
 	}
 
 	const rows = lines.slice(1).map((line, index) => {
 		const rowNumber = index + 2;
 		const parts = splitCsvLine(line);
+		const expectedFieldCount = hasXpColumn ? 7 : 6;
 
-		if (parts.length !== 6) {
-			throw new Error(`Invalid CSV row ${rowNumber}. Expected 6 fields but got ${parts.length}.`);
+		if (parts.length !== expectedFieldCount) {
+			throw new Error(`Invalid CSV row ${rowNumber}. Expected ${expectedFieldCount} fields but got ${parts.length}.`);
 		}
 
-		const [name, primeRequisite, requirements, source, hitDieRaw, saves] = parts;
+		const [name, primeRequisite, requirements, source, hitDieRaw, saves, xp = ""] = parts;
 		const hitDie = Number(hitDieRaw);
 
 		if (Number.isNaN(hitDie)) {
@@ -65,6 +87,14 @@ function importCsvToJs(inputCsvPath, outputJsPath) {
 		}
 
 		validateSaves(saves, rowNumber);
+
+		if (hasXpColumn) {
+			validateXpTable(xp, rowNumber);
+		}
+
+		if (hasXpColumn) {
+			return `    new OseClass("${escapeJsString(name)}", "${escapeJsString(primeRequisite)}", "${escapeJsString(requirements)}", "${escapeJsString(source)}", ${hitDie}, "${escapeJsString(saves)}", "${escapeJsString(xp)}")`;
+		}
 
 		return `    new OseClass("${escapeJsString(name)}", "${escapeJsString(primeRequisite)}", "${escapeJsString(requirements)}", "${escapeJsString(source)}", ${hitDie}, "${escapeJsString(saves)}")`;
 	});
@@ -75,7 +105,7 @@ function importCsvToJs(inputCsvPath, outputJsPath) {
 }
 
 function parseJsOseClassArguments(content) {
-	const constructorRegex = /new\s+OseClass\(\s*"((?:\\.|[^"])*)"\s*,\s*"((?:\\.|[^"])*)"\s*,\s*"((?:\\.|[^"])*)"\s*,\s*"((?:\\.|[^"])*)"\s*,\s*(\d+)\s*(?:,\s*"((?:\\.|[^"])*)"\s*)?\)/g;
+	const constructorRegex = /new\s+OseClass\(\s*"((?:\\.|[^"])*)"\s*,\s*"((?:\\.|[^"])*)"\s*,\s*"((?:\\.|[^"])*)"\s*,\s*"((?:\\.|[^"])*)"\s*,\s*(\d+)\s*,\s*"((?:\\.|[^"])*)"\s*(?:,\s*"((?:\\.|[^"])*)"\s*)?\)/g;
 	const classes = [];
 	let match = constructorRegex.exec(content);
 
@@ -86,7 +116,8 @@ function parseJsOseClassArguments(content) {
 			requirements: unescapeJsString(match[3]),
 			source: unescapeJsString(match[4]),
 			hitDie: Number(match[5]),
-			saves: unescapeJsString(match[6] || "")
+			saves: unescapeJsString(match[6] || ""),
+			xp: unescapeJsString(match[7] || "")
 		});
 
 		match = constructorRegex.exec(content);
@@ -103,14 +134,15 @@ function exportJsToCsv(inputJsPath, outputCsvPath) {
 		throw new Error("No OseClass entries found in JS file.");
 	}
 
-	const header = "name;primeRequisite;requirements;source;hitDie;saves";
+	const header = "name;primeRequisite;requirements;source;hitDie;saves;xp";
 	const lines = classes.map(c => [
 		c.name,
 		c.primeRequisite,
 		c.requirements,
 		c.source,
 		c.hitDie,
-		c.saves
+		c.saves,
+		c.xp
 	].join(";"));
 
 	fs.writeFileSync(outputCsvPath, `${header}\n${lines.join("\n")}\n`, "utf8");

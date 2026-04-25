@@ -1,11 +1,12 @@
 export class OseClass {
-    constructor (name, primeRequisite, requirements, source, hitDie, saves) {
+    constructor (name, primeRequisite, requirements, source, hitDie, saves, expTable) {
         this.name = name;
         this.primeRequisite = primeRequisite;
         this.requirements = typeof requirements === "string" ? requirements : "";
         this.source = source;
         this.hitDie = hitDie;
         this.saves = this.#parseSaves(saves);
+        this.expTable = this.#parseExpTable(expTable);
     }
 
     parseRequirements() {
@@ -40,6 +41,17 @@ export class OseClass {
             breath: Number.isFinite(parsedSaves[3]) ? parsedSaves[3] : null,
             spell: Number.isFinite(parsedSaves[4]) ? parsedSaves[4] : null
         };
+    }
+
+    #parseExpTable(rawExpTable) {
+        if (typeof rawExpTable !== "string") {
+            return [];
+        }
+
+        return rawExpTable
+            .split(",")
+            .map(xp => Number(xp.trim()) * 1000)
+            .filter(xp => Number.isFinite(xp));
     }
 
     getExpBonus(scores) {

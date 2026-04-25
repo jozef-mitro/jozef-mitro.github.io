@@ -82,7 +82,7 @@ function generateCharacters(event) {
         character.class = getCharacterClass(character.scores, allowedSources);
         character.level = 1;
         character.currentXp = 0;
-        character.nextXp = 0; // character.class.expTable[character.level];
+        character.nextXp = character.class.expTable[character.level - 1]; // expTable[0] is the XP required for level 2, expTable[1] is the XP required for level 3, etc.
         character.expBonus = character.class.expBonus;
         // Alignment is randomly chosen from Lawful, Neutral, and Chaotic.
         character.alignment = ["Lawful", "Neutral", "Chaotic"][Math.floor(Math.random() * 3)];
