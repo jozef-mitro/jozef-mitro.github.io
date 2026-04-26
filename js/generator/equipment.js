@@ -1,12 +1,5 @@
 const BROAD_WEAPON_TOKENS = new Set(["blunt", "small", "normal", "missile", "one-handed-melee"]);
 
-function normalizeToken(value) {
-    return String(value)
-        .trim()
-        .toLowerCase()
-        .replace(/\s+/g, "-");
-}
-
 function roundGold(value) {
     return Math.round(value * 100) / 100;
 }
@@ -14,7 +7,6 @@ function roundGold(value) {
 function toLegalWeaponTags(allowedWeapons) {
     return new Set(
         allowedWeapons
-            .map(normalizeToken)
             .filter(token => token.length > 0)
             .map(token => {
                 if (token === "all" || token === "none") {
@@ -33,7 +25,6 @@ function toLegalWeaponTags(allowedWeapons) {
 function toLegalArmourTags(allowedArmour) {
     return new Set(
         allowedArmour
-            .map(normalizeToken)
             .filter(token => token.length > 0)
             .map(token => {
                 if (token === "all" || token === "none") {

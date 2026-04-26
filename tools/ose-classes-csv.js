@@ -65,6 +65,29 @@ function validateForbiddenAlignments(forbiddenAlignments, rowNumber) {
 	}
 }
 
+function validateKebabCsv(fieldName, value, rowNumber) {
+	if (typeof value !== "string" || value.length === 0) {
+		throw new Error(`Invalid ${fieldName} at row ${rowNumber}: value is empty or missing.`);
+	}
+
+	if (/\s/.test(value)) {
+		throw new Error(`Invalid ${fieldName} at row ${rowNumber}: values must not contain spaces. ${fieldName}: ${value}`);
+	}
+
+	const entries = value.split(",");
+	const kebabToken = /^-?[a-z]+(?:-[a-z]+)*$/;
+
+	for (let i = 0; i < entries.length; i++) {
+		const entry = entries[i];
+
+		if (!kebabToken.test(entry)) {
+			throw new Error(
+				`Invalid ${fieldName} at row ${rowNumber}: value at index ${i} must be lowercase kebab-case with an optional leading dash: "${entry}". ${fieldName}: ${value}`
+			);
+		}
+	}
+}
+
 function importCsvToJs(inputCsvPath, outputJsPath) {
 	const csv = fs.readFileSync(inputCsvPath, "utf8");
 	const lines = csv
@@ -114,6 +137,8 @@ function importCsvToJs(inputCsvPath, outputJsPath) {
 		validateSaves(saves, rowNumber);
 		validateXpTable(xp, rowNumber);
 		validateForbiddenAlignments(forbiddenAlignments, rowNumber);
+		validateKebabCsv("armour", armour, rowNumber);
+		validateKebabCsv("weapons", weapons, rowNumber);
 
 		return `    new OseClass("${escapeJsString(name)}", "${escapeJsString(primeRequisite)}", "${escapeJsString(requirements)}", "${escapeJsString(source)}", ${hitDie}, "${escapeJsString(saves)}", "${escapeJsString(xp)}", "${escapeJsString(languages)}", "${escapeJsString(forbiddenAlignments)}", "${escapeJsString(armour)}", "${escapeJsString(weapons)}")`;
 	});
