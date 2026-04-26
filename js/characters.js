@@ -1,5 +1,5 @@
 import { getSingleName } from "./names.js";
-import { getOseClasses } from "./ose_classes_data.js";
+import { OseClasses } from "./ose_classes_data.js";
 import { rollBackground } from "./backgrounds.js";
 import { writeClipboardText } from "./utils.js";
 
@@ -35,10 +35,19 @@ const ADDITIONAL_LANGUAGES = [
 ];
 
 const ALIGNMENTS = ["Lawful", "Neutral", "Chaotic"];
+const SOURCE_CHECKBOXES = [
+    { id: "sourceClassicFantasy", source: "Classic Fantasy" },
+    { id: "sourceAdvancedFantasy", source: "Advanced Fantasy" },
+    { id: "sourceCarcassCrawler", source: "Carcass Crawler" },
+    { id: "sourceTheNecromancer", source: "The Necromancer" }
+];
 
 document.addEventListener("DOMContentLoaded", () => {
     const characterForm = document.getElementById("characterGeneratorForm");
     const copyCharactersButton = document.getElementById("copyCharacters");
+
+    populateAllowedClasses();
+    setupSourceClassSync();
 
     if (characterForm !== null) {
         characterForm.addEventListener("submit", generateCharacters);
@@ -48,6 +57,157 @@ document.addEventListener("DOMContentLoaded", () => {
         copyCharactersButton.addEventListener("click", copyCharactersTable);
     }
 });
+
+function getSourceGroup(sourceText) {
+    if (sourceText.startsWith("Classic Fantasy")) {
+        return "Classic Fantasy";
+    }
+
+    if (sourceText.startsWith("Advanced Fantasy")) {
+        return "Advanced Fantasy";
+    }
+
+    if (sourceText.startsWith("Carcass Crawler")) {
+        return "Carcass Crawler";
+    }
+
+    if (sourceText.startsWith("The Necromancer")) {
+        return "The Necromancer";
+    }
+
+    return "";
+}
+
+function setupSourceClassSync() {
+    const allowedClassesElement = document.getElementById("allowedClasses");
+
+    SOURCE_CHECKBOXES.forEach(sourceConfig => {
+        const sourceCheckbox = document.getElementById(sourceConfig.id);
+
+        if (sourceCheckbox === null) {
+            return;
+        }
+
+        sourceCheckbox.addEventListener("change", () => {
+            sourceCheckbox.indeterminate = false;
+            syncClassesForSource(sourceConfig.source, sourceCheckbox.checked);
+        });
+    });
+
+    if (allowedClassesElement !== null) {
+        allowedClassesElement.addEventListener("change", event => {
+            const target = event.target;
+
+            if (!(target instanceof HTMLInputElement) || target.type !== "checkbox") {
+                return;
+            }
+
+            const sourceName = target.dataset.source || "";
+
+            if (sourceName.length === 0) {
+                return;
+            }
+
+            updateSourceCheckboxState(sourceName);
+        });
+    }
+
+    syncAllClassesWithSources();
+    updateAllSourceCheckboxStates();
+}
+
+function syncClassesForSource(sourceName, isChecked) {
+    const allowedClassesElement = document.getElementById("allowedClasses");
+
+    if (allowedClassesElement === null) {
+        return;
+    }
+
+    const classCheckboxes = allowedClassesElement.querySelectorAll("input[type=\"checkbox\"][data-source]");
+
+    classCheckboxes.forEach(classCheckbox => {
+        if (classCheckbox.dataset.source === sourceName) {
+            classCheckbox.checked = isChecked;
+        }
+    });
+}
+
+function syncAllClassesWithSources() {
+    SOURCE_CHECKBOXES.forEach(sourceConfig => {
+        const sourceCheckbox = document.getElementById(sourceConfig.id);
+
+        if (sourceCheckbox === null) {
+            return;
+        }
+
+        syncClassesForSource(sourceConfig.source, sourceCheckbox.checked);
+    });
+}
+
+function updateSourceCheckboxState(sourceName) {
+    const sourceConfig = SOURCE_CHECKBOXES.find(config => config.source === sourceName);
+
+    if (sourceConfig === undefined) {
+        return;
+    }
+
+    const sourceCheckbox = document.getElementById(sourceConfig.id);
+    const allowedClassesElement = document.getElementById("allowedClasses");
+
+    if (sourceCheckbox === null || allowedClassesElement === null) {
+        return;
+    }
+
+    const classCheckboxes = Array.from(
+        allowedClassesElement.querySelectorAll(`input[type="checkbox"][data-source="${sourceName}"]`)
+    );
+
+    if (classCheckboxes.length === 0) {
+        sourceCheckbox.checked = false;
+        sourceCheckbox.indeterminate = false;
+        return;
+    }
+
+    const checkedCount = classCheckboxes.filter(classCheckbox => classCheckbox.checked).length;
+
+    if (checkedCount === 0) {
+        sourceCheckbox.checked = false;
+        sourceCheckbox.indeterminate = false;
+        return;
+    }
+
+    if (checkedCount === classCheckboxes.length) {
+        sourceCheckbox.checked = true;
+        sourceCheckbox.indeterminate = false;
+        return;
+    }
+
+    sourceCheckbox.checked = false;
+    sourceCheckbox.indeterminate = true;
+}
+
+function updateAllSourceCheckboxStates() {
+    SOURCE_CHECKBOXES.forEach(sourceConfig => {
+        updateSourceCheckboxState(sourceConfig.source);
+    });
+}
+
+function populateAllowedClasses() {
+    const allowedClassesElement = document.getElementById("allowedClasses");
+
+    if (allowedClassesElement === null) {
+        return;
+    }
+
+    const sortedClasses = [...OseClasses].sort((a, b) => a.name.localeCompare(b.name));
+
+    allowedClassesElement.innerHTML = sortedClasses.map((oseClass, index) => {
+        const classId = `allowedClass${index}`;
+        const sourceGroup = getSourceGroup(oseClass.source);
+
+        return `<label for="${classId}"><input type="checkbox" id="${classId}" value="${oseClass.name}" data-source="${sourceGroup}" checked> ${oseClass.name}</label>`;
+    }).join("");
+}
 
 function pickAdditionalLanguages(intModifier, classLanguages = []) {
     const numAdditional = Math.max(0, parseInt(intModifier));
@@ -73,22 +233,17 @@ function generateCharacters(event) {
 
     let numCharacters = document.getElementById("numCharacters").value;
     let minScoreTotal = document.getElementById("minScoreTotal").value;
-    let allowedSources = [];
+    const charactersElement = document.getElementById("characters");
+    const allowedClassNames = getAllowedClassNames();
 
-    if (document.getElementById("sourceClassicFantasy").checked) {
-        allowedSources.push("Classic Fantasy");
-    }
+    if (allowedClassNames.length === 0) {
+        if (charactersElement !== null) {
+            charactersElement.innerHTML = "<p>Select at least one allowed class.</p>";
+        }
 
-    if (document.getElementById("sourceAdvancedFantasy").checked) {
-        allowedSources.push("Advanced Fantasy");
-    }
-
-    if (document.getElementById("sourceCarcassCrawler").checked) {
-        allowedSources.push("Carcass Crawler");
-    }
-
-    if (document.getElementById("sourceTheNecromancer").checked) {
-        allowedSources.push("The Necromancer");
+        setCopyCharactersEnabled(false);
+        setCopyCharactersStatus("");
+        return;
     }
 
     let characters = [];
@@ -99,8 +254,9 @@ function generateCharacters(event) {
         character.name = getSingleName(character.gender);
         character.pronouns = character.gender === "Masculine" ? "He/Him" : "She/Her";
         let scoreTotal = 0;
+        let selectedClass = null;
 
-        while (scoreTotal < minScoreTotal) {
+        while (scoreTotal < minScoreTotal || selectedClass === null) {
             character.scores = {
                 str: roll3d6(),
                 int: roll3d6(),
@@ -111,6 +267,10 @@ function generateCharacters(event) {
             }
 
             scoreTotal = Object.values(character.scores).reduce((total, score) => total + score);
+
+            if (scoreTotal >= minScoreTotal) {
+                selectedClass = getCharacterClass(character.scores, allowedClassNames);
+            }
         }
 
         character.modifiers = {
@@ -122,7 +282,7 @@ function generateCharacters(event) {
             cha: getModifier(character.scores.cha)
         }
 
-        character.class = getCharacterClass(character.scores, allowedSources);
+        character.class = selectedClass;
         character.level = 1;
         character.currentXp = 0;
         character.nextXp = character.class.expTable[character.level - 1]; // expTable[0] is the XP required for level 2, expTable[1] is the XP required for level 3, etc.
@@ -156,7 +316,6 @@ function generateCharacters(event) {
         characters.push(character);
     }
 
-    const charactersElement = document.getElementById("characters");
     const placeholder = "-";
 
     const superHeaders = `
@@ -250,6 +409,19 @@ function generateCharacters(event) {
     setCopyCharactersStatus("");
 }
 
+function getAllowedClassNames() {
+    const allowedClassesElement = document.getElementById("allowedClasses");
+
+    if (allowedClassesElement === null) {
+        return [];
+    }
+
+    return Array.from(
+        allowedClassesElement.querySelectorAll("input[type=\"checkbox\"]:checked"),
+        checkbox => checkbox.value
+    );
+}
+
 async function copyCharactersTable() {
     const table = document.querySelector("#characters table");
 
@@ -318,8 +490,8 @@ function getModifier(score) {
     }
 }
 
-function getCharacterClass(scores, allowedSources) {
-    let availableClasses = getOseClasses(allowedSources);
+function getCharacterClass(scores, allowedClassNames) {
+    let availableClasses = OseClasses.filter(oseClass => allowedClassNames.includes(oseClass.name));
 
     // Leave only the classes that the character qualifies for.
     let validClasses = availableClasses.filter(characterClass => {
@@ -336,6 +508,10 @@ function getCharacterClass(scores, allowedSources) {
     validClasses.forEach(characterClass => {
         characterClass.expBonus = characterClass.getExpBonus(scores);
     });
+
+    if (validClasses.length === 0) {
+        return null;
+    }
 
     // Leave only the classes with the highest experience bonus.
     let maxExpBonus = Math.max(...validClasses.map(characterClass => characterClass.expBonus));
