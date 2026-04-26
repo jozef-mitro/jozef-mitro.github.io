@@ -34,6 +34,8 @@ const ADDITIONAL_LANGUAGES = [
     "Terran"
 ];
 
+const ALIGNMENTS = ["Lawful", "Neutral", "Chaotic"];
+
 document.addEventListener("DOMContentLoaded", () => {
     const characterForm = document.getElementById("characterGeneratorForm");
     const copyCharactersButton = document.getElementById("copyCharacters");
@@ -125,8 +127,9 @@ function generateCharacters(event) {
         character.currentXp = 0;
         character.nextXp = character.class.expTable[character.level - 1]; // expTable[0] is the XP required for level 2, expTable[1] is the XP required for level 3, etc.
         character.expBonus = character.class.expBonus;
-        // Alignment is randomly chosen from Lawful, Neutral, and Chaotic.
-        character.alignment = ["Lawful", "Neutral", "Chaotic"][Math.floor(Math.random() * 3)];
+        const availableAlignments = ALIGNMENTS.filter(alignment => !(character.class.forbiddenAlignments || []).includes(alignment));
+        const alignmentPool = availableAlignments.length > 0 ? availableAlignments : ALIGNMENTS;
+        character.alignment = alignmentPool[Math.floor(Math.random() * alignmentPool.length)];
         // Roll hit points for the first level. Reroll 1s and 2s.
         let conModifierNumber = parseInt(character.modifiers.con);
         let hitDieSize = character.class.hitDie;

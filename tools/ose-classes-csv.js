@@ -66,7 +66,7 @@ function importCsvToJs(inputCsvPath, outputJsPath) {
 	const header = splitCsvLine(lines[0]);
 
 	if (
-		header.length !== 8 ||
+		header.length !== 9 ||
 		header[0] !== "name" ||
 		header[1] !== "primeRequisite" ||
 		header[2] !== "requirements" ||
@@ -74,21 +74,22 @@ function importCsvToJs(inputCsvPath, outputJsPath) {
 		header[4] !== "hitDie" ||
 		header[5] !== "saves" ||
 		header[6] !== "xp" ||
-		header[7] !== "languages"
+		header[7] !== "languages" ||
+		header[8] !== "forbiddenAlignments"
 	) {
-		throw new Error("Invalid CSV header. Expected: name;primeRequisite;requirements;source;hitDie;saves;xp;languages");
+		throw new Error("Invalid CSV header. Expected: name;primeRequisite;requirements;source;hitDie;saves;xp;languages;forbiddenAlignments");
 	}
 
 	const rows = lines.slice(1).map((line, index) => {
 		const rowNumber = index + 2;
 		const parts = splitCsvLine(line);
-		const expectedFieldCount = 8;
+		const expectedFieldCount = 9;
 
 		if (parts.length !== expectedFieldCount) {
 			throw new Error(`Invalid CSV row ${rowNumber}. Expected ${expectedFieldCount} fields but got ${parts.length}.`);
 		}
 
-		const [name, primeRequisite, requirements, source, hitDieRaw, saves, xp, languages] = parts;
+		const [name, primeRequisite, requirements, source, hitDieRaw, saves, xp, languages, forbiddenAlignments] = parts;
 		const hitDie = Number(hitDieRaw);
 
 		if (Number.isNaN(hitDie)) {
@@ -98,7 +99,7 @@ function importCsvToJs(inputCsvPath, outputJsPath) {
 		validateSaves(saves, rowNumber);
 		validateXpTable(xp, rowNumber);
 
-		return `    new OseClass("${escapeJsString(name)}", "${escapeJsString(primeRequisite)}", "${escapeJsString(requirements)}", "${escapeJsString(source)}", ${hitDie}, "${escapeJsString(saves)}", "${escapeJsString(xp)}", "${escapeJsString(languages)}")`;
+		return `    new OseClass("${escapeJsString(name)}", "${escapeJsString(primeRequisite)}", "${escapeJsString(requirements)}", "${escapeJsString(source)}", ${hitDie}, "${escapeJsString(saves)}", "${escapeJsString(xp)}", "${escapeJsString(languages)}", "${escapeJsString(forbiddenAlignments)}")`;
 	});
 
 	const jsOutput = `import { OseClass } from "./ose_classes.js";\n\nexport const OseClasses = [\n${rows.join(",\n")}\n];\n\nexport function getOseClasses(allowedSources) {\n    return OseClasses.filter(c => allowedSources.some(source => c.source.startsWith(source)));\n}\n`;
@@ -107,7 +108,7 @@ function importCsvToJs(inputCsvPath, outputJsPath) {
 }
 
 function parseJsOseClassArguments(content) {
-	const constructorRegex = /new\s+OseClass\(\s*"((?:\\.|[^"])*)"\s*,\s*"((?:\\.|[^"])*)"\s*,\s*"((?:\\.|[^"])*)"\s*,\s*"((?:\\.|[^"])*)"\s*,\s*(\d+)\s*,\s*"((?:\\.|[^"])*)"\s*(?:,\s*"((?:\\.|[^"])*)"\s*)?(?:,\s*"((?:\\.|[^"])*)"\s*)?\)/g;
+	const constructorRegex = /new\s+OseClass\(\s*"((?:\\.|[^"])*)"\s*,\s*"((?:\\.|[^"])*)"\s*,\s*"((?:\\.|[^"])*)"\s*,\s*"((?:\\.|[^"])*)"\s*,\s*(\d+)\s*,\s*"((?:\\.|[^"])*)"\s*(?:,\s*"((?:\\.|[^"])*)"\s*)?(?:,\s*"((?:\\.|[^"])*)"\s*)?(?:,\s*"((?:\\.|[^"])*)"\s*)?\)/g;
 	const classes = [];
 	let match = constructorRegex.exec(content);
 
@@ -120,7 +121,8 @@ function parseJsOseClassArguments(content) {
 			hitDie: Number(match[5]),
 			saves: unescapeJsString(match[6] || ""),
 			xp: unescapeJsString(match[7] || ""),
-			languages: unescapeJsString(match[8] || "")
+			languages: unescapeJsString(match[8] || ""),
+			forbiddenAlignments: unescapeJsString(match[9] || "")
 		});
 
 		match = constructorRegex.exec(content);
@@ -137,7 +139,7 @@ function exportJsToCsv(inputJsPath, outputCsvPath) {
 		throw new Error("No OseClass entries found in JS file.");
 	}
 
-	const header = "name;primeRequisite;requirements;source;hitDie;saves;xp;languages";
+	const header = "name;primeRequisite;requirements;source;hitDie;saves;xp;languages;forbiddenAlignments";
 	const lines = classes.map(c => [
 		c.name,
 		c.primeRequisite,
@@ -146,7 +148,8 @@ function exportJsToCsv(inputJsPath, outputCsvPath) {
 		c.hitDie,
 		c.saves,
 		c.xp,
-		c.languages
+		c.languages,
+		c.forbiddenAlignments
 	].join(";"));
 
 	fs.writeFileSync(outputCsvPath, `${header}\n${lines.join("\n")}\n`, "utf8");
@@ -156,7 +159,7 @@ function printUsage() {
 	console.log("Usage:");
 	console.log("  node tools/ose-classes-csv.js import <input.csv> <output.js>");
 	console.log("  node tools/ose-classes-csv.js export <input.js> <output.csv>");
-	console.log("  (CSV must contain: name;primeRequisite;requirements;source;hitDie;saves;xp;languages)");
+	console.log("  (CSV must contain: name;primeRequisite;requirements;source;hitDie;saves;xp;languages;forbiddenAlignments)");
 }
 
 function main() {

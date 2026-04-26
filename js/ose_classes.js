@@ -1,5 +1,5 @@
 export class OseClass {
-    constructor (name, primeRequisite, requirements, source, hitDie, saves, expTable, languages) {
+    constructor (name, primeRequisite, requirements, source, hitDie, saves, expTable, languages, forbiddenAlignments) {
         this.name = name;
         this.primeRequisite = primeRequisite;
         this.requirements = typeof requirements === "string" ? requirements : "";
@@ -8,6 +8,7 @@ export class OseClass {
         this.saves = this.#parseSaves(saves);
         this.expTable = this.#parseExpTable(expTable);
         this.languages = this.#parseLanguages(languages);
+        this.forbiddenAlignments = this.#parseForbiddenAlignments(forbiddenAlignments);
     }
 
     parseRequirements() {
@@ -64,6 +65,17 @@ export class OseClass {
             .split(",")
             .map(lang => lang.trim())
             .filter(lang => lang.length > 0);
+    }
+
+    #parseForbiddenAlignments(rawForbiddenAlignments) {
+        if (typeof rawForbiddenAlignments !== "string" || rawForbiddenAlignments.length === 0) {
+            return [];
+        }
+
+        return rawForbiddenAlignments
+            .split(",")
+            .map(alignment => alignment.trim())
+            .filter(alignment => alignment.length > 0);
     }
 
     getExpBonus(scores) {
