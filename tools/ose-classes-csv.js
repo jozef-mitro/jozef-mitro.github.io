@@ -89,10 +89,10 @@ function importCsvToJs(inputCsvPath, outputJsPath) {
 		header[6] !== "xp" ||
 		header[7] !== "languages" ||
 		header[8] !== "forbiddenAlignments" ||
-		header[9] !== "allowedArmour" ||
-		header[10] !== "allowedWeapons"
+		header[9] !== "armour" ||
+		header[10] !== "weapons"
 	) {
-		throw new Error("Invalid CSV header. Expected: name;primeRequisite;requirements;source;hitDie;saves;xp;languages;forbiddenAlignments;allowedArmour;allowedWeapons");
+		throw new Error("Invalid CSV header. Expected: name;primeRequisite;requirements;source;hitDie;saves;xp;languages;forbiddenAlignments;armour;weapons");
 	}
 
 	const rows = lines.slice(1).map((line, index) => {
@@ -104,7 +104,7 @@ function importCsvToJs(inputCsvPath, outputJsPath) {
 			throw new Error(`Invalid CSV row ${rowNumber}. Expected ${expectedFieldCount} fields but got ${parts.length}.`);
 		}
 
-		const [name, primeRequisite, requirements, source, hitDieRaw, saves, xp, languages, forbiddenAlignments, allowedArmour, allowedWeapons] = parts;
+		const [name, primeRequisite, requirements, source, hitDieRaw, saves, xp, languages, forbiddenAlignments, armour, weapons] = parts;
 		const hitDie = Number(hitDieRaw);
 
 		if (Number.isNaN(hitDie)) {
@@ -115,7 +115,7 @@ function importCsvToJs(inputCsvPath, outputJsPath) {
 		validateXpTable(xp, rowNumber);
 		validateForbiddenAlignments(forbiddenAlignments, rowNumber);
 
-		return `    new OseClass("${escapeJsString(name)}", "${escapeJsString(primeRequisite)}", "${escapeJsString(requirements)}", "${escapeJsString(source)}", ${hitDie}, "${escapeJsString(saves)}", "${escapeJsString(xp)}", "${escapeJsString(languages)}", "${escapeJsString(forbiddenAlignments)}", "${escapeJsString(allowedArmour)}", "${escapeJsString(allowedWeapons)}")`;
+		return `    new OseClass("${escapeJsString(name)}", "${escapeJsString(primeRequisite)}", "${escapeJsString(requirements)}", "${escapeJsString(source)}", ${hitDie}, "${escapeJsString(saves)}", "${escapeJsString(xp)}", "${escapeJsString(languages)}", "${escapeJsString(forbiddenAlignments)}", "${escapeJsString(armour)}", "${escapeJsString(weapons)}")`;
 	});
 
 	const jsOutput = `import { OseClass } from "./OseClass.js";\n\nexport const OseClasses = [\n${rows.join(",\n")}\n];\n\nexport function getOseClasses(allowedSources) {\n    return OseClasses.filter(c => allowedSources.some(source => c.source.startsWith(source)));\n}\n`;
@@ -126,7 +126,7 @@ function importCsvToJs(inputCsvPath, outputJsPath) {
 function printUsage() {
 	console.log("Usage:");
 	console.log("  node tools/ose-classes-csv.js import <input.csv> <output.js>");
-	console.log("  (CSV must contain: name;primeRequisite;requirements;source;hitDie;saves;xp;languages;forbiddenAlignments;allowedArmour;allowedWeapons)");
+	console.log("  (CSV must contain: name;primeRequisite;requirements;source;hitDie;saves;xp;languages;forbiddenAlignments;armour;weapons)");
 }
 
 function main() {

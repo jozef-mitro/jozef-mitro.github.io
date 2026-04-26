@@ -1,5 +1,5 @@
 export class OseClass {
-    constructor (name, primeRequisite, requirements, source, hitDie, saves, expTable, languages, forbiddenAlignments, allowedArmour = "", allowedWeapons = "") {
+    constructor (name, primeRequisite, requirements, source, hitDie, saves, expTable, languages, forbiddenAlignments, armour, weapons) {
         this.name = name;
         this.primeRequisite = primeRequisite;
         this.requirements = this.#parseCommaSeparatedValues(requirements);
@@ -9,8 +9,14 @@ export class OseClass {
         this.expTable = this.#parseExpTable(expTable);
         this.languages = this.#parseCommaSeparatedValues(languages);
         this.forbiddenAlignments = this.#parseCommaSeparatedValues(forbiddenAlignments);
-        this.allowedArmour = this.#parseCommaSeparatedValues(allowedArmour);
-        this.allowedWeapons = this.#parseCommaSeparatedValues(allowedWeapons);
+
+        let parsedArmour = this.#parseAllowedAndForbiddenValues(armour);
+        this.allowedArmour = parsedArmour.allowed;
+        this.forbiddenArmour = parsedArmour.forbidden;
+
+        let parsedWeapons = this.#parseAllowedAndForbiddenValues(weapons);
+        this.allowedWeapons = parsedWeapons.allowed;
+        this.forbiddenWeapons = parsedWeapons.forbidden;
     }
 
     #parseSaves(rawSaves) {
@@ -59,6 +65,25 @@ export class OseClass {
             .split(",")
             .map(value => value.trim())
             .filter(value => value.length > 0);
+    }
+
+    #parseAllowedAndForbiddenValues(rawValue) {
+        let values = this.#parseCommaSeparatedValues(rawValue);
+
+        return values.reduce((acc, value) => {
+            if (value.startsWith("-")) {
+                let forbiddenValue = value.slice(1).trim();
+
+                if (forbiddenValue.length > 0) {
+                    acc.forbidden.push(forbiddenValue);
+                }
+
+                return acc;
+            }
+
+            acc.allowed.push(value);
+            return acc;
+        }, { allowed: [], forbidden: [] });
     }
 
     getExpBonus(scores) {

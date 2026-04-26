@@ -45,6 +45,10 @@ function toLegalArmourTags(allowedArmour) {
     );
 }
 
+function hasForbiddenTag(item, forbiddenTags) {
+    return item.tags.some(tag => forbiddenTags.has(tag));
+}
+
 function hasAnyTag(item, tags) {
     if (tags.length === 0) {
         return true;
@@ -61,8 +65,12 @@ function hasAnyRoleTag(item, roleTags) {
     return roleTags.some(tag => item.roleTags.includes(tag));
 }
 
-function isItemClassLegal(item, allowedWeaponTags, allowedArmourTags) {
+function isItemClassLegal(item, allowedWeaponTags, forbiddenWeaponTags, allowedArmourTags, forbiddenArmourTags) {
     if (item.category === "weapon") {
+        if (hasForbiddenTag(item, forbiddenWeaponTags)) {
+            return false;
+        }
+
         if (allowedWeaponTags.has("all")) {
             return true;
         }
@@ -75,6 +83,10 @@ function isItemClassLegal(item, allowedWeaponTags, allowedArmourTags) {
     }
 
     if (item.category === "armour") {
+        if (hasForbiddenTag(item, forbiddenArmourTags)) {
+            return false;
+        }
+
         if (allowedArmourTags.has("all")) {
             return true;
         }
@@ -110,7 +122,9 @@ export function generateEquipment({ oseClass, wealth, items, policy }) {
     const phasePurchases = new Map();
     const itemsById = new Map(items.map(item => [item.id, item]));
     const allowedWeaponTags = toLegalWeaponTags(oseClass.allowedWeapons ?? []);
+    const forbiddenWeaponTags = toLegalWeaponTags(oseClass.forbiddenWeapons ?? []);
     const allowedArmourTags = toLegalArmourTags(oseClass.allowedArmour ?? []);
+    const forbiddenArmourTags = toLegalArmourTags(oseClass.forbiddenArmour ?? []);
 
     let remainingWealth = roundGold(wealth);
 
@@ -147,7 +161,7 @@ export function generateEquipment({ oseClass, wealth, items, policy }) {
                 return false;
             }
 
-            return isItemClassLegal(item, allowedWeaponTags, allowedArmourTags);
+            return isItemClassLegal(item, allowedWeaponTags, forbiddenWeaponTags, allowedArmourTags, forbiddenArmourTags);
         });
 
         if (typeof phase.relatesTo === "string" && phase.relatesTo.length > 0) {
