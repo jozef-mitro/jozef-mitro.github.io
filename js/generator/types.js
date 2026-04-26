@@ -19,6 +19,7 @@
  * @property {number} currentHp
  * @property {string} background
  * @property {string[]} languages
+ * @property {"Illiterate" | "Basic" | "Literate"} literacy
  */
 
 /**

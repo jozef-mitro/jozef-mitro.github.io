@@ -7,6 +7,22 @@ import { rollTotalHp } from "./hit-points.js";
 const MAX_REROLL_ATTEMPTS = 1000;
 
 /**
+ * @param {number} intelligence
+ * @returns {"Illiterate" | "Basic" | "Literate"}
+ */
+function getLiteracy(intelligence) {
+    if (intelligence <= 5) {
+        return "Illiterate";
+    }
+
+    if (intelligence <= 8) {
+        return "Basic";
+    }
+
+    return "Literate";
+}
+
+/**
  * Generates a single character. Returns null if no valid character could be
  * produced within the allowed number of attempts (e.g. no eligible classes
  * exist for the given constraints).
@@ -61,6 +77,7 @@ export function generateCharacter(config, deps) {
     const { oseClass, expBonus } = classResult;
     const maxHp = rollTotalHp(level, oseClass.hitDie, modifiers.con, rng);
     const languages = buildLanguages(oseClass, alignment, modifiers.int, rng);
+    const literacy = getLiteracy(abilities.int);
 
     return {
         name,
@@ -77,7 +94,8 @@ export function generateCharacter(config, deps) {
         maxHp,
         currentHp: maxHp,
         background: rollBackground(),
-        languages
+        languages,
+        literacy
     };
 }
 

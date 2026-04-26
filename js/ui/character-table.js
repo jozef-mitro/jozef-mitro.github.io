@@ -55,6 +55,7 @@ const COLUMNS = [
     { header: "Mov",         value: _ => PLACEHOLDER },
     { header: "Background",  value: c => c.background },
     { header: "Languages",   value: c => (c.languages || []).join(", ") },
+    { header: "Literacy",    value: c => c.literacy },
     { header: "Notes",       value: _ => PLACEHOLDER }
 ];
 
@@ -80,6 +81,7 @@ export function renderCharactersTable(characters) {
             <th rowspan="2">Mov</th>
             <th rowspan="2">Background</th>
             <th rowspan="2">Languages</th>
+            <th rowspan="2">Literacy</th>
             <th rowspan="2">Notes</th>
         </tr>`;
 
