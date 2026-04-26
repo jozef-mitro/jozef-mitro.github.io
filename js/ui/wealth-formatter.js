@@ -6,21 +6,10 @@
  * @returns {string}
  */
 export function formatWealth(wealth) {
-    // Parse the number to extract integer and decimal parts
-    const floorValue = Math.floor(wealth);
-    const decimalPart = wealth - floorValue;
-    
-    let sp = 0;
-    let cp = 0;
-    
-    if (decimalPart > 0) {
-        // Get first decimal digit (tenths place) for silver pieces
-        sp = Math.floor(decimalPart * 10);
-        // Get second decimal digit (hundredths place) for copper pieces
-        cp = Math.floor((decimalPart * 100) % 10);
-    }
-    
-    const gp = floorValue;
+    const totalCopper = Math.max(0, Math.round(wealth * 100));
+    const gp = Math.floor(totalCopper / 100);
+    const sp = Math.floor((totalCopper % 100) / 10);
+    const cp = totalCopper % 10;
     const parts = [];
     
     if (gp > 0 || (sp === 0 && cp === 0)) {

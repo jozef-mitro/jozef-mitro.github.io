@@ -1,9 +1,5 @@
 const BROAD_WEAPON_TOKENS = new Set(["blunt", "small", "normal", "missile", "one-handed-melee"]);
 
-function roundGold(value) {
-    return Math.round(value * 100) / 100;
-}
-
 function toLegalWeaponTags(allowedWeapons) {
     return new Set(
         allowedWeapons
@@ -117,7 +113,7 @@ export function generateEquipment({ oseClass, wealth, items, policy }) {
     const allowedArmourTags = toLegalArmourTags(oseClass.allowedArmour ?? []);
     const forbiddenArmourTags = toLegalArmourTags(oseClass.forbiddenArmour ?? []);
 
-    let remainingWealth = roundGold(wealth);
+    let remainingWealth = wealth;
 
     for (const phase of policy.phases) {
         const preconditions = phase.preconditions ?? {};
@@ -186,13 +182,13 @@ export function generateEquipment({ oseClass, wealth, items, policy }) {
                     equipment.push(candidate);
                     purchasedThisPhase.push(candidate);
                     remainingTarget -= 1;
-                    remainingWealth = roundGold(remainingWealth - candidate.price);
+                    remainingWealth -= candidate.price;
                 }
             } else if (remainingWealth >= candidate.price) {
                 equipment.push(candidate);
                 purchasedThisPhase.push(candidate);
                 remainingTarget -= 1;
-                remainingWealth = roundGold(remainingWealth - candidate.price);
+                remainingWealth -= candidate.price;
             }
         }
 
@@ -203,7 +199,7 @@ export function generateEquipment({ oseClass, wealth, items, policy }) {
             if (fallbackIsCandidate && remainingWealth >= fallbackItem.price) {
                 equipment.push(fallbackItem);
                 purchasedThisPhase.push(fallbackItem);
-                remainingWealth = roundGold(remainingWealth - fallbackItem.price);
+                remainingWealth -= fallbackItem.price;
             }
         }
 
