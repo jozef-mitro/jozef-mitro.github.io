@@ -1,22 +1,16 @@
 export class OseClass {
-    constructor (name, primeRequisite, requirements, source, hitDie, saves, expTable, languages, forbiddenAlignments) {
+    constructor (name, primeRequisite, requirements, source, hitDie, saves, expTable, languages, forbiddenAlignments, allowedArmour = "", allowedWeapons = "") {
         this.name = name;
         this.primeRequisite = primeRequisite;
-        this.requirements = typeof requirements === "string" ? requirements : "";
+        this.requirements = this.#parseCommaSeparatedValues(requirements);
         this.source = source;
         this.hitDie = hitDie;
         this.saves = this.#parseSaves(saves);
         this.expTable = this.#parseExpTable(expTable);
-        this.languages = this.#parseLanguages(languages);
-        this.forbiddenAlignments = this.#parseForbiddenAlignments(forbiddenAlignments);
-    }
-
-    parseRequirements() {
-        if (typeof this.requirements !== "string") {
-            return [];
-        }
-
-        return this.requirements.split(",").map(requirement => requirement.trim()).filter(requirement => requirement.length > 0);
+        this.languages = this.#parseCommaSeparatedValues(languages);
+        this.forbiddenAlignments = this.#parseCommaSeparatedValues(forbiddenAlignments);
+        this.allowedArmour = this.#parseCommaSeparatedValues(allowedArmour);
+        this.allowedWeapons = this.#parseCommaSeparatedValues(allowedWeapons);
     }
 
     #parseSaves(rawSaves) {
@@ -56,26 +50,15 @@ export class OseClass {
             .filter(xp => Number.isFinite(xp));
     }
 
-    #parseLanguages(rawLanguages) {
-        if (typeof rawLanguages !== "string" || rawLanguages.length === 0) {
+    #parseCommaSeparatedValues(rawValue) {
+        if (typeof rawValue !== "string" || rawValue.length === 0) {
             return [];
         }
 
-        return rawLanguages
+        return rawValue
             .split(",")
-            .map(lang => lang.trim())
-            .filter(lang => lang.length > 0);
-    }
-
-    #parseForbiddenAlignments(rawForbiddenAlignments) {
-        if (typeof rawForbiddenAlignments !== "string" || rawForbiddenAlignments.length === 0) {
-            return [];
-        }
-
-        return rawForbiddenAlignments
-            .split(",")
-            .map(alignment => alignment.trim())
-            .filter(alignment => alignment.length > 0);
+            .map(value => value.trim())
+            .filter(value => value.length > 0);
     }
 
     getExpBonus(scores) {

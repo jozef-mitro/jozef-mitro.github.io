@@ -1,46 +1,46 @@
-name;primeRequisite;requirements;source;hitDie;saves;xp;languages;forbiddenAlignments
-Cleric;10@wis16,5@wis13,0@wis9,-10@wis6,-20;;Classic Fantasy;6;11,12,14,16,15;1.5,3,6,12,25,50,100,200,300,400,500,600,700;;
-Dwarf;10@str16,5@str13,0@str9,-10@str6,-20;con;Classic Fantasy;8;8,9,10,13,12;2.2,4.4,8.8,17,35,70,140,270,400,530,660;Dwarvish,Gnomish,Goblin,Kobold;
-Elf;10@int16+str13,5@int13+str13,0;int;Classic Fantasy;6;12,13,13,15,15;4,8,16,32,64,120,250,400,600;Elvish,Gnoll,Hobgoblin,Orcish;
-Fighter;10@str16,5@str13,0@str9,-10@str6,-20;;Classic Fantasy;8;12,13,14,15,16;2,4,8,16,32,120,240,360,480,600,720,840;;
-Halfling;10@dex13+str13,5@dex13|str13,0;con,dex;Classic Fantasy;6;8,9,10,13,12;2,4,8,16,32,64,120;Halfling;
-Magic-User;10@int16,5@int13,0@int9,-10@int6,-20;;Classic Fantasy;4;13,14,13,16,15;2.5,5,10,20,40,80,150,300,450,600,750,900,1050;;
-Thief;10@dex16,5@dex13,0@dex9,-10@dex6,-20;;Classic Fantasy;4;13,14,13,16,15;1.2,2.4,4.8,9.6,20,40,80,160,280,400,520,640,760;;
-Acrobat;10@dex16,5@dex13,0@dex9,-10@dex6,-20;;Advanced Fantasy;4;13,14,13,16,15;1.2,2.4,4.8,9.6,20,40,80,160,280,400,520,640,760;;
-Assassin;10@dex16,5@dex13,0@dex9,-10@dex6,-20;;Advanced Fantasy;4;13,14,13,16,15;1.5,3,6,12,25,50,100,200,300,425,575,750,900;;Lawful
-Barbarian;10@con16+str16,5@con13|str13,0;dex;Advanced Fantasy;8;10,13,12,15,16;2.5,5,10,18.5,37,85,140,270,400,530,660,790,920;;
-Bard;10@cha16,5@cha13,0@cha9,-10@cha6,-20;dex,int;Advanced Fantasy;6;13,14,13,16,15;2,4,8,16,32,64,120,240,360,480,600,720,840;;
-Drow;10@wis16+str13,5@wis13+str13,0;int;Advanced Fantasy;6;12,13,13,15,12;4,8,16,32,64,120,250,400,600;Deepcommon,Elvish,Gnomish,Arachnid;
-Druid;10@wis16,5@wis13,0@wis9,-10@wis6,-20;;Advanced Fantasy;6;11,12,14,16,15;2,4,7.5,12.5,20,35,60,90,125,200,300,750,1500;Druidic;Lawful,Chaotic
-Duergar;10@str16,5@str13,0@str9,-10@str6,-20;con,int;Advanced Fantasy;6;8,9,10,13,12;2.8,5.6,11.2,23,46,100,200,300,400;Deepcommon,Dwarvish,Gnomish,Goblin,Kobold;
-Gnome;10@int16+dex13,5@int13+dex13,0;con;Advanced Fantasy;4;8,9,10,14,11;3,6,12,30,60,120,240;Gnomish,Dwarvish,Kobold,Fossorial;
-Half-Elf;10@int16+str13|int13+str16,5@int13+str13,0;cha,con;Advanced Fantasy;6;12,13,13,15,15;2.5,5,10,20,40,80,150,300,450,600,750;Elvish;
-Half-Orc;10@str16+dex16,5@str13+dex13,0;;Advanced Fantasy;6;13,14,13,16,15;1.8,3.6,7,14,28,60,120;Orcish;
-Illusionist;10@int16,5@int13,0@int9,-10@int6,-20;dex;Advanced Fantasy;4;13,14,13,16,15;2.5,5,10,20,40,80,150,300,450,600,750,900,1050;;
-Knight;10@str16,5@str13,0@str9,-10@str6,-20;con,dex;Advanced Fantasy;8;12,13,14,15,16;2.5,5,10,18.5,37,85,140,270,400,530,660,790,920;;
-Paladin;10@str16+wis16,5@str13|wis13,0;cha;Advanced Fantasy;8;10,11,12,13,14;2.75,5.5,12,24,45,95,175,350,500,650,800,950,1100;;Neutral,Chaotic
-Ranger;10@str16,5@str13,0@str9,-10@str6,-20;con,wis;Advanced Fantasy;8;12,13,14,15,16;2.25,4.5,10,20,40,90,150,300,425,550,675,800,925;;Chaotic
-Svirfneblin;10@str16,5@str13,0@str9,-10@str6,-20;con;Advanced Fantasy;6;8,9,10,14,11;2.4,4.8,10,20,40,80,160;Deepcommon,Gnomish,Dwarvish,Kobold,Terran;
-Arcane Bard;10@cha16+dex13|cha13+dex16,5@cha13+dex13,0;int;Carcass Crawler 0 and 4;6;13,14,13,16,15;2,4,8,16,32,64,120,240,360,480,600,720,840;;
-Beast Master;10@str16+wis16,5@str13|wis13,0;;Carcass Crawler 0 and 3;6;11,12,12,15,16;1.8,3.6,7.25,15,30,60,120,240,360,480,600,720,840;;
-Changeling;10@cha16+dex16,5@cha13|dex13,0;int;Carcass Crawler 0 and 4;6;11,12,12,15,12;2.5,5,10,20,30,60,120,240,360;Doppelgänger;
-Chaos Knight;10@str16+wis16,5@str13|wis13,0;cha;Carcass Crawler 0;8;10,11,12,13,14;2.75,5.5,12,24,45,95,175,350,500,650,800,950,1100;;Lawful,Neutral
-Mage;10@int16+wis13,5@int13+wis13,0;;Carcass Crawler 0 and 1;6;12,13,12,15,14;2.8,5.6,12,24,48,100,200,400,460,620,880,1040,1200;;
-Mutoid;10@dex16,5@dex13,0@dex9,-10@dex6,-20;;Carcass Crawler 0 and 3;6;10,11,12,13,14;1.75,3.5,7,14,30,60,120;;
-Mycelian;10@str16,5@str13,0@str9,-10@str6,-20;con;Carcass Crawler 0 and 3;8;9,11,9,13,12;3,6,12,24,45;Deepcommon;
-Warden;10@str16,5@str13,0@str9,-10@str6,-20;con,wis;Carcass Crawler 0;8;12,13,14,15,16;2,4,8,16,32,64,120,240,360,480,600,720,840;;Chaotic
-Acolyte;10@wis16,5@wis13,0@wis9,-10@wis6,-20;;Carcass Crawler 1;6;11,12,14,16,15;1.5,3,6,12,25,50,100,200,300,400,500,600,700;;
-Gargantua;10@str16+con13,5@str13+con13,0;con,str;Carcass Crawler 1;10;8,9,10,13,12;2.5,5,10,20,40,80,160,300,500;;
-Goblin;10@dex16+str16,5@dex13|str13,0;dex;Carcass Crawler 1;6;8,9,10,13,12;2,4,8,16,32,64,120;Goblin,Lupine;
-Hephaestan;10@int16+wis13,5@int13|wis13,0;cha,con;Carcass Crawler 1;6;12,13,13,15,15;3,6,12,25,50,100,200,300,400;Hephaestan;
-Kineticist;10@dex16+wis16,5@dex13+wis13,0;;Carcass Crawler 1;6;13,14,13,16,15;2,4,8,16,32,64,120,240,360,480,600,720,840;;
-Phase Elf;10@int16+str13,5@int13+str13,0;int;Carcass Crawler 2;6;12,13,13,15,15;2.5,5,10,20,40,80,150,300,450;Elvish,Doppelgänger,Dragon,Pixie;
-Wood Elf;10@dex16+wis13,5@dex13+wis13,0;dex,int;Carcass Crawler 2;6;12,13,13,15,15;3,6,12,24,48,100,200,350,500;Elvish,Bugbear,Dryad,Gnoll;
-Dragonborn;10@str16,5@str13,0@str9,-10@str6,-20;con,int;Carcass Crawler 3;8;12,13,14,13,16;3,6,12,24,45,95,175,350,500;Dragon;
-Tiefling;10@cha16+dex16,5@cha13|dex13,0;int;Carcass Crawler 3;6;11,12,12,15,14;2.5,5,10,20,30,60,120,240,360;Deepcommon;
-Halfling Hearthsinger;10@cha13+con13,5@cha13|con13,0;cha,con,dex;Carcass Crawler 4;6;8,9,10,13,12;2,4,8,16,32,64,120;Halfling;
-Halfling Reeve;10@con13+wis13,5@con13|wis13,0;con,dex,wis;Carcass Crawler 4;6;8,9,10,13,12;2.5,5,10,20,40,80,160;Halfling;Neutral,Chaotic
-Ratling;10@dex16,5@dex13,0@dex9,-10@dex6,-20;con;Carcass Crawler 4;6;8,9,10,13,12;2,4,8,16,32,64,128;Murine;
-Dwarf Brewmaster;10@str16+con16,5@str13|con13,0;con;Carcass Crawler 5;8;8,9,10,13,12;2.5,5,10,18.5,37,85,140,270,400;Dwarvish,Gnomish,Goblin,Kobold;
-Dwarf Runesmith;10@str16+int13,5@str13+int13,0;con,int;Carcass Crawler 5;8;8,9,10,13,12;2.8,5.6,11.2,23,46,100,200,300,400;Dwarvish,Gnomish,Goblin,Kobold;
-Necromancer;10@int16,5@int13,0@int9,-10@int6,-20;wis;The Necromancer;4;13,14,13,16,15;2.5,5,10,20,40,80,150,300,450,600,750,900,1050;;
+name;primeRequisite;requirements;source;hitDie;saves;xp;languages;forbiddenAlignments;allowedArmour;allowedWeapons
+Cleric;10@wis16,5@wis13,0@wis9,-10@wis6,-20;;Classic Fantasy;6;11,12,14,16,15;1.5,3,6,12,25,50,100,200,300,400,500,600,700;;;all;blunt
+Dwarf;10@str16,5@str13,0@str9,-10@str6,-20;con;Classic Fantasy;8;8,9,10,13,12;2.2,4.4,8.8,17,35,70,140,270,400,530,660;Dwarvish,Gnomish,Goblin,Kobold;;all;small,normal
+Elf;10@int16+str13,5@int13+str13,0;int;Classic Fantasy;6;12,13,13,15,15;4,8,16,32,64,120,250,400,600;Elvish,Gnoll,Hobgoblin,Orcish;;all;all
+Fighter;10@str16,5@str13,0@str9,-10@str6,-20;;Classic Fantasy;8;12,13,14,15,16;2,4,8,16,32,120,240,360,480,600,720,840;;;all;all
+Halfling;10@dex13+str13,5@dex13|str13,0;con,dex;Classic Fantasy;6;8,9,10,13,12;2,4,8,16,32,64,120;Halfling;;all;small,normal
+Magic-User;10@int16,5@int13,0@int9,-10@int6,-20;;Classic Fantasy;4;13,14,13,16,15;2.5,5,10,20,40,80,150,300,450,600,750,900,1050;;;none;dagger,staff
+Thief;10@dex16,5@dex13,0@dex9,-10@dex6,-20;;Classic Fantasy;4;13,14,13,16,15;1.2,2.4,4.8,9.6,20,40,80,160,280,400,520,640,760;;;leather;all
+Acrobat;10@dex16,5@dex13,0@dex9,-10@dex6,-20;;Advanced Fantasy;4;13,14,13,16,15;1.2,2.4,4.8,9.6,20,40,80,160,280,400,520,640,760;;;leather;missile,dagger,sword,short sword,polearm,spear,staff
+Assassin;10@dex16,5@dex13,0@dex9,-10@dex6,-20;;Advanced Fantasy;4;13,14,13,16,15;1.5,3,6,12,25,50,100,200,300,425,575,750,900;;Lawful;leather,shield;all
+Barbarian;10@con16+str16,5@con13|str13,0;dex;Advanced Fantasy;8;10,13,12,15,16;2.5,5,10,18.5,37,85,140,270,400,530,660,790,920;;;leather,chainmail,shield;all
+Bard;10@cha16,5@cha13,0@cha9,-10@cha6,-20;dex,int;Advanced Fantasy;6;13,14,13,16,15;2,4,8,16,32,64,120,240,360,480,600,720,840;;;leather,chainmail;missile,one-handed melee
+Drow;10@wis16+str13,5@wis13+str13,0;int;Advanced Fantasy;6;12,13,13,15,12;4,8,16,32,64,120,250,400,600;Deepcommon,Elvish,Gnomish,Arachnid;;all;all
+Druid;10@wis16,5@wis13,0@wis9,-10@wis6,-20;;Advanced Fantasy;6;11,12,14,16,15;2,4,7.5,12.5,20,35,60,90,125,200,300,750,1500;Druidic;Lawful,Chaotic;leather,shield;club,dagger,sling,spear,staff
+Duergar;10@str16,5@str13,0@str9,-10@str6,-20;con,int;Advanced Fantasy;6;8,9,10,13,12;2.8,5.6,11.2,23,46,100,200,300,400;Deepcommon,Dwarvish,Gnomish,Goblin,Kobold;;all;small,normal
+Gnome;10@int16+dex13,5@int13+dex13,0;con;Advanced Fantasy;4;8,9,10,14,11;3,6,12,30,60,120,240;Gnomish,Dwarvish,Kobold,Fossorial;;leather,shield;small,normal
+Half-Elf;10@int16+str13|int13+str16,5@int13+str13,0;cha,con;Advanced Fantasy;6;12,13,13,15,15;2.5,5,10,20,40,80,150,300,450,600,750;Elvish;;all;all
+Half-Orc;10@str16+dex16,5@str13+dex13,0;;Advanced Fantasy;6;13,14,13,16,15;1.8,3.6,7,14,28,60,120;Orcish;;leather,chainmail,shield;all
+Illusionist;10@int16,5@int13,0@int9,-10@int6,-20;dex;Advanced Fantasy;4;13,14,13,16,15;2.5,5,10,20,40,80,150,300,450,600,750,900,1050;;;none;dagger,staff
+Knight;10@str16,5@str13,0@str9,-10@str6,-20;con,dex;Advanced Fantasy;8;12,13,14,15,16;2.5,5,10,18.5,37,85,140,270,400,530,660,790,920;;;chainmail,plate mail,shield;all
+Paladin;10@str16+wis16,5@str13|wis13,0;cha;Advanced Fantasy;8;10,11,12,13,14;2.75,5.5,12,24,45,95,175,350,500,650,800,950,1100;;Neutral,Chaotic;all;all
+Ranger;10@str16,5@str13,0@str9,-10@str6,-20;con,wis;Advanced Fantasy;8;12,13,14,15,16;2.25,4.5,10,20,40,90,150,300,425,550,675,800,925;;Chaotic;leather,chainmail,shield;all
+Svirfneblin;10@str16,5@str13,0@str9,-10@str6,-20;con;Advanced Fantasy;6;8,9,10,14,11;2.4,4.8,10,20,40,80,160;Deepcommon,Gnomish,Dwarvish,Kobold,Terran;;all;small,normal
+Arcane Bard;10@cha16+dex13|cha13+dex16,5@cha13+dex13,0;int;Carcass Crawler 0 and 4;6;13,14,13,16,15;2,4,8,16,32,64,120,240,360,480,600,720,840;;;leather,chainmail;all
+Beast Master;10@str16+wis16,5@str13|wis13,0;;Carcass Crawler 0 and 3;6;11,12,12,15,16;1.8,3.6,7.25,15,30,60,120,240,360,480,600,720,840;;;leather,chainmail,shield;all
+Changeling;10@cha16+dex16,5@cha13|dex13,0;int;Carcass Crawler 0 and 4;6;11,12,12,15,12;2.5,5,10,20,30,60,120,240,360;Doppelgänger;;leather,shield;all
+Chaos Knight;10@str16+wis16,5@str13|wis13,0;cha;Carcass Crawler 0;8;10,11,12,13,14;2.75,5.5,12,24,45,95,175,350,500,650,800,950,1100;;Lawful,Neutral;all;all
+Mage;10@int16+wis13,5@int13+wis13,0;;Carcass Crawler 0 and 1;6;12,13,12,15,14;2.8,5.6,12,24,48,100,200,400,460,620,880,1040,1200;;;none;dagger,short sword,staff,sword
+Mutoid;10@dex16,5@dex13,0@dex9,-10@dex6,-20;;Carcass Crawler 0 and 3;6;10,11,12,13,14;1.75,3.5,7,14,30,60,120;;;leather,shield;missile,one-handed melee
+Mycelian;10@str16,5@str13,0@str9,-10@str6,-20;con;Carcass Crawler 0 and 3;8;9,11,9,13,12;3,6,12,24,45;Deepcommon;;shield;all
+Warden;10@str16,5@str13,0@str9,-10@str6,-20;con,wis;Carcass Crawler 0;8;12,13,14,15,16;2,4,8,16,32,64,120,240,360,480,600,720,840;;Chaotic;leather,chainmail,shield;all
+Acolyte;10@wis16,5@wis13,0@wis9,-10@wis6,-20;;Carcass Crawler 1;6;11,12,14,16,15;1.5,3,6,12,25,50,100,200,300,400,500,600,700;;;all;blunt
+Gargantua;10@str16+con13,5@str13+con13,0;con,str;Carcass Crawler 1;10;8,9,10,13,12;2.5,5,10,20,40,80,160,300,500;;;all;all
+Goblin;10@dex16+str16,5@dex13|str13,0;dex;Carcass Crawler 1;6;8,9,10,13,12;2,4,8,16,32,64,120;Goblin,Lupine;;all;small,normal
+Hephaestan;10@int16+wis13,5@int13|wis13,0;cha,con;Carcass Crawler 1;6;12,13,13,15,15;3,6,12,25,50,100,200,300,400;Hephaestan;;leather,chainmail,shield;all
+Kineticist;10@dex16+wis16,5@dex13+wis13,0;;Carcass Crawler 1;6;13,14,13,16,15;2,4,8,16,32,64,120,240,360,480,600,720,840;;;none;all
+Phase Elf;10@int16+str13,5@int13+str13,0;int;Carcass Crawler 2;6;12,13,13,15,15;2.5,5,10,20,40,80,150,300,450;Elvish,Doppelgänger,Dragon,Pixie;;all;all
+Wood Elf;10@dex16+wis13,5@dex13+wis13,0;dex,int;Carcass Crawler 2;6;12,13,13,15,15;3,6,12,24,48,100,200,350,500;Elvish,Bugbear,Dryad,Gnoll;;leather,shield;all
+Dragonborn;10@str16,5@str13,0@str9,-10@str6,-20;con,int;Carcass Crawler 3;8;12,13,14,13,16;3,6,12,24,45,95,175,350,500;Dragon;;all;all
+Tiefling;10@cha16+dex16,5@cha13|dex13,0;int;Carcass Crawler 3;6;11,12,12,15,14;2.5,5,10,20,30,60,120,240,360;Deepcommon;;leather,chainmail,shield;all
+Halfling Hearthsinger;10@cha13+con13,5@cha13|con13,0;cha,con,dex;Carcass Crawler 4;6;8,9,10,13,12;2,4,8,16,32,64,120;Halfling;;leather,shield;small,normal
+Halfling Reeve;10@con13+wis13,5@con13|wis13,0;con,dex,wis;Carcass Crawler 4;6;8,9,10,13,12;2.5,5,10,20,40,80,160;Halfling;Neutral,Chaotic;leather,shield;small,normal
+Ratling;10@dex16,5@dex13,0@dex9,-10@dex6,-20;con;Carcass Crawler 4;6;8,9,10,13,12;2,4,8,16,32,64,128;Murine;;leather,shield;all
+Dwarf Brewmaster;10@str16+con16,5@str13|con13,0;con;Carcass Crawler 5;8;8,9,10,13,12;2.5,5,10,18.5,37,85,140,270,400;Dwarvish,Gnomish,Goblin,Kobold;;leather,chainmail,shield;battle axe,dagger,hand axe,mace,short sword,war hammer
+Dwarf Runesmith;10@str16+int13,5@str13+int13,0;con,int;Carcass Crawler 5;8;8,9,10,13,12;2.8,5.6,11.2,23,46,100,200,300,400;Dwarvish,Gnomish,Goblin,Kobold;;all;small,normal
+Necromancer;10@int16,5@int13,0@int9,-10@int6,-20;wis;The Necromancer;4;13,14,13,16,15;2.5,5,10,20,40,80,150,300,450,600,750,900,1050;;;none;dagger,staff

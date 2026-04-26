@@ -11,7 +11,7 @@ export function getEligibleClasses(abilities, allowedClassNames) {
     return OseClasses
         .filter(oseClass => allowedClassNames.includes(oseClass.name))
         .filter(oseClass => {
-            const requirements = oseClass.parseRequirements();
+            const requirements = oseClass.requirements;
             return requirements.length === 0 || requirements.every(score => abilities[score] >= 9);
         });
 }
