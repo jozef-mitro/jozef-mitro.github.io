@@ -182,17 +182,17 @@ export function generateEquipment({ oseClass, wealth, items, policy }) {
             }
 
             if (buyMultiple) {
-                while (remainingTarget > 0 && remainingWealth >= candidate.priceGp) {
+                while (remainingTarget > 0 && remainingWealth >= candidate.price) {
                     equipment.push(candidate);
                     purchasedThisPhase.push(candidate);
                     remainingTarget -= 1;
-                    remainingWealth = roundGold(remainingWealth - candidate.priceGp);
+                    remainingWealth = roundGold(remainingWealth - candidate.price);
                 }
-            } else if (remainingWealth >= candidate.priceGp) {
+            } else if (remainingWealth >= candidate.price) {
                 equipment.push(candidate);
                 purchasedThisPhase.push(candidate);
                 remainingTarget -= 1;
-                remainingWealth = roundGold(remainingWealth - candidate.priceGp);
+                remainingWealth = roundGold(remainingWealth - candidate.price);
             }
         }
 
@@ -200,10 +200,10 @@ export function generateEquipment({ oseClass, wealth, items, policy }) {
             const fallbackItem = getItemById(itemsById, fallback);
             const fallbackIsCandidate = fallbackItem !== null && candidatesById.has(fallbackItem.id);
 
-            if (fallbackIsCandidate && remainingWealth >= fallbackItem.priceGp) {
+            if (fallbackIsCandidate && remainingWealth >= fallbackItem.price) {
                 equipment.push(fallbackItem);
                 purchasedThisPhase.push(fallbackItem);
-                remainingWealth = roundGold(remainingWealth - fallbackItem.priceGp);
+                remainingWealth = roundGold(remainingWealth - fallbackItem.price);
             }
         }
 

@@ -5,7 +5,7 @@ const EXPECTED_HEADERS = [
     "name",
     "category",
     "subcategory",
-    "priceGp",
+    "price",
     "source",
     "purchaseUnit",
     "startingKitEligible",
@@ -96,7 +96,7 @@ function ensureSlugLikeId(id, rowNumber) {
 
 function ensureMoney(value, rowNumber) {
     if (!/^\d+(?:\.\d{1,2})?$/.test(value)) {
-        throw new Error(`Invalid priceGp at row ${rowNumber}: "${value}" must be a non-negative number with up to two decimals.`);
+        throw new Error(`Invalid price at row ${rowNumber}: "${value}" must be a non-negative number with up to two decimals.`);
     }
 }
 
@@ -165,7 +165,7 @@ function importCsvToJs(inputCsvPath, outputJsPath) {
             name,
             category,
             subcategory,
-            priceGp,
+            price,
             source,
             purchaseUnit,
             startingKitEligible,
@@ -193,7 +193,7 @@ function importCsvToJs(inputCsvPath, outputJsPath) {
         seenIds.add(id);
 
         ensureEnum(category, ALLOWED_CATEGORIES, "category", rowNumber);
-        ensureMoney(priceGp, rowNumber);
+        ensureMoney(price, rowNumber);
         ensureEnum(purchaseUnit, ALLOWED_PURCHASE_UNITS, "purchaseUnit", rowNumber);
         ensureEnum(startingKitEligible, ALLOWED_STARTING_KIT, "startingKitEligible", rowNumber);
         ensureEnum(hands, ALLOWED_HANDS, "hands", rowNumber);
@@ -225,7 +225,7 @@ function importCsvToJs(inputCsvPath, outputJsPath) {
             `name: "${escapeJsString(name)}"`,
             `category: "${escapeJsString(category)}"`,
             `subcategory: "${escapeJsString(subcategory)}"`,
-            `priceGp: ${Number(priceGp)}`,
+            `price: ${Number(price)}`,
             `source: "${escapeJsString(source)}"`,
             `purchaseUnit: "${escapeJsString(purchaseUnit)}"`,
             `startingKitEligible: ${startingKitEligible === "yes"}`,

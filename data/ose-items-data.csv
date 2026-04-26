@@ -1,4 +1,4 @@
-id;name;category;subcategory;priceGp;source;purchaseUnit;startingKitEligible;notes;weightCoins;tags;roleTags;ammoType;bundleLabel;acBase;shieldBonus;damage;rangeShort;rangeMedium;rangeLong;hands
+id;name;category;subcategory;price;source;purchaseUnit;startingKitEligible;notes;weightCoins;tags;roleTags;ammoType;bundleLabel;acBase;shieldBonus;damage;rangeShort;rangeMedium;rangeLong;hands
 leather-armour;Leather armour;armour;body;20;Classic Fantasy;item;yes;Starter armour option.;200;legality-leather;;;;12;;;;;;
 chainmail;Chainmail;armour;body;40;Classic Fantasy;item;yes;Starter armour option.;400;legality-chainmail;;;;14;;;;;;
 plate-mail;Plate mail;armour;body;60;Classic Fantasy;item;yes;Expensive heavy armour option.;500;legality-plate-mail;;;;16;;;;;;

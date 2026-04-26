@@ -5,7 +5,7 @@ export class Item {
      * @param {string} data.name
      * @param {string} data.category
      * @param {string} data.subcategory
-     * @param {number} data.priceGp
+     * @param {number} data.price
      * @param {string} data.source
      * @param {string} data.purchaseUnit
      * @param {boolean} data.startingKitEligible
@@ -28,7 +28,7 @@ export class Item {
         this.name = data.name;
         this.category = data.category;
         this.subcategory = data.subcategory;
-        this.priceGp = data.priceGp;
+        this.price = data.price;
         this.source = data.source;
         this.purchaseUnit = data.purchaseUnit;
         this.startingKitEligible = data.startingKitEligible;
