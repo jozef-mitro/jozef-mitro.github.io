@@ -35,7 +35,3 @@ export const OseItems = [
     new Item({ id: "chalk-stick", name: "Chalk stick", category: "tool", subcategory: "marking", price: 0.1, source: "Classic Fantasy", purchaseUnit: "item", startingKitEligible: true, notes: "Marking surfaces underground.", weightCoins: 0, tags: [], roleTags: ["role-utility"], ammoType: null, bundleLabel: null, acBase: null, shieldBonus: null, damage: null, rangeShort: null, rangeMedium: null, rangeLong: null, hands: null }),
     new Item({ id: "iron-spikes", name: "Iron spikes", category: "tool", subcategory: "piton", price: 0.24, source: "Classic Fantasy", purchaseUnit: "bundle", startingKitEligible: true, notes: "Useful for securing rope and doors.", weightCoins: 0, tags: [], roleTags: ["role-utility"], ammoType: null, bundleLabel: "3 iron spikes", acBase: null, shieldBonus: null, damage: null, rangeShort: null, rangeMedium: null, rangeLong: null, hands: null })
 ];
-
-export function getOseItems(allowedSources) {
-    return OseItems.filter(item => allowedSources.some(source => item.source.startsWith(source)));
-}

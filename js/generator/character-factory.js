@@ -5,7 +5,6 @@ import { pickAlignment } from "./alignment.js";
 import { buildLanguages } from "./languages.js";
 import { rollTotalHp } from "./hit-points.js";
 import { OseItems } from "../ose-items.js";
-import { STARTING_EQUIPMENT_POLICY } from "./equipment-policy.js";
 import { generateEquipment } from "./equipment.js";
 
 const MAX_REROLL_ATTEMPTS = 1000;
@@ -86,8 +85,7 @@ export function generateCharacter(config, deps) {
     const equipmentResult = generateEquipment({
         oseClass,
         wealth: startingWealth,
-        items: OseItems,
-        policy: STARTING_EQUIPMENT_POLICY
+        items: OseItems
     });
 
     return {

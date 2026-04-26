@@ -1,5 +1,140 @@
 const BROAD_WEAPON_TOKENS = new Set(["blunt", "small", "normal", "missile", "one-handed-melee"]);
 
+const STARTING_EQUIPMENT_PHASES = [
+    {
+        id: "body-armour",
+        roleTags: [],
+        targetCount: 1,
+        alternatives: ["plate-mail", "chainmail", "leather-armour"],
+        fallback: null,
+        buyMultiple: false,
+        minBudget: 0,
+        requires: null,
+        ammoMatches: null
+    },
+    {
+        id: "shield",
+        roleTags: [],
+        targetCount: 1,
+        alternatives: ["shield"],
+        fallback: null,
+        buyMultiple: false,
+        minBudget: 10,
+        requires: null,
+        ammoMatches: null
+    },
+    {
+        id: "melee-weapon",
+        roleTags: ["role-melee"],
+        targetCount: 1,
+        alternatives: ["sword", "short-sword", "battle-axe", "war-hammer", "spear", "club", "dagger", "staff"],
+        fallback: "dagger",
+        buyMultiple: false,
+        minBudget: 2,
+        requires: null,
+        ammoMatches: null
+    },
+    {
+        id: "ranged-weapon",
+        roleTags: ["role-ranged"],
+        targetCount: 1,
+        alternatives: ["long-bow", "short-bow", "crossbow", "sling"],
+        fallback: null,
+        buyMultiple: false,
+        minBudget: 2,
+        requires: null,
+        ammoMatches: null
+    },
+    {
+        id: "ammo",
+        roleTags: ["role-ammo"],
+        targetCount: 2,
+        alternatives: ["arrows", "bolts", "sling-stones"],
+        fallback: null,
+        buyMultiple: true,
+        minBudget: 0.25,
+        requires: "ranged-weapon",
+        ammoMatches: "ranged-weapon"
+    },
+    {
+        id: "container",
+        roleTags: ["role-backpack", "role-sack"],
+        targetCount: 1,
+        alternatives: ["backpack", "sack"],
+        fallback: "sack",
+        buyMultiple: false,
+        minBudget: 1,
+        requires: null,
+        ammoMatches: null
+    },
+    {
+        id: "food",
+        roleTags: ["role-food"],
+        targetCount: 2,
+        alternatives: ["rations-dry", "rations-fresh"],
+        fallback: "rations-fresh",
+        buyMultiple: true,
+        minBudget: 0.71,
+        requires: null,
+        ammoMatches: null
+    },
+    {
+        id: "water",
+        roleTags: ["role-water"],
+        targetCount: 1,
+        alternatives: ["waterskin"],
+        fallback: null,
+        buyMultiple: false,
+        minBudget: 1,
+        requires: null,
+        ammoMatches: null
+    },
+    {
+        id: "light-source",
+        roleTags: ["role-light-source"],
+        targetCount: 2,
+        alternatives: ["torch", "lantern", "candle"],
+        fallback: "candle",
+        buyMultiple: true,
+        minBudget: 0.1,
+        requires: null,
+        ammoMatches: null
+    },
+    {
+        id: "light-fuel",
+        roleTags: ["role-light-fuel"],
+        targetCount: 1,
+        alternatives: ["oil-flask"],
+        fallback: null,
+        buyMultiple: true,
+        minBudget: 2,
+        requires: "light-source",
+        ammoMatches: null
+    },
+    {
+        id: "rope",
+        roleTags: ["role-rope"],
+        targetCount: 1,
+        alternatives: ["rope-50"],
+        fallback: null,
+        buyMultiple: false,
+        minBudget: 1,
+        requires: null,
+        ammoMatches: null
+    },
+    {
+        id: "utility",
+        roleTags: ["role-utility"],
+        targetCount: 3,
+        alternatives: ["flint-steel", "iron-spikes", "chalk-stick"],
+        fallback: null,
+        buyMultiple: true,
+        minBudget: 0.1,
+        requires: null,
+        ammoMatches: null
+    }
+];
+
 function toLegalWeaponTags(allowedWeapons) {
     return new Set(
         allowedWeapons
@@ -34,14 +169,6 @@ function toLegalArmourTags(allowedArmour) {
 
 function hasForbiddenTag(item, forbiddenTags) {
     return item.tags.some(tag => forbiddenTags.has(tag));
-}
-
-function hasAnyTag(item, tags) {
-    if (tags.length === 0) {
-        return true;
-    }
-
-    return tags.some(tag => item.tags.includes(tag));
 }
 
 function hasAnyRoleTag(item, roleTags) {
@@ -88,23 +215,14 @@ function isItemClassLegal(item, allowedWeaponTags, forbiddenWeaponTags, allowedA
     return true;
 }
 
-function getItemById(itemsById, id) {
-    if (!id) {
-        return null;
-    }
-
-    return itemsById.get(id) ?? null;
-}
-
 /**
  * @param {Object} input
  * @param {import("../OseClass.js").OseClass} input.oseClass
  * @param {number} input.wealth
  * @param {import("../Item.js").Item[]} input.items
- * @param {{ phases: any[] }} input.policy
  * @returns {{ equipment: import("../Item.js").Item[], wealth: number }}
  */
-export function generateEquipment({ oseClass, wealth, items, policy }) {
+export function generateEquipment({ oseClass, wealth, items }) {
     const equipment = [];
     const phasePurchases = new Map();
     const itemsById = new Map(items.map(item => [item.id, item]));
@@ -115,10 +233,9 @@ export function generateEquipment({ oseClass, wealth, items, policy }) {
 
     let remainingWealth = wealth;
 
-    for (const phase of policy.phases) {
-        const preconditions = phase.preconditions ?? {};
-        const minBudget = Number(preconditions.minBudget ?? 0);
-        const requiredPrior = preconditions.requiredPrior ?? null;
+    for (const phase of STARTING_EQUIPMENT_PHASES) {
+        const minBudget = Number(phase.minBudget ?? 0);
+        const requiredPrior = phase.requires ?? null;
 
         if (remainingWealth < minBudget) {
             continue;
@@ -128,7 +245,6 @@ export function generateEquipment({ oseClass, wealth, items, policy }) {
             continue;
         }
 
-        const legalityTags = Array.isArray(phase.legalityTags) ? phase.legalityTags : [];
         const roleTags = Array.isArray(phase.roleTags) ? phase.roleTags : [];
         const targetCount = Number.isFinite(phase.targetCount) ? phase.targetCount : 1;
         const alternatives = Array.isArray(phase.alternatives) ? phase.alternatives : [];
@@ -140,10 +256,6 @@ export function generateEquipment({ oseClass, wealth, items, policy }) {
                 return false;
             }
 
-            if (!hasAnyTag(item, legalityTags)) {
-                return false;
-            }
-
             if (!hasAnyRoleTag(item, roleTags)) {
                 return false;
             }
@@ -151,8 +263,8 @@ export function generateEquipment({ oseClass, wealth, items, policy }) {
             return isItemClassLegal(item, allowedWeaponTags, forbiddenWeaponTags, allowedArmourTags, forbiddenArmourTags);
         });
 
-        if (typeof phase.relatesTo === "string" && phase.relatesTo.length > 0) {
-            const related = phasePurchases.get(phase.relatesTo)?.[0] ?? null;
+        if (typeof phase.ammoMatches === "string" && phase.ammoMatches.length > 0) {
+            const related = phasePurchases.get(phase.ammoMatches)?.[0] ?? null;
             const relatedAmmoType = related?.ammoType ?? null;
 
             if (relatedAmmoType === null) {
@@ -193,7 +305,7 @@ export function generateEquipment({ oseClass, wealth, items, policy }) {
         }
 
         if (remainingTarget > 0 && fallback !== null) {
-            const fallbackItem = getItemById(itemsById, fallback);
+            const fallbackItem = itemsById.get(fallback) ?? null;
             const fallbackIsCandidate = fallbackItem !== null && candidatesById.has(fallbackItem.id);
 
             if (fallbackIsCandidate && remainingWealth >= fallbackItem.price) {
