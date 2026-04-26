@@ -8,10 +8,6 @@ function escapeJsString(value) {
 	return String(value).replace(/\\/g, "\\\\").replace(/"/g, "\\\"");
 }
 
-function unescapeJsString(value) {
-	return value.replace(/\\"/g, "\"").replace(/\\\\/g, "\\");
-}
-
 function validateSaves(saves, rowNumber) {
 	if (typeof saves !== "string" || saves.length === 0) {
 		throw new Error(`Invalid saves at row ${rowNumber}: saves field is empty or missing.`);
@@ -107,58 +103,9 @@ function importCsvToJs(inputCsvPath, outputJsPath) {
 	fs.writeFileSync(outputJsPath, jsOutput, "utf8");
 }
 
-function parseJsOseClassArguments(content) {
-	const constructorRegex = /new\s+OseClass\(\s*"((?:\\.|[^"])*)"\s*,\s*"((?:\\.|[^"])*)"\s*,\s*"((?:\\.|[^"])*)"\s*,\s*"((?:\\.|[^"])*)"\s*,\s*(\d+)\s*,\s*"((?:\\.|[^"])*)"\s*(?:,\s*"((?:\\.|[^"])*)"\s*)?(?:,\s*"((?:\\.|[^"])*)"\s*)?(?:,\s*"((?:\\.|[^"])*)"\s*)?\)/g;
-	const classes = [];
-	let match = constructorRegex.exec(content);
-
-	while (match !== null) {
-		classes.push({
-			name: unescapeJsString(match[1]),
-			primeRequisite: unescapeJsString(match[2]),
-			requirements: unescapeJsString(match[3]),
-			source: unescapeJsString(match[4]),
-			hitDie: Number(match[5]),
-			saves: unescapeJsString(match[6] || ""),
-			xp: unescapeJsString(match[7] || ""),
-			languages: unescapeJsString(match[8] || ""),
-			forbiddenAlignments: unescapeJsString(match[9] || "")
-		});
-
-		match = constructorRegex.exec(content);
-	}
-
-	return classes;
-}
-
-function exportJsToCsv(inputJsPath, outputCsvPath) {
-	const jsContent = fs.readFileSync(inputJsPath, "utf8");
-	const classes = parseJsOseClassArguments(jsContent);
-
-	if (classes.length === 0) {
-		throw new Error("No OseClass entries found in JS file.");
-	}
-
-	const header = "name;primeRequisite;requirements;source;hitDie;saves;xp;languages;forbiddenAlignments";
-	const lines = classes.map(c => [
-		c.name,
-		c.primeRequisite,
-		c.requirements,
-		c.source,
-		c.hitDie,
-		c.saves,
-		c.xp,
-		c.languages,
-		c.forbiddenAlignments
-	].join(";"));
-
-	fs.writeFileSync(outputCsvPath, `${header}\n${lines.join("\n")}\n`, "utf8");
-}
-
 function printUsage() {
 	console.log("Usage:");
 	console.log("  node tools/ose-classes-csv.js import <input.csv> <output.js>");
-	console.log("  node tools/ose-classes-csv.js export <input.js> <output.csv>");
 	console.log("  (CSV must contain: name;primeRequisite;requirements;source;hitDie;saves;xp;languages;forbiddenAlignments)");
 }
 
@@ -173,12 +120,6 @@ function main() {
 
 	if (command === "import") {
 		importCsvToJs(inputPath, outputPath);
-
-		return;
-	}
-
-	if (command === "export") {
-		exportJsToCsv(inputPath, outputPath);
 
 		return;
 	}
