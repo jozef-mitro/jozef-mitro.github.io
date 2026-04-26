@@ -1,4 +1,4 @@
-import { OseClass } from "./ose_classes.js";
+import { OseClass } from "./OseClass.js";
 
 export const OseClasses = [
     new OseClass("Cleric", "10@wis16,5@wis13,0@wis9,-10@wis6,-20", "", "Classic Fantasy", 6, "11,12,14,16,15", "1.5,3,6,12,25,50,100,200,300,400,500,600,700", "", ""),

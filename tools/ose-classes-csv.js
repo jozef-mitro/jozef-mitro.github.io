@@ -102,7 +102,7 @@ function importCsvToJs(inputCsvPath, outputJsPath) {
 		return `    new OseClass("${escapeJsString(name)}", "${escapeJsString(primeRequisite)}", "${escapeJsString(requirements)}", "${escapeJsString(source)}", ${hitDie}, "${escapeJsString(saves)}", "${escapeJsString(xp)}", "${escapeJsString(languages)}", "${escapeJsString(forbiddenAlignments)}")`;
 	});
 
-	const jsOutput = `import { OseClass } from "./ose_classes.js";\n\nexport const OseClasses = [\n${rows.join(",\n")}\n];\n\nexport function getOseClasses(allowedSources) {\n    return OseClasses.filter(c => allowedSources.some(source => c.source.startsWith(source)));\n}\n`;
+	const jsOutput = `import { OseClass } from "./OseClass.js";\n\nexport const OseClasses = [\n${rows.join(",\n")}\n];\n\nexport function getOseClasses(allowedSources) {\n    return OseClasses.filter(c => allowedSources.some(source => c.source.startsWith(source)));\n}\n`;
 
 	fs.writeFileSync(outputJsPath, jsOutput, "utf8");
 }

@@ -1,5 +1,5 @@
 import { getSingleName } from "./names.js";
-import { OseClasses } from "./ose_classes_data.js";
+import { OseClasses } from "./ose-classes.js";
 import { rollBackground } from "./backgrounds.js";
 import { writeClipboardText } from "./utils.js";
 

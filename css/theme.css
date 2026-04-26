@@ -124,3 +124,10 @@ main {
     table-layout: fixed;
     width: 100%;
 }
+
+#sourceClassicFantasy:indeterminate,
+#sourceAdvancedFantasy:indeterminate,
+#sourceCarcassCrawler:indeterminate,
+#sourceTheNecromancer:indeterminate {
+    accent-color: #e8900a;
+}
