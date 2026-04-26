@@ -21,6 +21,27 @@ function formatScore(score, modifier) {
 }
 
 /**
+ * @param {import("../generator/types.js").Character} character
+ * @returns {string}
+ */
+function formatEquipmentSummary(character) {
+    if (!Array.isArray(character.equipment) || character.equipment.length === 0) {
+        return PLACEHOLDER;
+    }
+
+    const counts = new Map();
+
+    for (const item of character.equipment) {
+        const label = item.bundleLabel ? `${item.name} (${item.bundleLabel})` : item.name;
+        counts.set(label, (counts.get(label) ?? 0) + 1);
+    }
+
+    return Array.from(counts.entries())
+        .map(([label, count]) => (count > 1 ? `${count}x ${label}` : label))
+        .join(", ");
+}
+
+/**
  * Column definitions used for both HTML rendering and TSV export.
  * Each entry maps a flat header label to an extractor function.
  * @type {Array<{ header: string, value: (c: import("../generator/types.js").Character) => string | number }>}
@@ -58,6 +79,7 @@ const COLUMNS = [
     { header: "Background",  value: c => c.background },
     { header: "Languages",   value: c => (c.languages || []).join(", ") },
     { header: "Literacy",    value: c => c.literacy },
+    { header: "Equipment",   value: c => formatEquipmentSummary(c) },
     { header: "Wealth",      value: c => formatWealth(c.wealth) },
     { header: "Notes",       value: _ => PLACEHOLDER }
 ];
@@ -85,6 +107,7 @@ export function renderCharactersTable(characters) {
             <th rowspan="2">Background</th>
             <th rowspan="2">Languages</th>
             <th rowspan="2">Literacy</th>
+            <th rowspan="2">Equipment</th>
             <th rowspan="2">Wealth</th>
             <th rowspan="2">Notes</th>
         </tr>`;

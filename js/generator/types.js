@@ -20,6 +20,7 @@
  * @property {string} background
  * @property {string[]} languages
  * @property {"Illiterate" | "Basic" | "Literate"} literacy
+ * @property {import("../Item.js").Item[]} equipment
  * @property {number} wealth
  */
 

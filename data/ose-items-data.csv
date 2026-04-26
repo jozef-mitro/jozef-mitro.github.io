@@ -1,0 +1,34 @@
+id;name;category;subcategory;priceGp;source;purchaseUnit;startingKitEligible;notes;weightCoins;tags;roleTags;ammoType;bundleLabel;acBase;shieldBonus;damage;rangeShort;rangeMedium;rangeLong;hands
+leather-armour;Leather armour;armour;body;20;Classic Fantasy;item;yes;Starter armour option.;200;legality-leather;;;;12;;;;;;
+chainmail;Chainmail;armour;body;40;Classic Fantasy;item;yes;Starter armour option.;400;legality-chainmail;;;;14;;;;;;
+plate-mail;Plate mail;armour;body;60;Classic Fantasy;item;yes;Expensive heavy armour option.;500;legality-plate-mail;;;;16;;;;;;
+shield;Shield;armour;shield;10;Classic Fantasy;item;yes;May be purchased alone.;100;legality-shield;;;;;1;;;;;
+club;Club;weapon;melee;3;Classic Fantasy;item;yes;Simple blunt weapon.;50;legality-blunt,legality-small,legality-weapon-club;role-melee;;;;;1d4;;;;1
+dagger;Dagger;weapon;melee;3;Classic Fantasy;item;yes;Common backup weapon.;10;legality-small,legality-weapon-dagger;role-melee;;;;;1d4;;;;1
+staff;Staff;weapon;melee;2;Classic Fantasy;item;yes;Simple staff weapon.;40;legality-blunt,legality-weapon-staff;role-melee;;;;;1d4;;;;2
+mace;Mace;weapon;melee;5;Classic Fantasy;item;yes;Blunt one-handed weapon.;30;legality-blunt,legality-normal,legality-one-handed-melee,legality-weapon-mace;role-melee;;;;;1d6;;;;1
+war-hammer;War hammer;weapon;melee;5;Classic Fantasy;item;yes;Blunt one-handed weapon.;30;legality-blunt,legality-normal,legality-one-handed-melee,legality-weapon-war-hammer;role-melee;;;;;1d6;;;;1
+spear;Spear;weapon;melee;3;Classic Fantasy;item;yes;Versatile melee weapon.;30;legality-normal,legality-weapon-spear;role-melee;;;;;1d6;;;;2
+battle-axe;Battle axe;weapon;melee;7;Classic Fantasy;item;yes;Heavy edged weapon.;50;legality-normal,legality-weapon-battle-axe;role-melee;;;;;1d8;;;;1
+short-sword;Short sword;weapon;melee;7;Classic Fantasy;item;yes;Reliable one-handed sword.;30;legality-normal,legality-one-handed-melee,legality-weapon-short-sword,legality-weapon-sword;role-melee;;;;;1d6;;;;1
+sword;Sword;weapon;melee;10;Classic Fantasy;item;yes;Standard martial sword.;60;legality-normal,legality-one-handed-melee,legality-weapon-sword;role-melee;;;;;1d8;;;;1
+sling;Sling;weapon;ranged;2;Classic Fantasy;item;yes;Budget ranged option.;20;legality-missile,legality-weapon-sling;role-ranged;stone;;;;1d4;10;20;30;1
+short-bow;Short bow;weapon;ranged;25;Classic Fantasy;item;yes;Ranged bow option.;30;legality-missile,legality-weapon-short-bow;role-ranged;arrow;;;;1d6;50;100;150;2
+long-bow;Long bow;weapon;ranged;40;Classic Fantasy;item;yes;Long range bow option.;30;legality-missile,legality-weapon-long-bow;role-ranged;arrow;;;;1d6;70;140;210;2
+crossbow;Crossbow;weapon;ranged;30;Classic Fantasy;item;yes;Powerful ranged weapon.;50;legality-missile,legality-weapon-crossbow;role-ranged;bolt;;;;1d6;80;160;240;2
+arrows;Arrows;ammo;arrow;0.25;Classic Fantasy;bundle;yes;Bundle for bows.;0;;role-ammo;arrow;20 arrows;;;;;;;
+bolts;Bolts;ammo;bolt;0.33;Classic Fantasy;bundle;yes;Bundle for crossbows.;0;;role-ammo;bolt;20 bolts;;;;;;;
+sling-stones;Sling stones;ammo;stone;0.2;Classic Fantasy;bundle;yes;Bundle for slings.;0;;role-ammo;stone;20 stones;;;;;;;
+backpack;Backpack;container;pack;5;Classic Fantasy;item;yes;Primary container.;0;;role-backpack;;;;;;;;;
+sack;Sack;container;bag;2;Classic Fantasy;item;yes;Budget container.;0;;role-sack;;;;;;;;;
+rations-dry;Rations dry;supply;ration;2.14;Classic Fantasy;item;yes;Dry travel food.;0;;role-food;;;;;;;;;
+rations-fresh;Rations fresh;supply;ration;0.71;Classic Fantasy;item;yes;Perishable travel food.;0;;role-food;;;;;;;;;
+waterskin;Waterskin;supply;water;1;Classic Fantasy;item;yes;Carry drinking water.;0;;role-water;;;;;;;;;
+torch;Torch;light;source;0.17;Classic Fantasy;item;yes;Portable light source.;0;;role-light-source,role-utility;;;;;;;;;
+candle;Candle;light;source;0.1;Classic Fantasy;item;yes;Low-cost light source.;0;;role-light-source;;;;;;;;;
+lantern;Lantern;light;source;10;Classic Fantasy;item;yes;Longer-lasting light source.;0;;role-light-source;;;;;;;;;
+oil-flask;Oil (1 flask);light;fuel;2;Classic Fantasy;item;yes;Fuel for lanterns and fires.;0;;role-light-fuel;;;;;;;;;
+rope-50;Rope (50');tool;rope;1;Classic Fantasy;item;yes;General utility rope.;0;;role-rope,role-utility;;;;;;;;;
+flint-steel;Tinder box (flint & steel);tool;firemaking;3;Classic Fantasy;item;yes;Reliable way to start a fire.;0;;role-utility;;;;;;;;;
+chalk-stick;Chalk stick;tool;marking;0.1;Classic Fantasy;item;yes;Marking surfaces underground.;0;;role-utility;;;;;;;;;
+iron-spikes;Iron spikes;tool;piton;0.24;Classic Fantasy;bundle;yes;Useful for securing rope and doors.;0;;role-utility;;3 iron spikes;;;;;;;

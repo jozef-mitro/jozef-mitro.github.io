@@ -4,6 +4,9 @@ import { getEligibleClasses, selectClassByBestExpBonus } from "./class-selection
 import { pickAlignment } from "./alignment.js";
 import { buildLanguages } from "./languages.js";
 import { rollTotalHp } from "./hit-points.js";
+import { OseItems } from "../ose-items.js";
+import { STARTING_EQUIPMENT_POLICY } from "./equipment-policy.js";
+import { generateEquipment } from "./equipment.js";
 
 const MAX_REROLL_ATTEMPTS = 1000;
 
@@ -79,7 +82,13 @@ export function generateCharacter(config, deps) {
     const maxHp = rollTotalHp(level, oseClass.hitDie, modifiers.con, rng);
     const languages = buildLanguages(oseClass, alignment, modifiers.int, rng);
     const literacy = getLiteracy(abilities.int);
-    const wealth = rollDice(3, 6, rng) * 10;
+    const startingWealth = rollDice(3, 6, rng) * 10;
+    const equipmentResult = generateEquipment({
+        oseClass,
+        wealth: startingWealth,
+        items: OseItems,
+        policy: STARTING_EQUIPMENT_POLICY
+    });
 
     return {
         name,
@@ -98,7 +107,8 @@ export function generateCharacter(config, deps) {
         background: rollBackground(),
         languages,
         literacy,
-        wealth
+        equipment: equipmentResult.equipment,
+        wealth: equipmentResult.wealth
     };
 }
 
