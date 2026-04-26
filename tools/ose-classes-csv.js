@@ -48,6 +48,23 @@ function validateXpTable(xpTable, rowNumber) {
 	}
 }
 
+function validateForbiddenAlignments(forbiddenAlignments, rowNumber) {
+	if (typeof forbiddenAlignments !== "string") {
+		throw new Error(`Invalid forbiddenAlignments at row ${rowNumber}: value must be a string.`);
+	}
+
+	const alignments = forbiddenAlignments
+		.split(",")
+		.map(value => value.trim())
+		.filter(value => value.length > 0);
+
+	if (alignments.length > 2) {
+		throw new Error(
+			`Invalid forbiddenAlignments at row ${rowNumber}: expected at most 2 values, got ${alignments.length}. forbiddenAlignments: ${forbiddenAlignments}`
+		);
+	}
+}
+
 function importCsvToJs(inputCsvPath, outputJsPath) {
 	const csv = fs.readFileSync(inputCsvPath, "utf8");
 	const lines = csv
@@ -94,6 +111,7 @@ function importCsvToJs(inputCsvPath, outputJsPath) {
 
 		validateSaves(saves, rowNumber);
 		validateXpTable(xp, rowNumber);
+		validateForbiddenAlignments(forbiddenAlignments, rowNumber);
 
 		return `    new OseClass("${escapeJsString(name)}", "${escapeJsString(primeRequisite)}", "${escapeJsString(requirements)}", "${escapeJsString(source)}", ${hitDie}, "${escapeJsString(saves)}", "${escapeJsString(xp)}", "${escapeJsString(languages)}", "${escapeJsString(forbiddenAlignments)}")`;
 	});
