@@ -1,3 +1,5 @@
+import { rollDie } from "./dice-rolls.js";
+
 /**
  * Rolls HP for level 1, rerolling 1s and 2s (minimum die result is 3).
  * @param {number} hitDie - Size of the hit die (e.g. 6 for d6).
@@ -6,7 +8,7 @@
  * @returns {number}
  */
 export function rollLevelOneHp(hitDie, conModifier, rng = Math.random) {
-    const roll = Math.max(3, Math.floor(rng() * hitDie) + 1);
+    const roll = Math.max(3, rollDie(hitDie, rng));
     return roll + conModifier;
 }
 
@@ -22,7 +24,7 @@ export function rollTotalHp(level, hitDie, conModifier, rng = Math.random) {
     let total = rollLevelOneHp(hitDie, conModifier, rng);
 
     for (let i = 2; i <= level; i++) {
-        total += Math.floor(rng() * hitDie) + 1 + conModifier;
+        total += rollDie(hitDie, rng) + conModifier;
     }
 
     return total;

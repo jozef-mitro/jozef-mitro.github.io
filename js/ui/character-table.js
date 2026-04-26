@@ -1,3 +1,5 @@
+import { formatWealth } from "./wealth-formatter.js";
+
 const PLACEHOLDER = "-";
 
 /**
@@ -56,6 +58,7 @@ const COLUMNS = [
     { header: "Background",  value: c => c.background },
     { header: "Languages",   value: c => (c.languages || []).join(", ") },
     { header: "Literacy",    value: c => c.literacy },
+    { header: "Wealth",      value: c => formatWealth(c.wealth) },
     { header: "Notes",       value: _ => PLACEHOLDER }
 ];
 
@@ -82,6 +85,7 @@ export function renderCharactersTable(characters) {
             <th rowspan="2">Background</th>
             <th rowspan="2">Languages</th>
             <th rowspan="2">Literacy</th>
+            <th rowspan="2">Wealth</th>
             <th rowspan="2">Notes</th>
         </tr>`;
 

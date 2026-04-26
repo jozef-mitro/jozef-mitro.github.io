@@ -20,6 +20,7 @@
  * @property {string} background
  * @property {string[]} languages
  * @property {"Illiterate" | "Basic" | "Literate"} literacy
+ * @property {number} wealth
  */
 
 /**

@@ -1,3 +1,5 @@
+import { rollDie } from "./generator/dice-rolls.js";
+
 const ROLL_TWO = "ROLL_TWO";
 
 const BACKGROUND_TABLE = [
@@ -35,16 +37,12 @@ const BACKGROUND_TABLE = [
     { min: 99, max: 100, value: ROLL_TWO }
 ];
 
-function rollD100() {
-    return Math.floor(Math.random() * 100) + 1;
-}
-
 function findBackgroundEntry(roll) {
     return BACKGROUND_TABLE.find(entry => roll >= entry.min && roll <= entry.max) ?? null;
 }
 
 function rollSingleBackground() {
-    const roll = rollD100();
+    const roll = rollDie(100);
     const entry = findBackgroundEntry(roll);
 
     if (entry === null) {

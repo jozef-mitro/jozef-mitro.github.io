@@ -1,14 +1,4 @@
-/**
- * @param {() => number} rng - Returns a random float in [0, 1).
- * @returns {number}
- */
-export function roll3d6(rng = Math.random) {
-    let total = 0;
-    for (let i = 0; i < 3; i++) {
-        total += Math.floor(rng() * 6) + 1;
-    }
-    return total;
-}
+import { rollDice } from "./dice-rolls.js";
 
 /**
  * @param {() => number} rng
@@ -16,12 +6,12 @@ export function roll3d6(rng = Math.random) {
  */
 export function rollAbilities(rng = Math.random) {
     return {
-        str: roll3d6(rng),
-        int: roll3d6(rng),
-        wis: roll3d6(rng),
-        dex: roll3d6(rng),
-        con: roll3d6(rng),
-        cha: roll3d6(rng)
+        str: rollDice(3, 6, rng),
+        int: rollDice(3, 6, rng),
+        wis: rollDice(3, 6, rng),
+        dex: rollDice(3, 6, rng),
+        con: rollDice(3, 6, rng),
+        cha: rollDice(3, 6, rng)
     };
 }
 

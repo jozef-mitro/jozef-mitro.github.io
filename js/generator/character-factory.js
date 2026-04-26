@@ -1,3 +1,4 @@
+import { rollDice } from "./dice-rolls.js";
 import { rollAbilities, getModifiers } from "./ability-scores.js";
 import { getEligibleClasses, selectClassByBestExpBonus } from "./class-selection.js";
 import { pickAlignment } from "./alignment.js";
@@ -78,6 +79,7 @@ export function generateCharacter(config, deps) {
     const maxHp = rollTotalHp(level, oseClass.hitDie, modifiers.con, rng);
     const languages = buildLanguages(oseClass, alignment, modifiers.int, rng);
     const literacy = getLiteracy(abilities.int);
+    const wealth = rollDice(3, 6, rng) * 10;
 
     return {
         name,
@@ -95,7 +97,8 @@ export function generateCharacter(config, deps) {
         currentHp: maxHp,
         background: rollBackground(),
         languages,
-        literacy
+        literacy,
+        wealth
     };
 }
 
