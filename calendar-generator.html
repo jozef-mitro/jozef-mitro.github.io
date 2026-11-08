@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Calendar Generator | RPG Tools</title>
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/mvp.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <script type="module" src="js/calendar-generator.js"></script>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <h1>Calendar Generator</h1>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li>
+                    <a href="rpg.html">RPG Tools</a>
+                    <ul>
+                        <li><a href="character-generator.html">OSE Character Generator</a></li>
+                        <li><a href="name-generator.html">Name Generator</a></li>
+                        <li><a href="calendar-generator.html" aria-current="page">Calendar Generator</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <hr>
+    <main>
+        <form id="calendarGeneratorForm">
+            <h2>Calendar Generator</h2>
+            <div class="button-row">
+                <button type="submit" id="generateCalendar">Generate Calendar</button>
+                <button type="button" id="copyCalendar" disabled>Save to Clipboard</button>
+            </div>
+            <output id="copyCalendarStatus" class="inline-status" aria-live="polite"></output>
+            <div class="table-wrapper">
+                <div id="calendar"></div>
+            </div>
+        </form>
+    </main>
+</body>
+
+</html>

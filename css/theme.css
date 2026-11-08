@@ -94,6 +94,18 @@ main {
     min-width: 100%;
 }
 
+#calendar .stat-table {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+#calendar .stat-table th:nth-child(1) { width: 8%; }
+#calendar .stat-table th:nth-child(2) { width: 12%; }
+#calendar .stat-table th:nth-child(3) { width: 22%; }
+#calendar .stat-table th:nth-child(4) { width: 18%; }
+#calendar .stat-table th:nth-child(5) { width: 14%; }
+
 .stat-table th,
 .stat-table td {
     border: none;
