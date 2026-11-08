@@ -165,7 +165,8 @@ nav ul li {
 }
 
 /* Nav Dropdown */
-nav ul li:hover ul {
+nav ul li:hover ul,
+nav ul li:focus-within ul {
     display: block;
 }
 

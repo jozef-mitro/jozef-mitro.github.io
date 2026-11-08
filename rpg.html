@@ -7,8 +7,6 @@
     <link rel="icon" href="img/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/mvp.css">
     <link rel="stylesheet" href="css/theme.css">
-    <script type="module" src="js/character-generator.js"></script>
-    <script type="module" src="js/name-generator.js"></script>
 </head>
 
 <body>
@@ -17,60 +15,23 @@
             <h1>RPG Tools</h1>
             <ul>
                 <li><a href="index.html">Home</a></li>
-                <li><a href="rpg.html">RPG Tools</a></li>
+                <li>
+                    <a href="rpg.html">RPG Tools</a>
+                    <ul>
+                        <li><a href="character-generator.html">OSE Character Generator</a></li>
+                        <li><a href="name-generator.html">Name Generator</a></li>
+                    </ul>
+                </li>
             </ul>
         </nav>
     </header>
     <hr>
     <main>
-        <form id="characterGeneratorForm">
-            <h2>OSE Character Generator</h2>
-            <label for="numCharacters">Number of Characters:</label>
-            <input type="number" id="numCharacters" value="4" min="1" max="20">
-            <label for="minScoreTotal">Minimum Total Score:</label>
-            <input type="number" id="minScoreTotal" value="50" min="18" max="108">
-            <label>Allowed Sources:</label>
-            <span>
-                <input type="checkbox" id="sourceClassicFantasy" checked>
-                Classic Fantasy
-                <input type="checkbox" id="sourceAdvancedFantasy" checked>
-                Advanced Fantasy
-                <input type="checkbox" id="sourceCarcassCrawler" checked>
-                Carcass Crawler
-                <input type="checkbox" id="sourceTheNecromancer" checked>
-                The Necromancer
-            </span>
-            <label>Allowed Classes:</label>
-            <div id="allowedClasses" class="checkbox-grid" aria-label="Allowed Classes"></div>
-            <br>
-            <div class="button-row">
-                <button type="submit">Generate Characters</button>
-                <button type="button" id="copyCharacters" disabled>Save to Clipboard</button>
-            </div>
-            <output id="copyCharactersStatus" class="inline-status" aria-live="polite"></output>
-            <div class="table-wrapper">
-                <div id="characters"></div>
-            </div>
-        </form>
-        <form id="nameGeneratorForm">
-            <h2>Name Generator</h2>
-            <label for="nameType">Type:</label>
-            <select id="nameType">
-                <option>Either</option>
-                <option>Masculine</option>
-                <option>Feminine</option>
-            </select>
-            <label for="numNames">Number:</label>
-            <input type="number" id="numNames" value="10" min="1" max="20">
-            <div class="button-row">
-                <button type="submit">Generate Names</button>
-                <button type="button" id="copyNames" disabled>Save to Clipboard</button>
-            </div>
-            <output id="copyNamesStatus" class="inline-status" aria-live="polite"></output>
-            <div class="table-wrapper">
-                <div id="names"></div>
-            </div>
-        </form>
+        <h2>Choose a tool</h2>
+        <ul>
+            <li><a href="character-generator.html">OSE Character Generator</a></li>
+            <li><a href="name-generator.html">Name Generator</a></li>
+        </ul>
     </main>
 </body>
 
