@@ -16,6 +16,10 @@ nav {
     margin-bottom: 0;
 }
 
+nav a {
+    text-decoration: none;
+}
+
 hr {
     margin: 0;
 }
