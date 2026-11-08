@@ -1,14 +1,15 @@
-import { getSingleName } from "./names.js";
-import { OseClasses } from "./ose-classes.js";
-import { rollBackground } from "./backgrounds.js";
 import { writeClipboardText } from "./utils.js";
-import { generateCharacterBatch } from "./generator/character-factory.js";
+import { createOseCharacterGenerator, OseClasses } from "../lib/ose-character-generator/index.js";
 import { initSourceClassSync, getAllowedClassNames, getSourceGroup } from "./ui/source-class-sync.js";
 import { renderCharactersTable } from "./ui/character-table.js";
 import { copyCharacters, setCopyState } from "./ui/copy-actions.js";
 
-/** @type {import("./generator/types.js").Character[]} */
+/** @type {import("../lib/ose-character-generator/generator/types.js").Character[]} */
 let lastGeneratedCharacters = [];
+
+const oseGenerator = createOseCharacterGenerator({
+    rng: Math.random.bind(Math)
+});
 
 document.addEventListener("DOMContentLoaded", () => {
     const characterForm = document.getElementById("characterGeneratorForm");
@@ -75,13 +76,7 @@ function generateCharacters(event) {
         level: 1
     };
 
-    const deps = {
-        rng: Math.random.bind(Math),
-        getSingleName,
-        rollBackground
-    };
-
-    lastGeneratedCharacters = generateCharacterBatch(config, deps);
+    lastGeneratedCharacters = oseGenerator.generateCharacterBatch(config);
 
     if (charactersElement !== null) {
         charactersElement.innerHTML = lastGeneratedCharacters.length > 0

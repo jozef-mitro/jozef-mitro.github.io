@@ -1,4 +1,4 @@
-import { getAllNames } from "./names.js";
+import { getAllNames } from "../lib/ose-character-generator/names.js";
 import { writeClipboardText } from "./utils.js";
 
 document.addEventListener("DOMContentLoaded", () => {

@@ -23,7 +23,7 @@ function formatScore(score, modifier) {
 /**
  * Column definitions used for both HTML rendering and TSV export.
  * Each entry maps a flat header label to an extractor function.
- * @type {Array<{ header: string, value: (c: import("../generator/types.js").Character) => string | number }>}
+ * @type {Array<{ header: string, value: (c: import("../../lib/ose-character-generator/generator/types.js").Character) => string | number }>}
  */
 const COLUMNS = [
     { header: "Name",        value: c => c.name },
@@ -64,7 +64,7 @@ const COLUMNS = [
 
 /**
  * Renders a full stat table HTML string from an array of characters.
- * @param {import("../generator/types.js").Character[]} characters
+ * @param {import("../../lib/ose-character-generator/generator/types.js").Character[]} characters
  * @returns {string}
  */
 export function renderCharactersTable(characters) {
@@ -120,7 +120,7 @@ export function renderCharactersTable(characters) {
 /**
  * Produces a tab-separated values string from an array of characters.
  * Column order matches renderCharactersTable.
- * @param {import("../generator/types.js").Character[]} characters
+ * @param {import("../../lib/ose-character-generator/generator/types.js").Character[]} characters
  * @returns {string}
  */
 export function charactersToTsv(characters) {

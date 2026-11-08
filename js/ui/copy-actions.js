@@ -2,7 +2,7 @@ import { charactersToTsv } from "./character-table.js";
 
 /**
  * Copies characters as TSV to the clipboard using the provided write function.
- * @param {import("../generator/types.js").Character[]} characters
+ * @param {import("../../lib/ose-character-generator/generator/types.js").Character[]} characters
  * @param {(text: string) => Promise<void>} writeClipboard
  * @returns {Promise<void>}
  */
