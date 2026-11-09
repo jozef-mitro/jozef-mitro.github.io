@@ -1,4 +1,5 @@
 import { writeClipboardText } from "./utils.js";
+import { generateCalendarWeather } from "./weather-flower.js";
 
 const DAYS_OF_WEEK = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const MOON_PHASES = ["Full Moon", "Third Quarter", "New Moon", "First Quarter"];
@@ -19,18 +20,29 @@ function generateCalendar(event) {
     const firstMoonPosition = Math.floor(Math.random() * 28);
     const calendarStart = new Date(Date.UTC(2025, 0, 1 + firstDateOffset));
 
-    lastGeneratedCalendar = Array.from({ length: 365 }, (_, index) => {
+    const calendarDays = Array.from({ length: 365 }, (_, index) => {
         const date = new Date(calendarStart);
         date.setUTCDate(calendarStart.getUTCDate() + index);
         const moonPosition = (firstMoonPosition + index) % 28;
 
         return {
             day: index + 1,
+            dateObject: date,
             date: date.toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" }),
             weekday: DAYS_OF_WEEK[(firstWeekdayOffset + index) % DAYS_OF_WEEK.length],
             moonPhase: moonPosition % 7 === 0 ? MOON_PHASES[moonPosition / 7] : "",
-            weather: "",
             notes: ""
+        };
+    });
+    const includeWeather = document.getElementById("includeWeather").checked;
+    const weatherForecast = includeWeather
+        ? generateCalendarWeather(calendarDays.map(day => ({ date: day.dateObject })))
+        : null;
+    lastGeneratedCalendar = calendarDays.map((day, index) => {
+        const weather = weatherForecast?.[index];
+        return {
+            ...day,
+            weather: weather ? `${weather.weather}${weather.severity ? ` ${weather.severity}` : ""}` : ""
         };
     });
 

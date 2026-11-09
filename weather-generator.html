@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Weather Flower Generator | RPG Tools</title>
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/mvp.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/weather-flower.css">
+    <script defer src="js/rpg-tools-navigation.js"></script>
+    <script type="module" src="js/weather-generator.js"></script>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <h1>Weather Flower Generator</h1>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li>
+                    <a href="rpg.html">RPG Tools</a>
+                    <ul data-rpg-tools></ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <hr>
+    <main>
+        <form id="weatherGeneratorForm">
+            <h2>Weather Flower Generator</h2>
+            <p>Choose a season and forecast length. The first day starts at the hex selected by a 2d6 roll; each later day moves one hex according to the movement roll.</p>
+            <p>Rolls of 9 or 10 repeat the current weather. If a move hits a marked line, the weather repeats. An unmarked edge wraps to the opposite end of the same row. Exclamation marks indicate severe or hindering conditions.</p>
+            <p><strong>Movement key:</strong> 2 or 12: northwest; 3 or 4: southwest; 5 or 6: south; 7: southeast; 8: northeast; 9 or 10: repeat; 11: north.</p>
+            <label for="weatherSeason">Season:</label>
+            <select id="weatherSeason"></select>
+            <div class="weather-flower-wrapper">
+                <svg id="weatherFlower" role="img" aria-label="Seasonal weather flower" viewBox="0 0 520 520"></svg>
+            </div>
+            <label for="weatherDays">Forecast length in days:</label>
+            <input type="number" id="weatherDays" value="30" min="1" max="365" required>
+            <div class="button-row">
+                <button type="submit">Generate Weather</button>
+                <button type="button" id="copyWeather" disabled>Save to Clipboard</button>
+            </div>
+            <output id="weatherStatus" class="inline-status" aria-live="polite"></output>
+
+            <section>
+                <h2>Forecast</h2>
+                <div class="table-wrapper">
+                    <div id="weatherForecast"><p>Generate a forecast to see daily weather.</p></div>
+                </div>
+            </section>
+        </form>
+    </main>
+</body>
+
+</html>

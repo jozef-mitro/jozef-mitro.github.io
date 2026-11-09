@@ -1,6 +1,7 @@
 const rpgTools = [
     { href: "character-generator.html", label: "OSE Character Generator" },
     { href: "name-generator.html", label: "Name Generator" },
+    { href: "weather-generator.html", label: "Weather Flower Generator" },
     { href: "calendar-generator.html", label: "Calendar Generator" }
 ];
 

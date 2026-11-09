@@ -7,6 +7,7 @@
     <link rel="icon" href="img/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/mvp.css">
     <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/weather-flower.css">
     <script defer src="js/rpg-tools-navigation.js"></script>
     <script type="module" src="js/calendar-generator.js"></script>
 </head>
@@ -28,6 +29,10 @@
     <main>
         <form id="calendarGeneratorForm">
             <h2>Calendar Generator</h2>
+            <p>Generate a 365-day calendar with dates, weekdays, moon phases, and optional seasonal weather.</p>
+            <div class="checkbox-grid">
+                <label for="includeWeather"><input type="checkbox" id="includeWeather" checked> Use Weather Flower Generator</label>
+            </div>
             <div class="button-row">
                 <button type="submit" id="generateCalendar">Generate Calendar</button>
                 <button type="button" id="copyCalendar" disabled>Save to Clipboard</button>
